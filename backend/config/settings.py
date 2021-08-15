@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
 
 LOGIN_REDIRECT_URL = reverse_lazy('account:temp')
 LOGOUT_REDIRECT_URL = reverse_lazy('account:login')
