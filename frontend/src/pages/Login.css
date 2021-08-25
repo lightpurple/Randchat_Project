@@ -1,0 +1,87 @@
+body{
+    width: 100%;
+    height: 100%;
+    background-color: #7C9ACC;
+}
+
+.loginform{
+    border-radius: 10px;
+    margin: auto;
+    width: 600px;
+    background-color: white;
+    text-align: center;
+}
+
+.wrapper {
+    position: relative;
+    border-radius: 10px;
+    padding: 50px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.logintitle{
+    margin: 0; 
+    font-size: 21px; 
+    font-weight: bold; 
+    text-align: left;
+}
+
+.box {
+    display: inline-block;
+    width: 100%;
+    height: 60px;
+    margin: 10px 0 30px 0;
+    border: solid 2px #dadada;
+    box-sizing: border-box;
+    background: #fff;
+    position: relative;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 20px;
+}
+
+.btn1{
+    float: left;
+    width: 50%;
+    height: 60px;
+    margin: 10px 0 0 0;
+    border-radius: 10px 0 0 10px;
+    cursor: pointer;
+    border: solid 1px #ffffff;
+    background-color: #7C9ACC;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+}
+
+.btnName{
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn2{
+    width: 50%;
+    height: 60px;
+    margin: 10px 0 0 0;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    border: solid 1px #ffffff;
+    background-color: #7C9ACC;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.join{
+    display: block;
+    width: 100%;
+    height: 60px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+}

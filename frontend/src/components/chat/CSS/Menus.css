@@ -1,0 +1,18 @@
+#menubox{
+    position: relative;
+    padding: 5pt;
+    font-size: 20pt;
+    background-color: rgb(255, 255, 255, 0.5);
+}
+
+#btn{
+    vertical-align: top;
+    margin-left: 10pt;
+    width: 20%;
+    padding: 10px 0 10px;
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+    background-color: #ffffff;
+    font-size: 14px;
+    box-shadow: 1px 1px 1px 1px gray;
+}

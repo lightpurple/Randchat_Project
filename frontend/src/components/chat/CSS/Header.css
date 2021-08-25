@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+
+header{
+    position: fixed;
+    background-color: white;
+    vertical-align: middle;  
+    
+    z-index : 9999;
+    width: 100%;
+    height: 50pt;
+    box-shadow: 1px 2px 1px gray;
+    font-size: 20pt;
+}
+
+.TheTop{ 
+    position: relative;
+    overflow:hidden;
+    text-align: center;
+    padding: 0 20% 0 20%;
+}
+
+.TopTitle{
+    overflow: hidden;
+    display: inline;
+    vertical-align: middle;
+    float: left;
+    padding: 10pt;
+}
+
+.TheBtn{
+    overflow: hidden;
+    display: inline;
+    vertical-align: middle;
+    float: right;
+}
+
+.headermenu{
+    overflow: hidden;
+    margin: 10pt;
+    display: inline;
+    float: right;
+    color: rgb(0, 0, 0, 0.7);
+    text-decoration: none;
+}
