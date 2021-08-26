@@ -2,10 +2,12 @@
 *{margin: 0; padding:0;}
 body {
   margin: 0 auto;
+  /* background-color: white; */
   font-family: 'Rajdhani', sans-serif;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
 code {
   font-family: 'Rajdhani', sans-serif;
 }
-

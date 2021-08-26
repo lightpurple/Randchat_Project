@@ -1,23 +1,21 @@
-import React, { Component } from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 import './CSS/Footer.css';
 
-class Footer extends Component{
-    render() {
-        return(
-            <footer>
-                <ul id="footermenu">
-                    <li>
-                        <a className="footermenu" ref="/About">About</a>
-                        <a className="footermenu" href="#">개인정보 보호</a>
-                        <a className="footermenu" href="#">도움말</a>
-                        <a className="footermenu" href="#">공지사항</a>
-                        <a className="footermenu" href="#">문의하기</a>
-                    </li>
-                </ul>
-            </footer>
-        );
-
-    }
+const Footer = () => {
+    return(
+        <div>
+            <ul id="footermenu">
+                <li>
+                    <Link to="/About" className="footermenu">About</Link>
+                    <Link to="#" className="footermenu">개인정보 보호</Link>
+                    <Link to="#" className="footermenu">도움말</Link>
+                    <Link to="#" className="footermenu">공지사항</Link>
+                    <Link to="#" className="footermenu">문의하기</Link>
+                </li>
+            </ul>
+        </div>
+    );
 }
 
 export default Footer;

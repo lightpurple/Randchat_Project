@@ -10,3 +10,10 @@
     margin: 0 auto;
     text-align: center;
 }
+
+/* return(
+    <div id="content">
+        <ChatBox></ChatBox>
+        <RoomBox></RoomBox>
+    </div>
+); */

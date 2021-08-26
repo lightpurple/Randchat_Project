@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+
+body{
+    background-color: white;
+}
+
+
+/* function viewFunction(menu){
+    var menubox = document.getElementById(menu);
+    if(menubox.style.display=="block"){ menubox.style.display = "none"; }
+     else{ menubox.style.display = "block"; }
+} */

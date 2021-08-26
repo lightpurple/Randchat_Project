@@ -16,3 +16,11 @@
     font-size: 14px;
     box-shadow: 1px 1px 1px 1px gray;
 }
+
+/* return(
+    <div id="menubox">
+        <button id="btn">신고하기</button>
+        <button id="btn">차단하기</button>
+        <button id="btn">나가기</button>
+    </div>
+); */

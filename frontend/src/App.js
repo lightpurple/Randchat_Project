@@ -1,24 +1,17 @@
-import React, { Component } from 'react';
-import Login from './pages/Login';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import Chatting from './pages/Chatting';
-import './App.css'
+import { Route } from 'react-router-dom';
+import './App.css';
+import ChatPage from './pages/ChatPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
-class App extends Component {
-  render () {
-    return (
-      <div>
-        <Router>
-            <Switch>
-              <Route exact path="/" component={Login}/>
-              <Route exact path="/Chatting" component={Chatting}/>   
-              <Route exact path="/SignUp" component={SignUp}/>
-            </Switch>
-        </Router>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div>
+      <Route component={LoginPage} path={["/","/login"]} exact/>
+      <Route component={RegisterPage} path="/register" exact/>
+      <Route component={ChatPage} path={["/chat","/@:username"]}/>
+    </div>
+  );
 }
 
 export default App;
