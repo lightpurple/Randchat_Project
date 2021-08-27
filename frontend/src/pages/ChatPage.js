@@ -1,11 +1,16 @@
 import React from 'react';
-import ChatForm from '../components/Chat/ChatForm';
+import ChatBlock from '../components/chat/ChatBlock';
+import ChatForm from '../components/chat/ChatForm';
+import Footer from '../components/chat/Footer';
+import Header from '../components/chat/Header';
 
 const ChatPage = () => {
     return(
-        <div>
-            <ChatForm></ChatForm>
-        </div>
+        <ChatBlock>
+            <Header/>
+            <ChatForm/>
+            <Footer/>
+        </ChatBlock>
     );
 }
 

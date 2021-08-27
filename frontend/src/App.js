@@ -7,9 +7,9 @@ import RegisterPage from './pages/RegisterPage';
 function App() {
   return (
     <div>
-      <Route component={LoginPage} path={["/","/login"]} exact/>
+      <Route component={LoginPage} path={["/"]} exact/>
       <Route component={RegisterPage} path="/register" exact/>
-      <Route component={ChatPage} path={["/chat","/@:username"]}/>
+      <Route component={ChatPage} path={["/chat","/@:username"]} exact/>
     </div>
   );
 }
