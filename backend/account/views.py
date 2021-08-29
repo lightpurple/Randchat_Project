@@ -19,6 +19,14 @@ def login(request):
         else:
             return HttpResponse(status=400)
 
+"""
+
+@api_view(['GET', 'PATCH'])
+def mypage(request):
+    if req
+"""
+
+
 
 @csrf_exempt
 def account(request, pk):

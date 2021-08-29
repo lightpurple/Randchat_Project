@@ -7,5 +7,6 @@ urlpatterns = [
 	path('account/<int:pk>', account),
 	path('signup/', Signup.as_view()),
 	path('api-auth/', include('rest_framework.urls')),
-
+	# path('mypage/', mypage), patch
 ]
+

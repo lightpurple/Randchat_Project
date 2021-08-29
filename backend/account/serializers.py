@@ -11,7 +11,7 @@ class AccountSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-
+# username password nickname email
     class Meta:
         model = Account
         fields = ['nickname', 'username', 'email', 'password']

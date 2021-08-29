@@ -6,6 +6,7 @@ from django.db import models
 class Message(models.Model):
     text = models.TextField()
     send_time = models.DateField(auto_now_add=True)
+    
 
 
 class UserManager(BaseUserManager):
@@ -35,9 +36,11 @@ class UserManager(BaseUserManager):
 class Account(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(default='', max_length=100, null=False, blank=False, unique=True)
-    username = models.CharField(default='', max_length=100, null=False, blank=False)
+    username = models.CharField(default='', max_length=100, null=False, blank=False, unique=True)
     nickname = models.CharField(default='', max_length=100, null=False, blank=False, unique=True)
     introduce = models.CharField(default='', max_length=1000, null=True)
+    gender = models.CharField(default='', max_length=10)
+    match_gender = models.CharField(default='', max_length=10)
     created = models.DateField(auto_now_add=True)
 
     # User 모델의 필수 field
@@ -49,7 +52,7 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'nickname'
     # 필수로 작성해야하는 field
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username', 'email']
 
     def __str__(self):
         return self.nickname
