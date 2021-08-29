@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
-#chatbox{
+
+
+.chatbox{
     width: 55%;
+    min-width: 600px;
     height: 75%;
     display: inline-block;
     box-shadow: 5px 5px 5px 5px gray;
     border-radius: 10px;
 }
 
-#title{
+.chatboxtitle{
     padding: 5pt;
     width: 100%;
     height: 20pt;
@@ -15,7 +18,7 @@
     border-radius: 10px 10px 0 0;
 }
 
-#chat{
+.chat{
     width: 100%;
     height: 80%;
     background-color: #DFE9F9;
@@ -24,7 +27,7 @@
     -ms-overflow-style: none;
 }
 
-#inputbox{
+.inputbox{
     padding: 10pt 0 10pt 0;
     width: 100%;
     background-color:white;
@@ -33,15 +36,17 @@
     vertical-align: middle;
 }
 
-#inputbox > textarea {
+.inputbox > textarea {
     border-radius: 10px;
     padding: 10px;
     width: 80%;
+    max-width: 70%;
+    min-width: 400px;
     height: 100%;
     box-shadow: 1px 1px 1px 1px gray;
 }
 
-#btn1{
+.inputbtn{
     vertical-align: top;
     margin-left: 10pt;
     width: 40pt;
@@ -53,7 +58,7 @@
     box-shadow: 1px 1px 1px 1px gray;
 }
 
-#check-btn { 
+.check-btn { 
     vertical-align: top;
     margin-left: 10pt;
     width: 40pt;
@@ -65,25 +70,4 @@
     box-shadow: 1px 1px 1px 1px gray; 
 }
 
-#chat::-webkit-scrollbar { display: none; }
-
-
-/* return(
-    <div id="chatbox">
-        <div id="title">
-            <h3>Chat</h3>
-        </div>
-        <div id="chat">
-            <UserBox></UserBox>
-            
-        </div>
-        
-        <div id="inputbox">
-            <Menus></Menus>
-            <textarea placeholder="Press Enter for send message."></textarea>
-            <button id="btn1">입력</button>
-            <button id="check-btn" >메뉴</button>
-        </div>                
-    </div>
-
-); */
+.chat::-webkit-scrollbar { display: none; }

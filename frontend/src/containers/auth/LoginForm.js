@@ -56,6 +56,11 @@ const LoginForm = ({ history }) => {
     useEffect(() =>{
         if(user) {
             history.push('/chat');
+            try{
+                localStorage.setItem('user',JSON.stringify(user));
+            } catch(e){
+                console.log('localStorage is not working');
+            }
         }
     },[history, user]);
 

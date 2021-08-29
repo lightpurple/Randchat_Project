@@ -1,13 +1,14 @@
-#userbox{
-    width: 100%;
+.userbox{
+    width: 90%;
     height: 13%;
+    margin: 10pt;
     background-color: rgb(255, 255, 255, 0.5);
     display: block;
     padding: 10px;
     
 }
 
-#usericon{
+.usericon{
     margin: 10px 0 0 50px;
     width: 50px;
     height: 50px;
@@ -15,19 +16,9 @@
     float: left;
 }
 
-#username{
+.username{
     font-size: 20pt;
     vertical-align: middle;
     float: left;
     
 }
-
-/* return(
-            <div id="userbox">
-                <img 
-                    src="https://image.flaticon.com/icons/png/512/1946/1946429.png"
-                    id="usericon"></img>
-                <a id="username">User Name</a>
-            </div>
-            
-        ); */

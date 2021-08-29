@@ -1,11 +1,13 @@
 import React from 'react';
-import Header from './Header';
+import ChatBox from './ChatBox';
+import './CSS/ChatForm.css';
+import RoomBox from './RoomBox';
 
 const ChatForm = () =>{
     return(
-        <div>
-            
-            
+        <div className="chatback">
+            <ChatBox/>
+            <RoomBox/>
         </div>
     );
 }

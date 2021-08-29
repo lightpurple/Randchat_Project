@@ -54,12 +54,12 @@ const RegisterForm = ({ history }) => {
     useEffect(() => {
         if(authError){
             //계정이 이미 존재할 때
-            if(authError.responses.status === 409){
-                alert('이미 존재하는 계정명입니다.');
-                return;
-            }
-            //기타 이유
-            alert('회원가입 실패');
+            // if(authError.responses.status === 409){
+            //     alert('이미 존재하는 계정명입니다.');
+            //     return;
+            // }
+            // //기타 이유
+            // alert('회원가입 실패');
             console.log('오류 발생');
             console.log('authError');
             return;
@@ -77,6 +77,11 @@ const RegisterForm = ({ history }) => {
             console.log('check API 성공');
             console.log(user);
             history.push('/'); //홈화면으로 이동
+        }
+        try {
+            localStorage.setItem('user', JSON.stringify(user));
+        }catch(e){
+            console.log('localStorage is not working');
         }
     },[history, user]);
     
