@@ -18,13 +18,16 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-    def create_superuser(self, email, nickname, password=None):
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_admin', True)
+
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
         user = self.model(
             email=email,
-            nickname=nickname,
+            **extra_fields
         )
         user.set_password(password)
         user.save(using=self.db)
@@ -34,7 +37,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=100, blank=True, unique=True)
-    nickname = models.CharField(max_length=100, blank=True, unique=True)
+    nickname = models.CharField(max_length=100, blank=True)
     gender = models.CharField(default='', max_length=10)
     created = models.DateField(auto_now_add=True)
     match_gender = models.CharField(default='', max_length=10)
@@ -44,6 +47,7 @@ class User(AbstractBaseUser):
     # User 모델의 필수 field
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     # 헬퍼 클래스 사용
     objects = UserManager()
@@ -58,4 +62,11 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
 
