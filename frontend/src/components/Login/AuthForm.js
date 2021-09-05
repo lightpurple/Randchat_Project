@@ -30,11 +30,11 @@ const AuthForm = ({type, form, onChange, onSubmit }) =>{
 
                         <input autoComplete="nickname" name="nickname" className="registerbox" placeholder ="닉네임" onChange={onChange} value={form.nickname}/>
 
-                        <label for="gender">남자</label>
+                        {/* <label for="gender">남자</label>
                         <input type="radio" name="gender" value={form.gender} checked={form.gender="man"} onClick={form.gender==="man"}/>
 
                         <label for="gender">여자</label>
-                        <input type="radio" name="gender" value={form.gender} checked={form.gender="woman"} onClick={form.gender==="woman"}/>
+                        <input type="radio" name="gender" value={form.gender} checked={form.gender="woman"} onClick={form.gender==="woman"}/> */}
                     </>
                 )}
                 <button className="btn1">{text}</button>
