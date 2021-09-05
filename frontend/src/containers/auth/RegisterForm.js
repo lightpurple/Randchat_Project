@@ -30,9 +30,9 @@ const RegisterForm = ({ history }) => {
     //폼 등록 이벤트 핸들러
     const onSubmit =e =>{
         e.preventDefault();
-        const { id, password, password2, username, email} = form;
+        const { email, password, password2, nickname, gender} = form;
         // 하나라도 비어있다면
-        if([id, password, password2, username, email].includes('')){
+        if([email, password, password2, nickname].includes('')){
             alert('빈칸을 모두 입력하세요.');
             return;
         }
@@ -42,7 +42,7 @@ const RegisterForm = ({ history }) => {
             dispatch(changeField({from: 'register', key: 'password2', value: ''}));
             return;
         }
-        dispatch(register( {id, password}));
+        dispatch(register( {email, password, nickname, gender}));
     };
 
     // 컴포넌트가 처음 렌더링될때 form을 초기화함
@@ -54,12 +54,12 @@ const RegisterForm = ({ history }) => {
     useEffect(() => {
         if(authError){
             //계정이 이미 존재할 때
-            // if(authError.responses.status === 409){
-            //     alert('이미 존재하는 계정명입니다.');
-            //     return;
-            // }
-            // //기타 이유
-            // alert('회원가입 실패');
+            if(authError.responses.status === 409){
+                alert('이미 존재하는 계정명입니다.');
+                return;
+            }
+            //기타 이유
+            alert('회원가입 실패');
             console.log('오류 발생');
             console.log('authError');
             return;

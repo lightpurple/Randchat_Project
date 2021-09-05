@@ -1,10 +1,10 @@
 import client from "./client";
 
 //로그인
-export const login = ({id, password}) => client.post('/api/auth/login',{id,password});
+export const login = ({email, password}) => client.post('/account/login',{email,password});
 
 //회원가입
-export const register = ({id, password}) => client.post('api/auth/register', {id, password});
+export const register = ({email, password, nickname, gender}) => client.post('/account/signup', {email, password, nickname, gender}); // email password nickname 
 
 // 로그인 상태 확인
 export const check = () => client.get('api/auth/check')

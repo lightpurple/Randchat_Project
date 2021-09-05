@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
 
-#roombox{
+
+.roombox{
     position: relative;
     width: 8%;
+    min-width: 100pt;
     height: 75%;
     display: inline-block;
     border-radius: 10px;
@@ -15,7 +17,7 @@
     text-align: center;
 }
 
-#boxtitle {
+.boxtitle {
     padding: 5pt 0 5pt 0;
     width: 100%;
     height: 20pt;
@@ -26,7 +28,7 @@
     color: white;
 }
 
-#Roomlist{
+.Roomlist{
     width: 100%;
     height: 95%;
     border-radius: 0 0 10px 10px;
@@ -34,7 +36,7 @@
     -ms-overflow-style: none;
 }
 
-#Plus{
+.Plus{
     margin: 20px;
     width: 60px;
     height: 60px;
@@ -45,4 +47,4 @@
     font-size: 30pt;
 }
 
-#Roomlist::-webkit-scrollbar { display: none; }
+.Roomlist::-webkit-scrollbar { display: none; }

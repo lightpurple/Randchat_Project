@@ -9,8 +9,8 @@ function App() {
   return (
     <div>
       <Route component={LoginPage} path={["/"]} exact/>
-      <Route component={RegisterPage} path="/register" exact/>
-      <Route component={ChatPage} path={["/chat","/@:username"]} exact/>
+      <Route component={RegisterPage} path="/signup" exact/>
+      <Route component={ChatPage} path={["/chat"]} exact/>
     </div>
   );
 }

@@ -3,19 +3,18 @@ import './CSS/RoomBox.css';
 
 const RoomBox = () =>{
     return (
-        <div className="userbox">
-            <div id="roombox">
+        <div className="roombox">
 
-                <div id="boxtitle">
-                    <h3>Room</h3>
-                </div>
-
-                <div id="Roomlist">
-                    <button id="Plus">+</button>
-                </div>              
-
+            <div className="boxtitle">
+                <h3>Room</h3>
             </div>
+
+            <div className="Roomlist">
+                <button className="Plus">+</button>
+            </div>              
+
         </div>
+
     );
 }
 

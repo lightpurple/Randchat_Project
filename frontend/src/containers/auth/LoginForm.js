@@ -30,8 +30,8 @@ const LoginForm = ({ history }) => {
     //폼 등록 이벤트 핸들러
     const onSubmit =e =>{
         e.preventDefault();
-        const { id, password } = form;
-        dispatch(login({id, password}));
+        const { email, password } = form;
+        dispatch(login({email, password}));
     };
 
     // 컴포넌트가 처음 렌더링될때 form을 초기화함

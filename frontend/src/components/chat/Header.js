@@ -13,7 +13,7 @@ const Header = ({ user, onLogout, ...rest}) => {
             {/* {user && (
                 <div className="TopBtn">
                     <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>
-                    <Link to="/mypage" className="headermenu">{user.username}</Link>
+                    <Link to="/mypage" className="headermenu">{user.nickname}</Link>
                     <Link to="/about" className="headermenu">About</Link>
                 </div>
             )} */}
