@@ -23,6 +23,12 @@ class AccountSerializer(serializers.ModelSerializer):
         return user
 
 
+class AccountPatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['nickname', 'match_gender', 'image', 'introduce', 'password']
+
+
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 

@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-%$h2!z^@0#59r#68(z1oi888(*i1el8j41p)43yrc+!w0!c)-4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+        ".ap-northeast-2.compute.amazonaws.com",
+        '*'
+        ]
 
 # Application definition
 
@@ -43,7 +46,6 @@ INSTALLED_APPS = [
     'chat',
 
     # rest_auth
-    'rest_auth',
     'rest_auth.registration',
 
     # DRF
