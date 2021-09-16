@@ -1,9 +1,3 @@
-body{
-    width: 100%;
-    height: 100%;
-    background-color: #7C9ACC;
-}
-
 .block{
     border-radius: 10px;
     margin: auto;
@@ -51,37 +45,11 @@ body{
     border: none;
     border-bottom: 2px solid #b6b6b6;
     box-sizing: border-box;
-    background: #fff;
     position: relative;
     font-weight: bold; 
     text-align: left;
 }
 
-.manbtn{
-    float: left;
-    width: 50%;
-    height: 60px;
-    margin: 10px 0 0 0;
-    border-radius: 10px 0 0 10px;
-    cursor: pointer;
-    border: solid 1px #000000;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.womanbtn{
-    width: 50%;
-    height: 60px;
-    margin: 10px 0 0 0;
-    border-radius: 0 10px 10px 0;
-    cursor: pointer;
-    border: solid 1px #000000;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-}
 .btn1{
     float: left;
     width: 50%;
@@ -127,3 +95,35 @@ body{
     text-align: center;
 }
 
+.gender{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    left: 0;
+    display: block;
+    float: left;
+    text-align: left;
+    font-weight: bold; 
+    border-bottom: 2px solid #b6b6b6;
+    box-sizing: border-box;
+}
+
+.gendertitle{
+    font-size: 19px;
+    display: inline-block;
+    margin: 10px 50px 0 20px;
+    color: rgb(0, 0, 0, 0.6);
+}
+
+.labeltxt{
+    font-size: 19px;
+    font-weight: bold;
+    color: rgb(0, 0, 0, 0.6);
+    margin-right: 10px;
+}
+
+.label{
+    margin: 0 15px 5px 0;
+    width: 15px;
+    height: 15px;
+}

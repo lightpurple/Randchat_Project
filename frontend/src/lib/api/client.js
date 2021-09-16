@@ -1,7 +1,15 @@
 import axios from "axios";
 
-const client = axios.create();
+// const client = axios.create();
+const EMPLOYEE_API_BASE_URL = "http://ec2-3-36-118-135.ap-northeast-2.compute.amazonaws.com:8080/";
 
+class client {
+
+    getEmotions(){
+      return axios.get(EMPLOYEE_API_BASE_URL)
+    }
+  
+  }
 // 글로벌 설정예시:
 //API 주소를 다른 곳으로 사용함
 // client.defaults.baseURL= 'http://external-api-server.com/'
@@ -21,4 +29,4 @@ const client = axios.create();
 //     }
 // )
 
-export default client;
+export default new client();
