@@ -1,0 +1,49 @@
+.MyPageProfile{
+    width: 600px;
+    height: 200px;
+    margin: auto;
+    margin-bottom: 4px;
+    padding: 10px 0 10px 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+input[type="file"] {
+    display: none;
+}
+
+.inputFileButton{
+    padding: 6px;
+    width: 80px;
+    height: 20px;
+    text-align: center;
+    background-color:#ffffff;
+    cursor: pointer;border: 1px solid #cccccc;
+    border-radius: 5px;
+    color:#000000;
+    font-size: 15px;
+}
+.imageBox{
+    float: left;
+    background-color: #69727D;
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    margin: 20px 30px 20px 30px;
+}
+.image{
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+.itemSelect{
+    width: 100%;
+    text-align: left;
+}
+label{
+    display:inline-block;
+    margin: 0 10px 0 0;
+}
+input[type="text"]:focus{
+    outline:none;
+}
