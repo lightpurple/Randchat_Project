@@ -1,4 +1,4 @@
-import PageTitle from '../components/Mypage/PageTitle';
+import Title from '../components/Login/Title';
 import Profile from '../components/Mypage/Profile';
 import EmailPassword from '../components/Mypage/EmailPassword'
 import Gender from '../components/Mypage/Gender';
@@ -9,7 +9,7 @@ function Mypage() {
 
   return (
     <div className="Mypage">
-      <PageTitle/>
+      <Title title="Funny Chatter"></Title>
       <Profile/>
       <EmailPassword/>
       <Nickname/>

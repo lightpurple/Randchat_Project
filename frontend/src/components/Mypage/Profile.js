@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Intro from "../../containers/Mypage/Intro";
 import InUseIntro from "../../containers/Mypage/InUseIntro";
+import "./CSS/Mypagebox.css";
 import "./CSS/Profile.css";
 
 const Profile = () => {
