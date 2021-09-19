@@ -1,0 +1,19 @@
+h3{
+    display: inline;
+    font-size: 20px;
+    vertical-align:-4%;
+    margin-right: 15px;
+}
+.s_button{
+    display: inline;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color:#000000;
+    font-size: 15px;
+    height: 32px;
+    width: 70px;
+    vertical-align: 7%;
+}

@@ -19,7 +19,7 @@ const AuthForm = ({type, form, onChange, onSubmit }) =>{
                 />
                                 
                 { type === 'login' && <p className="logintitle">비밀번호</p>}
-                <input autoComplete="new-password" name="password"  className={type === "login"? "box" : "registerbox"} placeholder={type === "login"? "" : "비밀번호"} type ="password" onChange={onChange} value={form.password} minLength="8" pattern="[A-Za-z]/[^0-9]/g"/>
+                <input autoComplete="new-password" name="password"  className={type === "login"? "box" : "registerbox"} placeholder={type === "login"? "" : "비밀번호"} type ="password" onChange={onChange} value={form.password} minLength="8"/>
                 {form.password.length > 0 && form.password.length < 8  && <div style={{color : 'red'}}>영어, 숫자를 포함한 8자 이상 입력해주세요.</div>}                  
 
                 { type === 'register' && (
@@ -30,11 +30,14 @@ const AuthForm = ({type, form, onChange, onSubmit }) =>{
 
                         <input autoComplete="nickname" name="nickname" className="registerbox" placeholder ="닉네임" onChange={onChange} value={form.nickname}/>
 
-                        {/* <label for="gender">남자</label>
-                        <input type="radio" name="gender" value={form.gender} checked={form.gender="man"} onClick={form.gender==="man"}/>
+                        <div className="gender">
+                            <p className="gendertitle">성별</p>
+                            <label htmlFor="male" className="labeltxt">남성</label>
+                            <input type="radio" name="gender" id="male" className="label" value={form.gender} />
 
-                        <label for="gender">여자</label>
-                        <input type="radio" name="gender" value={form.gender} checked={form.gender="woman"} onClick={form.gender==="woman"}/> */}
+                            <label htmlFor="female" className="labeltxt">여성</label>
+                            <input type="radio" name="gender" id="female" className="label" value={form.gender}  />
+                        </div>
                     </>
                 )}
                 <button className="btn1">{text}</button>

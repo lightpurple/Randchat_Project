@@ -30,7 +30,7 @@ const LoginForm = ({ history }) => {
     //폼 등록 이벤트 핸들러
     const onSubmit =e =>{
         e.preventDefault();
-        const { email, password } = form;
+        const { email, password } = form;   
         dispatch(login({email, password}));
     };
 
@@ -43,7 +43,7 @@ const LoginForm = ({ history }) => {
         if(authError){
             console.log('오류 발생');
             console.log(authError);
-            alert("로그인 실패");
+            alert("로그인 실패"); // massage = fail이면 
             return;
         }
         if(auth){
