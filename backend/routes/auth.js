@@ -6,14 +6,9 @@ const jwt = require('jsonwebtoken');
 const validate = require('../middleware/validate');
 const db = require('../models/index');
 
-router.post('/signup', function(req, res) {
-	data = req.body;
 
-	console.log(data);
-	if (!validate(data))
-		return res.status(400).send({
-			msg: 'Something wrong!'
-		});
+router.post('/signup', validate.validateRegister,function(req, res) {
+	data = req.body;
 
 	db.User.findOne({ where: { email: data.email }}).then(user => {
 		if (user) {
@@ -36,7 +31,9 @@ router.post('/signup', function(req, res) {
 				password: hash
 			}).then(_ => {
 				console.log("User is created!")
-				return res.redirect('/');
+				return res.status(200).send({
+					msg: 'Success'
+				});
 			})
 		}})
 })
@@ -46,21 +43,19 @@ router.post('/login', function(req, res) {
 
 	db.User.findOne({ where: { email: data.email }}).then(user => {
 	if (user) {
-		console.log(user.password);
-		console.log(data.password);
 		bcrypt.compare(data.password, user.password, function(err, result) {
 			if (!result) {
-				return res.status(400).send({
+				return res.status(400).json({
 					msg: "Password is incorrect!"
 				});
 			} else {
 				jwt.sign({
 					email: user.email,
 				 },
-				 'justtest',
+				 process.env.JWT_SECRET,
 				 {expiresIn: 60*60*24*15},
 				 function(err, token) {
-					 return res.json({
+					 return res.status(200).json({
 						 msg : "Success",
 						 token : token
 					 });
@@ -71,11 +66,54 @@ router.post('/login', function(req, res) {
 	});
 })
 
-router.post('/mypage/delete', function(req, res) {
+router.post('/mypage/change_password', validate.isLoggedin, function(req, res) {
+	var data = req.body;
+
+	db.User.findOne({ where: { email: req.decoded.email }}).then(user => {
+		if (user) {
+			bcrypt.compare(data.old_password, user.password, function(err, result) {
+				if (!result) {
+					return res.status(400).json({
+						msg: "Old Password is incorrect!"
+					})
+				} else {
+					bcrypt.hash(data.new_password, 10, (err, hash) => {
+						if (err) {
+							return res.status(500).send({
+								msg: err
+							});
+						} else {
+							user.update({password: hash}, {where: {email: user.email}})
+							.then(result=> {
+								return res.status(200).send({
+									msg: "Password change successful!"
+								});
+							})
+						}})
+				}
+			})
+		}
+	})
+})
+
+router.get('/mypage', validate.isLoggedin, function(req, res) {
+	db.User.findOne({ where: { email: req.decoded.email }}).then(user => {
+		if (user) {
+			return res.status(200).send({user});
+		}
+	})
+})
+
+router.patch('/mypage', validate.isLoggedin, function(req, res) {
+
+})
+
+router.delete('/mypage', validate.isLoggedin, function(req, res) {
 	db.User.destroy({ where: { email: req.body.email }})
 	.then(_ => {
-		console.log('User delete complete!');
-		return res.redirect('/');
+		return res.status(200).json({
+			msg: 'User delete complete!'
+		});
 	})
 })
 
