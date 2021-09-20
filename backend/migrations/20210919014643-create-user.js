@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.STRING(5),
         allowNull: false,
       },
+      match_gender: {
+        type: Sequelize.STRING(5),
+        allowNull: true,
+      },
       password: {
         type: Sequelize.STRING(100),
         allowNull: false,
