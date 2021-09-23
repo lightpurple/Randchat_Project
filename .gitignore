@@ -1,3 +1,2 @@
-__pycache__/
-awssh.sh
-randpjt/
+node_modules
+.env
