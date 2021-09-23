@@ -10,15 +10,17 @@ const textMap = {
 
 const AuthForm = ({type, form, onChange, onSubmit }) =>{
     const text = textMap[type];
+
+
     return(
         <div className="block">
             <form className="form" onSubmit={onSubmit}>
                 
-                { type === 'login' && <p className="logintitle">이메일</p>}
+                { type === 'login' && <div className="logintitle">이메일</div>}
                 <input autoComplete="email" name="email" className={type === "login"? "box" : "registerbox"} placeholder={type === "login"? "" : "이메일"}  type="email" onChange={onChange} value={form.email}
                 />
                                 
-                { type === 'login' && <p className="logintitle">비밀번호</p>}
+                { type === 'login' && <div className="logintitle">비밀번호</div>}
                 <input autoComplete="new-password" name="password"  className={type === "login"? "box" : "registerbox"} placeholder={type === "login"? "" : "비밀번호"} type ="password" onChange={onChange} value={form.password} minLength="8"/>
                 {form.password.length > 0 && form.password.length < 8  && <div style={{color : 'red'}}>영어, 숫자를 포함한 8자 이상 입력해주세요.</div>}                  
 
@@ -32,11 +34,11 @@ const AuthForm = ({type, form, onChange, onSubmit }) =>{
 
                         <div className="gender">
                             <p className="gendertitle">성별</p>
-                            <label htmlFor="male" className="labeltxt">남성</label>
-                            <input type="radio" name="gender" id="male" className="label" value={form.gender} />
+                            <label htmlFor="M" className="labeltxt">남성</label>
+                            <input type="radio" name="gender" id="M"  className="label" onChange={onChange} value={"M"}/>
 
-                            <label htmlFor="female" className="labeltxt">여성</label>
-                            <input type="radio" name="gender" id="female" className="label" value={form.gender}  />
+                            <label htmlFor="F" className="labeltxt">여성</label>
+                            <input type="radio" name="gender" id="F" className="label" onChange={onChange} value={"W"} />
                         </div>
                     </>
                 )}

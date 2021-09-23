@@ -6,7 +6,7 @@ import RegisterForm from '../containers/auth/RegisterForm';
 const RegisterPage = () => {
     return(
         <AuthBlock>
-            <Title title="회원가입"></Title>
+            <Title title="Funny Chatter"></Title>
             <RegisterForm></RegisterForm>
         </AuthBlock>
     );

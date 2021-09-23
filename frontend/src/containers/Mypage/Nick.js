@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import NickModal from './NickModal';
-import axios from 'axios';
+import client from "../../lib/api/client";
 
 
 function Nick() {
@@ -12,7 +12,7 @@ function Nick() {
     const changeModal = () => {
         console.log(text);
 
-    axios.patch('http://localhost:3001/nickname/1', {nickname: text})
+    client.patch('/auth/mypage', {nickname: text})
     .catch(error => {
         console.error('Error!', error);
     });

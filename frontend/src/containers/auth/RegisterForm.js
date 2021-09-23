@@ -19,7 +19,7 @@ const RegisterForm = ({ history }) => {
     const onChange = e => {
         const { value, name } = e.target;
         dispatch(
-            changeField({
+            changeField({           // modules/auth
                 form: 'register',
                 key: name,
                 value
@@ -42,7 +42,8 @@ const RegisterForm = ({ history }) => {
             dispatch(changeField({from: 'register', key: 'password2', value: ''}));
             return;
         }
-        dispatch(register( {email, password, nickname, gender}));
+        
+        dispatch(register( {email, password, nickname, gender} ));
     };
 
     // 컴포넌트가 처음 렌더링될때 form을 초기화함
@@ -54,10 +55,10 @@ const RegisterForm = ({ history }) => {
     useEffect(() => {
         if(authError){
             //계정이 이미 존재할 때
-            if(authError.responses.status === 400){
-                alert('이미 존재하는 계정명입니다.');
-                return;
-            }
+            // if(authError.responses.status === 400){
+            //     alert('이미 존재하는 계정명입니다.');
+            //     return;
+            // }
             //기타 이유
             alert('회원가입 실패');
             console.log('오류 발생');

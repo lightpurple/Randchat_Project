@@ -1,23 +1,19 @@
 import axios from "axios";
 
-// const client = axios.create();
-const EMPLOYEE_API_BASE_URL = "http://ec2-3-36-118-135.ap-northeast-2.compute.amazonaws.com:8080/";
+const client = axios.create({
+  baseURL: 'http://localhost:5000',
+  headers:{
+    'Accept': 'application/json',
+    "Content-Type":"application/x-www-form-urlencoded",
+    // "Authorization":"x-access-token",
+    "x-access-token": localStorage.getItem('user'),
+  },
+});
 
-class client {
+//헤더 설정
+// client.defaults.headers.common['Authorization'] = 'x-access-token' ;
 
-    getEmotions(){
-      return axios.get(EMPLOYEE_API_BASE_URL)
-    }
-  
-  }
-// 글로벌 설정예시:
-//API 주소를 다른 곳으로 사용함
-// client.defaults.baseURL= 'http://external-api-server.com/'
-
-// //헤더 설정
-// client.defaults.headers.common['Authorization'] = 'Bearer a1b2c3d4';
-
-// // 인터셉터 설정
+// 인터셉터 설정
 // axios.interceptor.request.use(
 //     response =>{
 //         // 요청 성공 시 특정 작업 수행
@@ -29,4 +25,4 @@ class client {
 //     }
 // )
 
-export default new client();
+export default client;
