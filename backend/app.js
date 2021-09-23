@@ -3,6 +3,9 @@ const app = express()
 const cors = require('cors')
 require("dotenv").config();
 
+var authRouter = require('./routes/auth');
+var chatRouter = require('./routes/chat');
+
 
 // Middlewares
 app.use(express.json());
@@ -17,8 +20,8 @@ app.use(function (req, res, next) {
 
 // API
 
-app.use('/auth', require('./routes/auth'));
-app.use('/chat', require('./routes/chat'));
+app.use('/auth', authRouter);
+app.use('/chat', chatRouter);
 
 // Server
 const port = process.env.PORT || 5000
