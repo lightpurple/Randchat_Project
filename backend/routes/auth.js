@@ -1,220 +1,205 @@
 const express = require('express');
 const router = express.Router();
 
+// 인증
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validate = require('../middleware/validate');
-const db = require('../models/index');
 
+// DB
+const pool = require('../middleware/pool');
 
-router.post('/signup', validate.validateRegister,function(req, res) {
-	data = req.body;
+router.post('/signup', validate.validateRegister, async function(req, res) {
+	let con1 = await pool.getConnection(async conn => conn)
+	con1.beginTransaction()
+	var	data = req.body;
+	var match_gender = data.gender === 'M' ? 'F' : 'M';
 
-	db.User.findOne({ where: { email: data.email }}).then(user => {
-		if (user) {
+	try {
+		const db = await con1.query('SELECT * FROM User WHERE email = ?',[data.email]);
+		if (db[0][0]) {
+			con1.release()
 			return res.status(400).json({
 				msg: 'User is aleady exist!'
-			});
-		}
-	})
-
-	bcrypt.hash(data.password, 10, (err, hash) => {
-		if (err) {
-			return res.status(500).send({
-				msg: err
-			});
-		} else {
-			db.User.create({
-				email: data.email,
-				nickname: data.nickname,
-				gender: data.gender,
-				password: hash
-			}).then(_ => {
-				console.log("User is created!")
-				return res.status(200).send({
-					msg: 'Success'
-				});
 			})
-		}})
+		}
+	} catch (e) {
+		con1.release()
+		throw e;
+	}
+	bcrypt.hash(data.password, 10, async (err, hash) => {
+		if (err) {
+			throw err;
+		} else {
+			try {
+				await con1.query(
+					'INSERT INTO User(email, nickname, gender, match_gender, password) VALUES(?, ?, ?, ?, ?)',
+					[data.email, data.nickname, data.gender, match_gender, hash]
+					)
+				con1.commit()
+				res.status(200).json({ msg: "Success" });
+			} catch (e) {
+				con1.rollback()
+				con1.release()
+				throw e;
+			}
+			con1.release()
+	}})
 })
 
-router.post('/login', function(req, res) {
+
+router.post('/login', async function(req, res) {
 	data = req.body;
 
-	db.User.findOne({ where: { email: data.email }}).then(user => {
-	if (user) {
-		bcrypt.compare(data.password, user.password, function(err, result) {
-			if (!result) {
-				return res.status(400).json({
-					msg: "Password is incorrect!"
-				});
-			} else {
-				jwt.sign({
-					email: user.email,
-				 },
-				 process.env.JWT_SECRET,
-				 {expiresIn: 60*60*24*15},
-				 function(err, token) {
-					 return res.status(200).json({
-						 msg : "Success",
-						 token : token
-					 });
-				  });
-			}
-		})
+	let con1 = await pool.getConnection(async conn => conn)
+	con1.beginTransaction()
+
+	try {
+		const db = await con1.query('SELECT * FROM User WHERE email = ?',[data.email]);
+		if (db[0][0]) {
+			bcrypt.compare(data.password, db[0][0].password, function(err, result) {
+				if (!result) {
+					res.status(400).json({
+						msg: "Password is incorrect!"
+					});
+				} else {
+					jwt.sign({
+						email: db[0][0].email,
+						},
+						process.env.JWT_SECRET,
+						{expiresIn: 60*60*24*15},
+						function(err, token) {
+							if (err) {
+							con1.release()
+							throw err;
+							}
+							return res.status(200).json({
+								msg : "Success",
+								token : token
+							});
+						});
+					}
+			})
+		} else {
+			res.status(400).json({ msg: "Email does not exist!"});
+		}
+	} catch (e) {
+		con1.release()
+		throw e;
 	}
-	});
+	con1.release()
 })
 
-router.post('/mypage/change_password', validate.isLoggedin, function(req, res) {
-	var data = req.body;
 
-	db.User.findOne({ where: { email: req.decoded.email }}).then(user => {
-		if (user) {
-			bcrypt.compare(data.old_password, user.password, function(err, result) {
+router.post('/mypage/change_password', validate.isLoggedin, async function(req, res) {
+	let con1 = await pool.getConnection(async conn => conn)
+	con1.beginTransaction()
+	var	data = req.body;
+	var email = req.decoded.email;
+
+	try {
+		const db = await con1.query('SELECT * FROM User WHERE email = ?',[email]);
+		if (db[0][0]) {
+			bcrypt.compare(data.old_password, db[0][0].password, function(err, result) {
 				if (!result) {
-					return res.status(400).json({
-						msg: "Old Password is incorrect!"
-					})
+					res.status(400).json({ msg: "Old Password is incorrect!" })
 				} else {
-					bcrypt.hash(data.new_password, 10, (err, hash) => {
+					bcrypt.hash(data.new_password, 10, async (err, hash) => {
 						if (err) {
-							return res.status(500).send({
-								msg: err
-							});
+							throw err;
 						} else {
-							user.update({password: hash}, {where: {email: user.email}})
-							.then(result=> {
-								return res.status(200).send({
+							try {
+								await con1.query('UPDATE User SET password = ? WHERE email = ?',
+								[hash, data.email])
+								con1.commit()
+								res.status(200).send({
 									msg: "Password change successful!"
 								});
-							})
+							} catch (e) {
+								con1.release()
+								throw e;
+							}
 						}})
 				}
 			})
+			con1.release()
 		}
-	})
+	} catch (e) {
+		con1.release()
+		throw e;
+	}
 })
 
-router.get('/mypage', validate.isLoggedin, function(req, res) {
-	db.User.findOne({ where: { email: req.decoded.email }}).then(user => {
-		if (user) {
-			return res.status(200).send({user});
+router.get('/mypage', validate.isLoggedin, async function(req, res) {
+	let con1 = await pool.getConnection(async conn => conn)
+	con1.beginTransaction()
+
+	try {
+		const db = await con1.query('SELECT * FROM User WHERE email = ?',[req.decoded.email]);
+		if (db[0][0]) {
+			let data = db[0][0];
+			res.status(200).json({
+				email: data.email,
+				nickname: data.nickname,
+				match_gender: data.match_gender,
+				introduce: data.introduce
+			});
 		}
-	})
+	} catch (e) {
+		con1.release()
+		throw e;
+	}
+	con1.release()
 })
 
-router.patch('/mypage', validate.isLoggedin, function(req, res) {
 
+router.patch('/mypage', validate.isLoggedin, async function(req, res) {
+	var data = req.body;
+	var email = req.decoded.email;
+	let con1 = await pool.getConnection(async conn => conn)
+	con1.beginTransaction()
+
+	try {
+		let db = await con1.query('SELECT * FROM User WHERE email = ?',[email]);
+		if (db[0][0]) {
+			try {
+				await con1.query('UPDATE User SET nickname = ?, introduce = ?, match_gender = ? WHERE email = ?',
+				[data.nickname, data.introduce, data.match_gender, email])
+				con1.commit()
+				let db = await con1.query('SELECT * FROM User WHERE email = ?',[email]);
+				res.status(200).send({
+					msg: "User data change successful!",
+					nickname: db[0][0].nickname,
+					introduce: db[0][0].introduce,
+					match_gender: db[0][0].match_gender
+				});
+			} catch (e) {
+				con1.rollback()
+				con1.release()
+				throw e;
+			}
+		}
+	} catch (e) {
+		con1.release()
+		throw e;
+	}
+	con1.release()
 })
 
-router.delete('/mypage', validate.isLoggedin, function(req, res) {
-	db.User.destroy({ where: { email: req.body.email }})
-	.then(_ => {
-		return res.status(200).json({
-			msg: 'User delete complete!'
-		});
-	})
+router.delete('/mypage', validate.isLoggedin, async function(req, res) {
+	let con1 = await pool.getConnection(async conn => conn)
+	con1.beginTransaction()
+
+	try {
+		await con1.query('DELETE FROM User WHERE email = ?', [req.decoded.email])
+		con1.commit()
+		con1.release()
+		return res.status(200).json({ msg: 'User delete complete! '});
+	} catch (e) {
+		con1.rollback()
+		con1.release()
+		throw e;
+	}
 })
 
 module.exports = router;
-
-/*
-router.post('/sign-up', userMiddleware.validateRegister, (req, res, next) =>{
-	db.query(
-		`SELECT * FROM users WHERE LOWER(:) = LOWER(${db.escape(
-		  req.body.email
-		)});`,
-		(err, result) => {
-		  if (result.length) {
-			return res.status(409).send({
-			  msg: 'This email is already in use!'
-			});
-		  } else {
-			// email is available
-			bcrypt.hash(req.body.password, 10, (err, hash) => {
-			  if (err) {
-				return res.status(500).send({
-				  msg: err
-				});
-			  } else {
-				// has hashed pw => add to database
-				db.query(
-				  `INSERT INTO users (id, email, password, registered) VALUES ('${uuid.v4()}', ${db.escape(
-					req.body.email
-				  )}, ${db.escape(hash)}, now())`,
-				  (err, result) => {
-					if (err) {
-					  throw err;
-					  return res.status(400).send({
-						msg: err
-					  });
-					}
-					return res.status(201).send({
-					  msg: 'Registered!'
-					});
-				  }
-				);
-			  }
-			});
-		  }
-		}
-	  );
-});
-
-router.post('/login', (req, res, next) => {
-	db.query(
-		`SELECT * FROM users WHERE email = ${db.escape(req.body.email)};`,
-		(err, result) => {
-		  // user does not exists
-		  if (err) {
-			throw err;
-			return res.status(400).send({
-			  msg: err
-			});
-		  }
-		  if (!result.length) {
-			return res.status(401).send({
-			  msg: 'Email or password is incorrect!'
-			});
-		  }
-		  // check password
-		  bcrypt.compare(
-			req.body.password,
-			result[0]['password'],
-			(bErr, bResult) => {
-			  // wrong password
-			  if (bErr) {
-				throw bErr;
-				return res.status(401).send({
-				  msg: 'Email or password is incorrect!'
-				});
-			  }
-			  if (bResult) {
-				const token = jwt.sign({
-					email: result[0].email,
-					userId: result[0].id
-				  },
-				  'SECRETKEY', {
-					expiresIn: '7d'
-				  }
-				);
-				db.query(
-				  `UPDATE users SET last_login = now() WHERE id = '${result[0].id}'`
-				);
-				return res.status(200).send({
-				  msg: 'Logged in!',
-				  token,
-				  user: result[0]
-				});
-			  }
-			  return res.status(401).send({
-				msg: 'Email or password is incorrect!'
-			  });
-			}
-		  );
-		}
-	  );
-
-});
-*/

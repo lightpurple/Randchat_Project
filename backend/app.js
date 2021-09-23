@@ -3,9 +3,6 @@ const app = express()
 const cors = require('cors')
 require("dotenv").config();
 
-// DB
-var {sequelize} = require('./models/index')
-sequelize.sync();
 
 // Middlewares
 app.use(express.json());
@@ -20,8 +17,8 @@ app.use(function (req, res, next) {
 
 // API
 
-const router = require('./routes/auth.js');
-app.use('/auth', router);
+app.use('/auth', require('./routes/auth'));
+app.use('/chat', require('./routes/chat'));
 
 // Server
 const port = process.env.PORT || 5000
