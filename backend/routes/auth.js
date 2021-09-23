@@ -21,7 +21,7 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 			con1.release()
 			return res.status(400).json({
 				msg: 'User is aleady exist!'
-			})
+			});
 		}
 	} catch (e) {
 		con1.release()
