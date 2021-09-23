@@ -3,5 +3,6 @@ module.exports = {
 	user: process.env.DB_USER,
 	database: process.env.DB,
 	password: process.env.DB_PWD,
-	connectionLimit: process.env.DB_CONLIMT
+	connectionLimit: process.env.DB_CONLIMT,
+	ssl: true
 }
