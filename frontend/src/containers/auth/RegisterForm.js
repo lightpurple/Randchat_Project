@@ -42,8 +42,7 @@ const RegisterForm = ({ history }) => {
             dispatch(changeField({from: 'register', key: 'password2', value: ''}));
             return;
         }
-        
-        dispatch(register( {email, password, nickname, gender} ));
+        dispatch(register( {email, nickname, gender, password }));
     };
 
     // 컴포넌트가 처음 렌더링될때 form을 초기화함

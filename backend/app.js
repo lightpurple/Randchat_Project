@@ -3,25 +3,32 @@ const app = express()
 const cors = require('cors')
 require("dotenv").config();
 
+var authRouter = require('./routes/auth');
+var chatRouter = require('./routes/chat');
+
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	credentials: true,
+};
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.header('Access-Control-Allow-Headers', 'content-type, x-access-token'); //1
 	next();
   });
 
 // API
 
-app.use('/auth', require('./routes/auth'));
-app.use('/chat', require('./routes/chat'));
+app.use('/auth', authRouter);
+app.use('/chat', chatRouter);
 
 // Server
 const port = process.env.PORT || 5000
 
-app.get('/', (req, res) => res.json({ msg: "Hello World" }))
+app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Server running on port ${port}`))

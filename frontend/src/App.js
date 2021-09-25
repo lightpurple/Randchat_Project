@@ -9,7 +9,7 @@ function App() {
   return (
     <div>
       <Route component={LoginPage} path={["/"]} exact/>
-      <Route component={RegisterPage} path="/signup" exact/>
+      <Route component={RegisterPage} path="/signup"/>
       <Route component={ChatPage} path={["/chat"]}/>
       <Route component={Mypage} path="/Mypage" exact/>
     </div>
