@@ -3,14 +3,18 @@ const app = express()
 const cors = require('cors')
 require("dotenv").config();
 
+const corsOptions = {
+	origin: 'http://localhost:3000',
+	credentials: true,
+  };
+
 var authRouter = require('./routes/auth');
 var chatRouter = require('./routes/chat');
-
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
