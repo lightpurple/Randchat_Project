@@ -5,8 +5,8 @@ const client = axios.create({
   // baseURL: 'http://localhost:5000',
   headers:{
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
-    
     "Accept": "*/*",
+    'x-access-token':`Bearer `+ localStorage.getItem('token'),
   },
   // withCredentials : true
 });

@@ -39,13 +39,16 @@ const LoginForm = ({ history }) => {
         dispatch(initializeForm('login'));
     }, [dispatch]);
 
-    useEffect(()=>{
-        if(authError){
-            console.log('오류 발생');
-            console.log(authError);
-            alert("로그인 실패"); // massage = fail이면 
-            return;
+    useEffect((res)=>{
+        if(localStorage.getItem("token")){
+            history.push('/chat');
         }
+        // if(authError){
+        //     console.log('오류 발생');
+        //     console.log(authError);
+        //     alert("로그인 실패"); // massage = fail이면 
+        //     return;
+        // }
         if(auth){
             console.log('로그인 성공');
             dispatch(check());
@@ -53,7 +56,7 @@ const LoginForm = ({ history }) => {
     },[auth, authError, dispatch]);
 
     // user값이 잘 설정되었는지 확인
-    useEffect(() =>{
+    useEffect((res) =>{
         if(user) {
             history.push('/chat');
             try{
@@ -63,6 +66,7 @@ const LoginForm = ({ history }) => {
             }
         }
     },[history, user]);
+    
 
     return(
         <AuthForm
