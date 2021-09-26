@@ -53,15 +53,10 @@ const RegisterForm = ({ history }) => {
     //회원가입 성공/실패 처리
     useEffect(() => {
         if(authError){
-            //계정이 이미 존재할 때
-            // if(authError.responses.status === 400){
-            //     alert('이미 존재하는 계정명입니다.');
-            //     return;
-            // }
-            //기타 이유
+            // 기타 이유
             alert('회원가입 실패');
             console.log('오류 발생');
-            console.log('authError');
+            console.log(authError);
             return;
         }
         if(auth){
