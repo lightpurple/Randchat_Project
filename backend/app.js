@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
 // API
 
 app.use('/auth', authRouter);
-app.use('/chat', chatRouter);
+app.use('/chatting', chatRouter);
 
 // Server
 const port = process.env.PORT || 5000
