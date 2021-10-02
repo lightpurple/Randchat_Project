@@ -12,6 +12,7 @@ function App() {
       <Route component={RegisterPage} path="/signup"/>
       <Route component={ChatPage} path={["/chat"]}/>
       <Route component={Mypage} path="/Mypage" exact/>
+      
     </div>
   );
 }

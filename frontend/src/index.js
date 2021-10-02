@@ -18,12 +18,12 @@ const store = createStore(
 
 function localUser(){
   try{
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('token');
     if(!user) return; //로그인 상태가 아니라면 아무것도 안 함
     store.dispatch(tempSetUser(JSON.parse(user)));
     store.dispatch(check());
   } catch(e){
-    console.log('localStorage is not working');
+    console.log('로그인상태 아니래 어떡할래?');
   }
 }
 

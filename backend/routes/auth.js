@@ -153,7 +153,7 @@ router.get('/mypage', validate.isLoggedin, async function(req, res) {
 })
 
 
-router.patch('/mypage', validate.isLoggedin, async function(req, res) {
+router.put('/mypage', validate.isLoggedin, async function(req, res) {
 	var data = req.body;
 	var email = req.decoded.email;
 	let con1 = await pool.getConnection(async conn => conn)

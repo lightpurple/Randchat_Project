@@ -11,11 +11,22 @@ const client = axios.create({
   // withCredentials : true
 });
 
-// const client = axios.create();
-//헤더 설정
-// client.defaults.baseURL = "https://bit.ly/3ABatrD";
-// client.defaults.withCredentials = true;
-// client.defaults.headers.common['Authorization'] = 'x-access-token' ;
+client.interceptors.response.use(
+  response =>{
+    return response;
+  }, error => {
+      if(error.response.data.msg === "Password is incorrect!"){
+        //Request failed with status code 400
+        alert('잘못된 이메일/비밀번호 입니다.');
+      }
+      if(error.response.data.msg === "User is aleady exist!"){
+        //Request failed with status code 400
+        alert('존재하는 이메일입니다.');
+      }
+      return Promise.reject(error);
+    },
+)
+
 
 
 export default client;
