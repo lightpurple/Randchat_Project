@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PasswordModal from './PasswordModal';
-import axios from 'axios';
+import client from "../../lib/api/client";
 
 function Password() {
 
@@ -11,7 +11,7 @@ function Password() {
     }
     const changeModal = () => {
 
-    axios.patch('http://localhost:3001/nickname/1', {password: text})
+    client.patch('/auth/mypage/change_password', {password: text})
     .catch(error => {
         console.error('Error!', error);
     });

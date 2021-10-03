@@ -38,8 +38,9 @@ export const login = createAction(LOGIN, ({email, password}) => ({
     password,
 }));
 
-const registerSaga = createRequestSaga(REGISTER, authAPI.register);
-const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+const registerSaga = createRequestSaga(REGISTER, authAPI.register); // /lib/api/auth
+const loginSaga = createRequestSaga(LOGIN, authAPI.login);          // /lib/api/auth
+
 export function* authSaga() {
     yield takeLatest(REGISTER, registerSaga)
     yield takeLatest(LOGIN, loginSaga);

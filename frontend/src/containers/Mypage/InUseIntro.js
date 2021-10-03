@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import client from "../../lib/api/client";
 
 function InUseIntro() {
   const [users, setUsers] = useState(null);
@@ -7,12 +7,11 @@ function InUseIntro() {
   useEffect(() => {
     const getIntro = async () => {
         setUsers(null);
-        const response = await axios.get(
-          'http://localhost:3001/nickname?id=1'
+        const response = await client.get(
+          '/auth/mypage'
         );
         setUsers(response.data);
     };
-
     getIntro();
   }, []);
 

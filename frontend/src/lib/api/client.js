@@ -1,32 +1,33 @@
 import axios from "axios";
 
-// const client = axios.create();
-const EMPLOYEE_API_BASE_URL = "http://ec2-3-36-118-135.ap-northeast-2.compute.amazonaws.com:8080/";
+const client = axios.create({
+  baseURL: 'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/',
+  headers:{
+    "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
+    "Accept": "*/*",
+    'x-access-token':`${localStorage.getItem("token")}`,
+  },
+  // withCredentials : true
+});
 
-class client {
+client.defaults.headers.common['x-access-token']=localStorage.getItem('token')
 
-    getEmotions(){
-      return axios.get(EMPLOYEE_API_BASE_URL)
-    }
-  
-  }
-// 글로벌 설정예시:
-//API 주소를 다른 곳으로 사용함
-// client.defaults.baseURL= 'http://external-api-server.com/'
+client.interceptors.response.use(
+  response =>{
+    return response;
+  }, error => {
+      if(error.response.data.msg === "Password is incorrect!"){
+        //Request failed with status code 400
+        alert('잘못된 이메일/비밀번호 입니다.');
+      }
+      if(error.response.data.msg === "User is aleady exist!"){
+        //Request failed with status code 400
+        alert('존재하는 이메일입니다.');
+      }
+      return Promise.reject(error);
+    },
+)
 
-// //헤더 설정
-// client.defaults.headers.common['Authorization'] = 'Bearer a1b2c3d4';
 
-// // 인터셉터 설정
-// axios.interceptor.request.use(
-//     response =>{
-//         // 요청 성공 시 특정 작업 수행
-//         return response;
-//     },
-//     error => {
-//         //요청 실패시 특정 작업 수행
-//         return Promise.reject(error);
-//     }
-// )
 
-export default new client();
+export default client;

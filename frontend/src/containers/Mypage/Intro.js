@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import IntroMordal from './IntroModal';
-import axios from 'axios';
+import client from "../../lib/api/client";
 
 
 function Password() {
@@ -13,7 +13,7 @@ function Password() {
     const changeModal = () => {
         console.log(text);
 
-    axios.patch('http://localhost:3001/nickname/1', {introduce: text})
+    client.patch('/auth/mypage', {introduce: text})
     .catch(error => {
         console.error('Error!', error);
     });
