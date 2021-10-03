@@ -5,7 +5,7 @@ import AuthForm from '../../components/Login/AuthForm';
 import { changeField, initializeForm, login } from "../../modules/auth";
 
 
-const LoginForm = ({ history }) => {
+const LoginForm = () => {
     const dispatch = useDispatch();
     const { form } = useSelector(({ auth,user }) => ({
         form: auth.login,
@@ -37,13 +37,6 @@ const LoginForm = ({ history }) => {
     useEffect(() => {
         dispatch(initializeForm('login'));
     }, [dispatch]);
-
-    useEffect(()=>{
-        if(localStorage.getItem("token")){
-            console.log('로그인 성공');
-            history.push('/chat');
-        }
-    });
 
     return(
         <AuthForm

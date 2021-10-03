@@ -11,3 +11,5 @@ body {
 code {
   font-family: 'Rajdhani', sans-serif;
 }
+
+::-webkit-scrollbar { display: none; }

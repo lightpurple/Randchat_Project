@@ -5,9 +5,9 @@ import { changeField, initializeForm, register } from "../../modules/auth";
 import { withRouter } from 'react-router-dom';
 
 
-const RegisterForm = ({ history }) => {
+const RegisterForm = () => {
     const dispatch = useDispatch();
-    const { form, user} = useSelector(({ auth, user }) => ({
+    const { form } = useSelector(({ auth, user }) => ({
         form: auth.register,
         auth: auth.auth,
         authError: auth.authError,
@@ -49,13 +49,6 @@ const RegisterForm = ({ history }) => {
         dispatch(initializeForm('register'));
     }, [dispatch]);
 
-    //user 값이 잘 설정되었는지 확인
-    useEffect(()=> {
-        if (user) {
-            console.log(user);
-            history.push('/'); //홈화면으로 이동
-        }
-    },[history, user]);
     
     return(
         <AuthForm

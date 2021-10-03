@@ -6,10 +6,11 @@ const client = axios.create({
   headers:{
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
     "Accept": "*/*",
-    'x-access-token':`Bearer `+ localStorage.getItem('token'),
+    'x-access-token':`${window.localStorage.getItem("token")}`,
   },
   // withCredentials : true
 });
+
 
 client.interceptors.response.use(
   response =>{

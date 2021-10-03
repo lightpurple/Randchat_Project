@@ -7,13 +7,12 @@ export const login = ({email, password}) => {
         email, password
     };
     client.post('/auth/login',queryString.stringify(data)).then(res => {
-        const {accessToken} = res.data;
-        client.defaults.headers.common['x-access-token'] = `Bearer ${accessToken}`;
         console.log(res)
+        var token = res.data.token;
+        window.localStorage.setItem("token", token);
         if(res.status === 200){
-            var token = res.data.token;
-            localStorage.setItem("token", token);
             document.location.href = '/chat'
+            
         }
     })
 }
