@@ -1,22 +1,23 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import client from '../../lib/api/client';
 import './CSS/UserBox.css';
 
 const UserBox = () =>{
-    client.get('/chatting/').then((res, req)=>{
-        console.log(req);
-        console.log(res);
-        var username = res.nickname;
-        var intro = res.introduce;
-        localStorage.setItem("username", username)
-        localStorage.setItem("introduce", intro)
+    const [chattername, setChattername] = useState(null);
+    const [chatterintro, setChatterintro] = useState(null);
+    
+    client.get('/chatting/').then((res)=>{
+        console.log(res.data);
+        console.log("토큰" + localStorage.getItem('token'));
+        setChattername(res.data.nickname);
+        setChatterintro(res.data.introduce)
     })
     return (
         <div className="userbox">
             <img src="https://image.flaticon.com/icons/png/512/1946/1946429.png" className="icon" alt="profile"/>
-            <p className="name">{localStorage.getItem("username")}</p>
-            <p className="intro">{localStorage.getItem("introduce")}</p>
+            <p className="name">{chattername}</p>
+            <p className="intro">{chatterintro}</p>
         </div>
     );
 }

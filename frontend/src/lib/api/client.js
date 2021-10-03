@@ -2,15 +2,15 @@ import axios from "axios";
 
 const client = axios.create({
   baseURL: 'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/',
-  // baseURL: 'http://localhost:5000',
   headers:{
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
     "Accept": "*/*",
-    'x-access-token':`${window.localStorage.getItem("token")}`,
+    'x-access-token':`${localStorage.getItem("token")}`,
   },
   // withCredentials : true
 });
 
+client.defaults.headers.common['x-access-token']=localStorage.getItem('token')
 
 client.interceptors.response.use(
   response =>{

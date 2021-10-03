@@ -8,11 +8,10 @@ function InUseIntro() {
     const getIntro = async () => {
         setUsers(null);
         const response = await client.get(
-          '/auth/mypage?id=1'
+          '/auth/mypage'
         );
         setUsers(response.data);
     };
-
     getIntro();
   }, []);
 

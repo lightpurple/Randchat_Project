@@ -9,7 +9,7 @@ export const login = ({email, password}) => {
     client.post('/auth/login',queryString.stringify(data)).then(res => {
         console.log(res)
         var token = res.data.token;
-        window.localStorage.setItem("token", token);
+        localStorage.setItem("token", token);
         if(res.status === 200){
             document.location.href = '/chat'
             
