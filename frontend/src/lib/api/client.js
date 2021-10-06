@@ -5,7 +5,7 @@ const client = axios.create({
   headers:{
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
     "Accept": "*/*",
-    'x-access-token':`${localStorage.getItem("token")}`,
+    'x-access-token':`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaWF0IjoxNjMyNjUxMTUwLCJleHAiOjE2MzM5NDcxNTB9.WQ30jVrOOThJNtGHATOK91jCk4AqLwmE02irbsglFFw`,
   },
   // withCredentials : true
 });
