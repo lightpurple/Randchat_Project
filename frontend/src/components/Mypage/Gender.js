@@ -1,23 +1,40 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import "./CSS/Gender.css";
+import client from '../../lib/api/client';
 
 const Gender = () => {
-    const [gender, setUsers] = useState(null);
+    // const [gender, setUsers] = useState(null);
 
-    useEffect(() => {
-      const getNick = async () => {
-          setUsers(null);
-          const response = await axios.get(
-            'http://localhost:3001/nickname?id=1'
-          );
-          setUsers(response.data); // 데이터는 response.data 안에 들어있음
-      };
+    // useEffect(() => {
+    //   const getNick = async () => {
+    //       setUsers(null);
+    //       const response = await axios.get(
+    //         '/auth/mypage'
+    //       );
+    //       setUsers(response.data); // 데이터는 response.data 안에 들어있음
+    //   };
   
-      getNick();
-    }, []);
+    //   getNick();
+    // }, []);
 
-    if (!gender) return null;
+    const [match_gender, setUsers] = useState(null);
+
+    client.get("/auth/mypage")
+    .then(response => {
+        console.log(response.data.match_gender)
+        setUsers(response.data.match_gender);
+    })
+    .catch(error => {
+      console.error(error);
+    })
+
+
+
+    // if (!gender) return null;
+
+
+
     // const onClickF = () => {
     //     setMessage('여자');
     // }
@@ -35,13 +52,18 @@ const Gender = () => {
             <p>매칭 성별</p>
         </div>
         <div className="Contents">
-        {gender.map(user => (
+        
+        <p>{match_gender}</p>   
+        {/* {gender.map(user => (
             <p key={user.id}>
             {user.gender}
             </p>
-        ))}
+        ))} */}
             <button className="s_button" onClick={ () => {
-                axios.patch('http://localhost:3001/nickname/1', {gender: "F"})
+                client.put('auth/mypage', {match_gender: "F"})
+                .then(response => {
+                    console.log(response.data.match_gender);
+                })
                 .catch(error => {
                     console.error('Error!', error);
                 });
@@ -50,7 +72,11 @@ const Gender = () => {
             }
             }>Female</button>
             <button className="s_button" onClick={ () => {
-                axios.patch('http://localhost:3001/nickname/1', {gender: "M"})
+                client.put('auth/mypage')
+                .then(response => {
+                    setUsers("M");
+                    console.log(response.data.match_gender);
+                })
                 .catch(error => {
                     console.error('Error!', error);
                 });
