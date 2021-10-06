@@ -19,7 +19,7 @@ const Header = ({ ...rest}) => {
             </div>
                 <div className="TopBtn">
                     <Link to="/" className="headermenu" onClick={localStorage.clear()}>Logout</Link>
-                    <Link to="/mypage" className="headermenu">{user}</Link>
+                    <Link to="/mypage" className="headermenu">nickname</Link>
                     <Link to="/about" className="headermenu">About</Link>
                 </div>
             
