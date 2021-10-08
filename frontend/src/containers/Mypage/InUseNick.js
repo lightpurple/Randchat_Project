@@ -15,9 +15,12 @@ function InUseNick() {
   //   getNick();
   // }, []);
 
+  const [nickname, setUsers] = useState(null);
+
   client.get("/auth/mypage")
     .then(response => {
-      console.log(response);
+      console.log(response.data.nickname);
+      setUsers(response.data.nickname);
     })
     .catch(error => {
       console.error(error);
@@ -27,7 +30,7 @@ function InUseNick() {
 //  if (!users) return null;
   return (
     <>
-    <input type='text' name='title' className="inputTitle" />
+    <p>{nickname}</p>
     </>
   );
 }

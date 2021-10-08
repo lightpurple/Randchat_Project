@@ -12,18 +12,37 @@ function Nick() {
     const changeModal = () => {
         console.log(text);
 
-    client.patch('/auth/mypage', {nickname: text})
+    const data = {
+        nickname: text
+    }
+    client.put('/auth/mypage', data)
+    .then((response) => {
+        console.log(response);
+    })
     .catch(error => {
         console.error('Error!', error);
     });
+
+
+    //client({
+    //method: 'put',
+    //url: '/auth/mypage',
+    //nickname : text
+    
+    //})
+    //.then((response) => {
+        
+    //    console.log(response);
+    //});
+
     
        //404 오류. put 방법 찾기. put 하고 페이지 새로고침 => DB 변경에 따라 마이페이지 닉네임 변경
        //username만 수정되는 게 아니라 전체가 변경됨 > password, username 동시변경 안됨
        //방법 찾아서 두 개 동시에 바꾸고 새로고침 넣기
        //=>put 전체 수정, patch 일부 수정
         
-        setModalOpen(false);
-        window.location.reload();
+        // setModalOpen(false);
+        // window.location.reload();
     }
     const closeModal = () => {
         setModalOpen(false);

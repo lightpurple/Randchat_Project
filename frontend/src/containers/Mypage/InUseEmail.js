@@ -37,7 +37,6 @@ function InUseEmail() {
         </p>
       ))} */}
       <p>{email}</p>
-      <input type='text' name='title' className="inputTitle" />
     </>
   );
 }

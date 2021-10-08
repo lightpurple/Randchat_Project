@@ -36,7 +36,6 @@ function InUseIntro() {
         </p>
       ))} */}
       <p>{introduce}</p>
-      <input type='text' name='title' className="inputTitle" />
     </>
   );
 }
