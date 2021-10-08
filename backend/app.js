@@ -10,6 +10,7 @@ const corsOptions = {
 	credentials: true,
   };
 
+const webSocket = require('./middleware/socket');
 var authRouter = require('./routes/auth');
 var chatRouter = require('./routes/chat');
 
@@ -33,4 +34,5 @@ app.use('/chatting', chatRouter);
 const port = process.env.PORT || 5000
 
 app.get('/', (req, res) => res.send('Hello World!'))
-http.listen(port, () => console.log(`Server running on port ${port}`))
+const server = http.listen(port, () => console.log(`Server running on port ${port}`))
+webSocket(server, app);
