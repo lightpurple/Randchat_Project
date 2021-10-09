@@ -52,7 +52,7 @@ router.post("/", validate.isLoggedin, async function (req, res) {
 
     try {
         con1.beginTransaction();
-        const user = await con1.query("SELECT * FROM users WHERE email = ? ", [ // 유저 찾기
+        const user = await con1.query("SELECT * FROM Users WHERE email = ? ", [ // 유저 찾기
 			req.decoded.email,
         ]);
 
@@ -107,7 +107,7 @@ router.get("/", validate.isLoggedin, async function (req, res) {
     let con1 = await pool.getConnection(async (conn) => conn);
     try {
         con1.beginTransaction();
-        const db = await con1.query("SELECT * FROM users WHERE email = ?", [
+        const db = await con1.query("SELECT * FROM Users WHERE email = ?", [
             email,
         ]);
         if (db[0][0]) {
