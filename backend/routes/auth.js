@@ -11,11 +11,11 @@ const pool = require('../middleware/pool');
 
 router.post('/signup', validate.validateRegister, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
-	con1.beginTransaction()
 	var	data = req.body;
 	var match_gender = data.gender === 'M' ? 'F' : 'M';
 
 	try {
+		con1.beginTransaction()
 		const db = await con1.query('SELECT * FROM users WHERE email = ?',[data.email]);
 		if (db[0][0]) {
 			con1.release()
@@ -52,9 +52,9 @@ router.post('/login', async function(req, res) {
 	data = req.body;
 
 	let con1 = await pool.getConnection(async conn => conn)
-	con1.beginTransaction()
 
 	try {
+		con1.beginTransaction()
 		const db = await con1.query('SELECT * FROM users WHERE email = ?',[data.email]);
 		if (db[0][0]) {
 			bcrypt.compare(data.password, db[0][0].password, function(err, result) {
@@ -93,11 +93,11 @@ router.post('/login', async function(req, res) {
 
 router.post('/mypage/change_password', validate.isLoggedin, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
-	con1.beginTransaction()
 	var	data = req.body;
 	var email = req.decoded.email;
 
 	try {
+		con1.beginTransaction()
 		const db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			bcrypt.compare(data.old_password, db[0][0].password, function(err, result) {
@@ -131,9 +131,8 @@ router.post('/mypage/change_password', validate.isLoggedin, async function(req, 
 
 router.get('/mypage', validate.isLoggedin, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
-	con1.beginTransaction()
-
 	try {
+		con1.beginTransaction()
 		const db = await con1.query('SELECT * FROM users WHERE email = ?',[req.decoded.email]);
 		if (db[0][0]) {
 			let data = db[0][0];
@@ -156,9 +155,9 @@ router.put('/mypage', validate.isLoggedin, async function(req, res) {
 	var data = req.body;
 	var email = req.decoded.email;
 	let con1 = await pool.getConnection(async conn => conn)
-	con1.beginTransaction()
 
 	try {
+		con1.beginTransaction()
 		let db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			try {
@@ -186,9 +185,9 @@ router.put('/mypage', validate.isLoggedin, async function(req, res) {
 
 router.delete('/mypage', validate.isLoggedin, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
-	con1.beginTransaction()
 
 	try {
+		con1.beginTransaction()
 		await con1.query('DELETE FROM users WHERE email = ?', [req.decoded.email])
 		con1.commit()
 		return res.status(200).json({ msg: 'User delete complete! '});
