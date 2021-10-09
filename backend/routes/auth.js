@@ -16,7 +16,7 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 
 	try {
 		con1.beginTransaction()
-		const db = await con1.query('SELECT * FROM users WHERE email = ?',[data.email]);
+		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[data.email]);
 		if (db[0][0]) {
 			con1.release()
 			return res.status(400).json({
@@ -33,7 +33,7 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 		} else {
 			try {
 				await con1.query(
-					'INSERT INTO users(email, nickname, gender, match_gender, password) VALUES(?, ?, ?, ?, ?)',
+					'INSERT INTO Users(email, nickname, gender, match_gender, password) VALUES(?, ?, ?, ?, ?)',
 					[data.email, data.nickname, data.gender, match_gender, hash]
 					)
 				con1.commit()
@@ -55,7 +55,7 @@ router.post('/login', async function(req, res) {
 
 	try {
 		con1.beginTransaction()
-		const db = await con1.query('SELECT * FROM users WHERE email = ?',[data.email]);
+		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[data.email]);
 		if (db[0][0]) {
 			bcrypt.compare(data.password, db[0][0].password, function(err, result) {
 				if (!result) {
@@ -98,7 +98,7 @@ router.post('/mypage/change_password', validate.isLoggedin, async function(req, 
 
 	try {
 		con1.beginTransaction()
-		const db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
+		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			bcrypt.compare(data.old_password, db[0][0].password, function(err, result) {
 				if (!result) {
@@ -109,7 +109,7 @@ router.post('/mypage/change_password', validate.isLoggedin, async function(req, 
 							throw err;
 						} else {
 							try {
-								await con1.query('UPDATE users SET password = ? WHERE email = ?',
+								await con1.query('UPDATE Users SET password = ? WHERE email = ?',
 								[hash, data.email])
 								con1.commit()
 								res.status(200).send({
@@ -133,7 +133,7 @@ router.get('/mypage', validate.isLoggedin, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
 	try {
 		con1.beginTransaction()
-		const db = await con1.query('SELECT * FROM users WHERE email = ?',[req.decoded.email]);
+		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[req.decoded.email]);
 		if (db[0][0]) {
 			let data = db[0][0];
 			res.status(200).json({
@@ -158,13 +158,13 @@ router.put('/mypage', validate.isLoggedin, async function(req, res) {
 
 	try {
 		con1.beginTransaction()
-		let db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
+		let db = await con1.query('SELECT * FROM Users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			try {
-				await con1.query('UPDATE users SET nickname = ?, introduce = ?, match_gender = ? WHERE email = ?',
+				await con1.query('UPDATE Users SET nickname = ?, introduce = ?, match_gender = ? WHERE email = ?',
 				[data.nickname, data.introduce, data.match_gender, email])
 				con1.commit()
-				let db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
+				let db = await con1.query('SELECT * FROM Users WHERE email = ?',[email]);
 				res.status(200).send({
 					msg: "User data change successful!",
 					nickname: db[0][0].nickname,
@@ -188,7 +188,7 @@ router.delete('/mypage', validate.isLoggedin, async function(req, res) {
 
 	try {
 		con1.beginTransaction()
-		await con1.query('DELETE FROM users WHERE email = ?', [req.decoded.email])
+		await con1.query('DELETE FROM Users WHERE email = ?', [req.decoded.email])
 		con1.commit()
 		return res.status(200).json({ msg: 'User delete complete! '});
 	} catch (e) {
