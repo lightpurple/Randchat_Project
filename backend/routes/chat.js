@@ -56,44 +56,33 @@ router.post("/", validate.isLoggedin, async function (req, res) {
 			req.decoded.email,
         ]);
 
-        await con1.query("INSERT INTO ?(user) VALUES(?)", [ // Wating list 올려놓기
-            "Wating_" + user[0][0].gender,
-            user[0][0].email,
-        ]);
+		// sql문 모음
+		var sql_select_user = `SELECT * FROM Wating_${user[0][0].gender} WHERE user = ?`;
+		var sql_select_match = `SELECT * FROM Wating_${req.body.match_gender} WHERE user NOT IN (?) AND is_matching is false ORDER BY id LIMIT 1`;
+		var sql_insert_user = `INSERT INTO Wating_${user[0][0].gender}(user) VALUES (?)`;
+		var sql_update_match = `UPDATE Wating_${req.body.match_gender} SET is_matching = true WHERE user = ?`;
+		var sql_delete_user = `DELETE FROM Wating_${user[0][0].gender} WHERE user = ?`;
 
-		console.log(req.body.match_gender);
-
+        await con1.query(sql_insert_user, user[0][0].email); // Wating list 올려놓기
+		con1.commit();
 		do { // Wating 테이블에서 매칭상대 찾기  AND SLEEP(1)=0
-			var match_user = await con1.query("SELECT * FROM ? WHERE user NOT IN (?) AND is_matching is true ORDER BY id LIMIT 1", [
-				"Wating_" + req.body.match_gender,
-				user[0][0].email
-			]);
+			var match_user = await con1.query(sql_select_match, user[0][0].email);
 		} while (match_user[0][0] === undefined)
 
-		await con1.query("UPDATE ? SET is_matching = true WHERE user = ?", [ // 매칭 상대 is_matching = true로 바꾸기
-			"Wating_" + req.body.match_gender,
-			match_user[0][0].user
-		]);
+		await con1.query( sql_update_match,	match_user[0][0].user); // Wating 테이블에서 상대 is_matching = ture
+		con1.commit();
 
 		do { // Wating 테이블에서 본인꺼 is_matching이 바뀐지 확인
-			var change_user = await con1.query("SELECT * FROM ? WHERE user = ? ", [
-				"Wating_" + user[0][0].gender,
-				user[0][0].email
-			]);
-			console.log(change_user[0][0].is_matching);
+			var change_user = await con1.query(sql_select_user, user[0][0].email);
 		} while (change_user[0][0].is_matching == false)
 
 		if (match_user[0][0]) {
-			await con1.query("DELETE FROM ? WHERE user = ?", [ // Wating 테이블에서 본인 삭제
-				"Wating_" + user[0][0].gender,
-				user[0][0].email
-			])
+			await con1.query(sql_delete_user, user[0][0].email) // Wating 테이블에서 본인 삭제
 
 			var roomId = user[0][0].email > match_user[0][0].user ? user[0][0].email : match_user[0][0].user;
 			res.status(200).json({ result: true, roomId: roomId, other: match_user[0][0].user });
 		}
 		con1.commit();
-
     } catch (e) {
         con1.rollback();
         throw e;
