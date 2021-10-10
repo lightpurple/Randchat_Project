@@ -4,7 +4,7 @@ module.exports = (io) => {
 		const req = socket.request;
 
 		console.log("커넥션 성공!");
-        console.log(req.body);
+        console.log(req);
         console.log("------------------------------------");
 
 		socket.on("joinRoom", (data) => {
