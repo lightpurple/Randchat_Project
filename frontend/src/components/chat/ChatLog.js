@@ -5,17 +5,17 @@ const ChatLog = ({ socket }) => {
 
     useEffect(() => {
         // messsgeItem : {msg: String, name: String, timeStamp: String}
-        socket.on("onReceive", (messageItem) => {
-        setMsgList((msgList) => [...msgList, messageItem]);
-        console.log(messageItem);
+        socket.on("message", (message) => {
+        setMsgList((msgList) => [...msgList, message]);
+        console.log(message);
         });
 
-        socket.on("onConnect", (systemMessage) => {
-        setMsgList((msgList) => [...msgList, { msg: systemMessage }]);
+        socket.on("sysMsg", (sysMsg) => {
+        setMsgList((msgList) => [...msgList, { msg: sysMsg }]);
         });
 
-        socket.on("onDisconnect", (systemMessage) => {
-        setMsgList((msgList) => [...msgList, { msg: systemMessage }]);
+        socket.on("sysMsg", (sysMsg) => {
+        setMsgList((msgList) => [...msgList, { msg: sysMsg }]);
         });
 
         return () => {
@@ -28,7 +28,6 @@ const ChatLog = ({ socket }) => {
         <div>
             {msgList.map((msg, idx) => (
                 <div key={idx}>
-                    <div>{msg.timeStamp}</div>
                     <div>{msg.msg}</div>
                 </div>
             ))}

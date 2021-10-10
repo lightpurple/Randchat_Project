@@ -26,6 +26,9 @@ client.interceptors.response.use(
         //Request failed with status code 400
         alert('존재하는 이메일입니다.');
       }
+      if(error.response.status === 400){
+        alert('매치불가')
+      }
       return Promise.reject(error);
     },
 )

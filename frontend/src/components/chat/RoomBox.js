@@ -1,18 +1,19 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import Matchgender from '../../containers/chat/Matchgender';
+
 import './CSS/RoomBox.css';
 
-const RoomBox = ({ userName, roomName, setUserName, setRoomName }) =>{
+const RoomBox = () =>{
+    const [showModal, setShowModal] = useState(false);
 
-    const handleUserNameChange = (e) => {
-        setUserName(e.target.value);
-    };
-    const handleRoomNameChange = (e) => {
-        setRoomName(e.target.value);
-    };
-    
-    localStorage.setItem("userName", userName);
-    localStorage.setItem("roomName", roomName);
+    const openModal = () => {
+        setShowModal(true);
+    }
+
+    const closeModal = () => {
+        setShowModal(false);
+    }
+
     return (
         <div className="roombox">
 
@@ -20,15 +21,9 @@ const RoomBox = ({ userName, roomName, setUserName, setRoomName }) =>{
                 <h3>Room</h3>
             </div>
 
-            <label htmlFor="roomName">Room</label>
-            <input name="roomName" onChange={handleRoomNameChange}></input>
-            <label htmlFor="id">ID</label>
-            <input name="id" onChange={handleUserNameChange}></input>
-
             <div className="Roomlist">
-                <button className="Plus">
-                    <Link to="/Chat">+</Link>
-                </button>
+                <button to='/chat' className="Plus" onClick={openModal}>+</button>
+                <Matchgender showModal={showModal} closeModal={closeModal}></Matchgender>
             </div>              
 
         </div>

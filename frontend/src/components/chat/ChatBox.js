@@ -5,33 +5,30 @@ import './CSS/ChatBox.css';
 import socketIOClient from "socket.io-client";
 import ChatLog from './ChatLog';
 import Loading from "./Loading";
+import client from '../../lib/api/client';
 
-
-// const socket = socketio.connect('http://localhost:3000')
-
-
-const ChatBox = ({ roomName, userName, socket }) =>{
+const ChatBox = ({ roomId, other, user, socket }) =>{
     const [visible, setVisible] = useState(false);
-    const myInfo = {
-        roomName: roomName ? roomName : localStorage.getItem("roomName"),
-        userName: userName ? userName : localStorage.getItem("userName"),
+    const data = {
+        roomId,
+        other,
     };
     const [chatMessage, setChatMessage] = useState("");
     const [currentSocket, setCurrentSocket] = useState();
     
-    useEffect(() => {
-        // setCurrentSocket(socketIOClient("")); 소캣 주소넣기
-    }, []);
+    // useEffect(() => {
+    //     setCurrentSocket(socketIOClient("ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000")); //소캣 주소넣기
+    // }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        socket.emit("onSend", {
-            userName: userName ? userName : localStorage.getItem("userName"),
-            msg: chatMessage,
-            timeStamp: new Date().toLocaleTimeString(),
+        socket.emit("message", {
+            user: user ? user : localStorage.getItem("userName"),
+            message: chatMessage,
         });
         setChatMessage("");
     };
+
     const close = (e) => {
         e.preventDefault();
         socket.leave();
@@ -44,7 +41,7 @@ const ChatBox = ({ roomName, userName, socket }) =>{
 
     if (currentSocket) {
         currentSocket.on("connect", () => {
-            currentSocket.emit("join", myInfo);
+            currentSocket.emit("joinRoom", data);
         });
     }
     
@@ -55,7 +52,7 @@ const ChatBox = ({ roomName, userName, socket }) =>{
             </div>
                    
             <div className="chat">
-                <UserBox nickname={userName} intro="Hi, I'm nickname"></UserBox>
+                <UserBox/>
                 {currentSocket ? (     
                     <ChatLog socket={currentSocket}/>
                     ):(

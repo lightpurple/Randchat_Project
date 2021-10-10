@@ -12,6 +12,7 @@ export const login = ({email, password}) => {
         
         if(res.status === 200){
             window.location.href = '/chat'
+            localStorage.setItem("isAuthorized", "true")
             client.defaults.headers.common['x-access-token'] = res.data.token
         }
     })
