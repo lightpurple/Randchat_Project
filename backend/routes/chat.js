@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const validate = require("../middleware/validate");
 const pool = require("../middleware/pool");
 const timer = ms => new Promise(res => setTimeout(res, ms));
@@ -11,7 +12,7 @@ router.get("/:roomId", validate.isLoggedin, async (req, res) => {
 		con1.beginTransaction();
 		const other = con1.query("SELECT * FROM Users WHERE email = ?", [ req.body.other ]);
 		res.status(200).json({
-			msg: "Success",
+			result: true,
 			nickname: other[0][0].nickname,
 			introduce: other[0][0].introduce,
 			gender: other[0][0].gender
@@ -69,7 +70,7 @@ router.post("/", validate.isLoggedin, async function (req, res) {
 			var match_user = await con1.query(sql_select_match, user[0][0].email);
 		} while (match_user[0][0] === undefined)
 
-		await con1.query( sql_update_match,	match_user[0][0].user); // Wating 테이블에서 상대 is_matching = ture
+		await con1.query(sql_update_match,	match_user[0][0].user); // Wating 테이블에서 상대 is_matching = ture
 		con1.commit();
 
 		do { // Wating 테이블에서 본인꺼 is_matching이 바뀐지 확인
@@ -79,7 +80,11 @@ router.post("/", validate.isLoggedin, async function (req, res) {
 		if (match_user[0][0]) {
 			await con1.query(sql_delete_user, user[0][0].email) // Wating 테이블에서 본인 삭제
 
-			var roomId = user[0][0].email > match_user[0][0].user ? user[0][0].email : match_user[0][0].user;
+			var roomKey = user[0][0].email > match_user[0][0].user ? user[0][0].email : match_user[0][0].user;
+			var roomId = 0;
+			for (i=0; i < roomKey.length; i++) {
+				roomId += roomKey[i].charCodeAt(0);
+			}
 			res.status(200).json({ result: true, roomId: roomId, other: match_user[0][0].user });
 		}
 		con1.commit();
@@ -101,7 +106,7 @@ router.get("/", validate.isLoggedin, async function (req, res) {
         ]);
         if (db[0][0]) {
             res.status(200).json({
-                msg: "Success",
+				result: true,
                 nickname: db[0][0].nickname,
                 introduce: db[0][0].introduce,
 				gender: db[0][0].gender

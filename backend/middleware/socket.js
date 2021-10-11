@@ -4,7 +4,7 @@ module.exports = (io) => {
 		const req = socket.request;
 
 		console.log("커넥션 성공!");
-        console.log(req);
+        console.log(req.body);
         console.log("------------------------------------");
 
 		socket.on("joinRoom", (data) => {
@@ -25,7 +25,7 @@ module.exports = (io) => {
             console.log("room 접속 해제ㅠㅠ");
         });
 
-		socket.on("message", (data) => {
+		socket.on("message", (data) => { // 닉이 같을경우
 			io.to(data.roomId).emit("message", {
 				user: data.user,
 				message: data.message,

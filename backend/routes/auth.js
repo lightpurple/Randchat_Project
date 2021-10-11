@@ -12,7 +12,6 @@ const pool = require('../middleware/pool');
 router.post('/signup', validate.validateRegister, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
 	var	data = req.body;
-	var match_gender = data.gender === 'M' ? 'F' : 'M';
 
 	try {
 		con1.beginTransaction()
@@ -33,8 +32,8 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 		} else {
 			try {
 				await con1.query(
-					'INSERT INTO Users(email, nickname, gender, match_gender, password) VALUES(?, ?, ?, ?, ?)',
-					[data.email, data.nickname, data.gender, match_gender, hash]
+					'INSERT INTO Users(email, nickname, gender, password) VALUES(?, ?, ?, ?, ?)',
+					[data.email, data.nickname, data.gender, hash]
 					)
 				con1.commit()
 				res.status(200).json({ msg: "Success" });
@@ -46,7 +45,6 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 			}
 	}})
 })
-
 
 router.post('/login', async function(req, res) {
 	data = req.body;
@@ -89,7 +87,6 @@ router.post('/login', async function(req, res) {
 		con1.release()
 	}
 })
-
 
 router.post('/mypage/change_password', validate.isLoggedin, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
@@ -139,7 +136,6 @@ router.get('/mypage', validate.isLoggedin, async function(req, res) {
 			res.status(200).json({
 				email: data.email,
 				nickname: data.nickname,
-				match_gender: data.match_gender,
 				introduce: data.introduce
 			});
 		}
@@ -161,15 +157,14 @@ router.put('/mypage', validate.isLoggedin, async function(req, res) {
 		let db = await con1.query('SELECT * FROM Users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			try {
-				await con1.query('UPDATE Users SET nickname = ?, introduce = ?, match_gender = ? WHERE email = ?',
-				[data.nickname, data.introduce, data.match_gender, email])
+				await con1.query('UPDATE Users SET nickname = ?, introduce = ? WHERE email = ?',
+				[data.nickname, data.introduce, email])
 				con1.commit()
 				let db = await con1.query('SELECT * FROM Users WHERE email = ?',[email]);
 				res.status(200).send({
 					msg: "User data change successful!",
 					nickname: db[0][0].nickname,
 					introduce: db[0][0].introduce,
-					match_gender: db[0][0].match_gender
 				});
 			} catch (e) {
 				con1.rollback()
