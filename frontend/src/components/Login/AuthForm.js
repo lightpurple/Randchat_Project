@@ -31,7 +31,7 @@ const AuthForm = ({type, form, onChange, onSubmit }) =>{
                             {form.password !== form.password2 && <div style={{color : 'red'}}>비밀번호가 일치하지 않습니다.</div>}
                             
 
-                            <input autoComplete="nickname" name="nickname" className="registerbox" placeholder ="닉네임" onChange={onChange} value={form.nickname}/>
+                            <input autoComplete="nickname" name="nickname" className="registerbox" placeholder ="닉네임" onChange={onChange} value={form.nickname} minLength="3"/>
 
                             <div className="gender">
                                 <p className="gendertitle">성별</p>

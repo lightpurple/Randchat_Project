@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import client from "../lib/api/client";
 import './Header.css';
 
-const Header = ({ ...rest}) => {
+const Header = () => {
     const [user, setUser] = useState(null);
     
     client.get('/chatting/').then((res)=>{
-        console.log(res.data);
-        console.log("토큰" + localStorage.getItem('token'));
         setUser(res.data.nickname);
     })
+
+    const onLogout = () => {
+        localStorage.clear();
+    };
     
     return(
         <div className="headerback">
@@ -18,7 +20,7 @@ const Header = ({ ...rest}) => {
                 Funny Chatter
             </div>
                 <div className="TopBtn">
-                    <Link to="/" className="headermenu" onClick={localStorage.clear()}>Logout</Link>
+                    <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>
                     <Link to="/mypage" className="headermenu">{user}</Link>
                     <Link to="/about" className="headermenu">About</Link>
                 </div>
