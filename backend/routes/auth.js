@@ -15,10 +15,12 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 
 	try {
 		con1.beginTransaction()
-		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[data.email]);
-		if (db[0][0]) {
+		const same_email = await con1.query('SELECT * FROM Users WHERE email = ?', data.email);
+		const same_nick = await con1.query('SELECT * FROM Users WHERE nickname = ?', data.nickname);
+		if (same_email[0][0] !== undefined || same_nick[0][0] !== undefined) {
 			con1.release()
 			return res.status(400).json({
+				result: false,
 				msg: 'User is aleady exist!'
 			});
 		}
@@ -32,7 +34,7 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 		} else {
 			try {
 				await con1.query(
-					'INSERT INTO Users(email, nickname, gender, password) VALUES(?, ?, ?, ?, ?)',
+					'INSERT INTO Users(email, nickname, gender, password) VALUES(?, ?, ?, ?)',
 					[data.email, data.nickname, data.gender, hash]
 					)
 				con1.commit()

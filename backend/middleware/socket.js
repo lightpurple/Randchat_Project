@@ -25,7 +25,7 @@ module.exports = (io) => {
             console.log("room 접속 해제ㅠㅠ");
         });
 
-		socket.on("message", (data) => { // 닉이 같을경우
+		socket.on("message", (data) => {
 			io.to(data.roomId).emit("message", {
 				user: data.user,
 				message: data.message,
