@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import IntroMordal from './IntroModal';
 import client from "../../lib/api/client";
+const queryString = require('query-string');
 
 
 function Password() {
@@ -13,13 +14,34 @@ function Password() {
     const changeModal = () => {
         console.log(text);
 
-    client.patch('/auth/mypage', {introduce: text})
-    .catch(error => {
-        console.error('Error!', error);
-    });
+
+        var data = {
+            introduce: text
+        }
+
+        client.put('/auth/mypage',queryString.stringify(data)).then(res => {
+            console.log(res)
+            console.log(data)
+        })
+        // var data = {
+        //     nickname: 'qqwwee'
+        // }
+    
+        // client({
+        //     method: 'put',
+        //     url: '/auth/mypage',
+        //     introduce: data.introduce
+        // })
+        // .then(function(response) {
+        //     console.log(response.data);
+        // })
+        // .catch(function(error) {
+        //     console.error('Error!', error);
+        // });
+    
         
-        setModalOpen(false);
-        window.location.reload();
+        // setModalOpen(false);
+        // window.location.reload();
     }
     const closeModal = () => {
         setModalOpen(false);

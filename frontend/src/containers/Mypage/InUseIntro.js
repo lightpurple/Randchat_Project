@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import client from "../../lib/api/client";
+import Nick from './Nick';
 
 function InUseIntro() {
   // const [users, setUsers] = useState(null);
@@ -36,7 +37,7 @@ function InUseIntro() {
         </p>
       ))} */}
       <p>{introduce}</p>
-    </>
+    </>//get한 값 서로 modal input에 value로 넣기
   );
 }
 

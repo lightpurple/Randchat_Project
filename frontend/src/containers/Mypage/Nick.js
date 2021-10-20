@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import NickModal from './NickModal';
 import client from "../../lib/api/client";
+const queryString = require('query-string');
 
 
-function Nick() {
+const Nick = (props) => {
+    const {introvalue} = props;
     const [ modalOpen, setModalOpen ] = useState(false);
   
     const openModal = () => {
@@ -12,28 +14,51 @@ function Nick() {
     const changeModal = () => {
         console.log(text);
 
-    const data = {
+
+
+    var data = {
+        introduce: introvalue,
         nickname: text
     }
-    client.put('/auth/mypage', data)
-    .then((response) => {
-        console.log(response);
+
+    // client({
+    //     method: 'put',
+    //     url: '/auth/mypage',
+    //     data: data.nickname
+    // })
+    // .then(function(response) {
+    //     console.log(response);
+    // })
+    // .catch(function(error) {
+    //     console.error('Error!', error);
+    // });
+
+
+    // client.put('/auth/mypage', text)
+    // .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+
+
+    client.put('/auth/mypage',queryString.stringify(data)).then(res => {
+        console.log(res)
+        console.log(data)
     })
-    .catch(error => {
-        console.error('Error!', error);
-    });
 
 
-    //client({
-    //method: 'put',
-    //url: '/auth/mypage',
-    //nickname : text
+    // client({
+    // method: 'put',
+    // url: '/auth/mypage',
+    // nickname : text
     
-    //})
-    //.then((response) => {
+    // })
+    // .then((response) => {
         
     //    console.log(response);
-    //});
+    // });
 
     
        //404 오류. put 방법 찾기. put 하고 페이지 새로고침 => DB 변경에 따라 마이페이지 닉네임 변경
@@ -41,8 +66,8 @@ function Nick() {
        //방법 찾아서 두 개 동시에 바꾸고 새로고침 넣기
        //=>put 전체 수정, patch 일부 수정
         
-        // setModalOpen(false);
-        // window.location.reload();
+        setModalOpen(false);
+        // window.location.reload(); 새로고침 되면 데이터가 안넘어감
     }
     const closeModal = () => {
         setModalOpen(false);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import client from "../../lib/api/client";
+import Nick from './Nick';
 
 function InUseNick() {
   // const [users, setUsers] = useState(null);
