@@ -91,3 +91,6 @@ hr{
     color:#000000;
     font-size: 16px;
 }
+.hidden{
+    visibility: hidden;
+}

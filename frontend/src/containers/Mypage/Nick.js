@@ -4,9 +4,17 @@ import client from "../../lib/api/client";
 const queryString = require('query-string');
 
 
-const Nick = (props) => {
-    const {introvalue} = props;
+const Nick = () => {
     const [ modalOpen, setModalOpen ] = useState(false);
+
+    const [introduce, setUsers] = useState(null);
+    client.get("/auth/mypage")
+    .then(response => {
+      setUsers(response.data.introduce);
+    })
+    .catch(error => {
+      console.error(error);
+    })
   
     const openModal = () => {
         setModalOpen(true);
@@ -14,10 +22,8 @@ const Nick = (props) => {
     const changeModal = () => {
         console.log(text);
 
-
-
     var data = {
-        introduce: introvalue,
+        introduce: introduce,
         nickname: text
     }
 
@@ -67,7 +73,7 @@ const Nick = (props) => {
        //=>put 전체 수정, patch 일부 수정
         
         setModalOpen(false);
-        // window.location.reload(); 새로고침 되면 데이터가 안넘어감
+        window.location.reload();
     }
     const closeModal = () => {
         setModalOpen(false);
@@ -92,7 +98,6 @@ const Nick = (props) => {
               <NickModal open={ modalOpen } change={ changeModal } close={ closeModal } header="닉네임 변경" ChangeNickname={text}>
               {/* 열기, 닫기, 모달 헤더 텍스트, 패스워드값을 자식으로 보냄 */}     
 
-
         <div className="valuename">
             <p>닉네임</p>
         </div>
@@ -102,8 +107,11 @@ const Nick = (props) => {
         <div>
             <h4>* 2자 이상의 한글, 영문, 숫자</h4>
         </div>
-              </NickModal>
-          </React.Fragment>
+            </NickModal>
+        </React.Fragment>
+        <div className="hidden">
+        <p>{introduce}</p>
+        </div>
       </div>
     );
   }

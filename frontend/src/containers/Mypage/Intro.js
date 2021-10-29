@@ -8,6 +8,15 @@ function Password() {
 
     const [ modalOpen, setModalOpen ] = useState(false);
   
+    const [nickname, setUsers] = useState(null);
+    client.get("/auth/mypage")
+      .then(response => {
+        setUsers(response.data.nickname);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+
     const openModal = () => {
         setModalOpen(true);
     }
@@ -16,7 +25,8 @@ function Password() {
 
 
         var data = {
-            introduce: text
+            introduce: text,
+            nickname: nickname
         }
 
         client.put('/auth/mypage',queryString.stringify(data)).then(res => {
@@ -40,8 +50,8 @@ function Password() {
         // });
     
         
-        // setModalOpen(false);
-        // window.location.reload();
+        setModalOpen(false);
+        window.location.reload();
     }
     const closeModal = () => {
         setModalOpen(false);
@@ -65,10 +75,11 @@ function Password() {
         <div>
             <h4>* 1~13자의 한글, 영문, 숫자</h4>
         </div>
-              </IntroMordal>
-          </React.Fragment>
-  
-  
+            </IntroMordal>
+        </React.Fragment>
+        <div className="hidden">
+        <p>{nickname}</p>
+        </div>
       </div>
     );
   }
