@@ -3,7 +3,11 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, { cors: { origin: "*" } });
 const cors = require('cors');
+const redis = require('socket.io-redis');
+
 require("dotenv").config();
+
+const { swaggerUi, specs } = require('./swagger');
 
 const corsOptions = {
 	origin: 'http://localhost:3000',
@@ -32,6 +36,7 @@ app.use(function (req, res, next) {
 
 app.use('/auth', authRouter);
 app.use('/chatting', chatRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 // Server
 const port = process.env.PORT || 5000

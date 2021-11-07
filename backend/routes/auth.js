@@ -9,6 +9,60 @@ const validate = require('../middleware/validate');
 // DB
 const pool = require('../middleware/pool');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *  User:
+ *   type: object
+ *   required:
+ *     - id
+ *     - email
+ *     - gender
+ *     - password
+ *   properties:
+ *     id:
+ *       type: integer
+ *       description: ObjectId
+ *     email:
+ *       type: string
+ *       description: 유저 이메일 겸 로그인 아이디
+ *     gender:
+ *       type: string
+ *       description: 유저 성별
+ *     password:
+ *       type: string
+ *       description: 유저 비밀번호
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /signup:
+ *    post:
+ *      summary: Create a new user
+ *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ *      responses:
+ *       "200":
+ *        description: 회원가입 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/User'
+ */
+
 router.post('/signup', validate.validateRegister, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
 	var	data = req.body;
