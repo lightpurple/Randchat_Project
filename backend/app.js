@@ -1,9 +1,13 @@
 const express = require('express');
 const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, { cors: { origin: "*" } });
 const cors = require('cors');
+const redis = require('socket.io-redis');
+
 require("dotenv").config();
+
+const { swaggerUi, specs } = require('./swagger');
 
 const corsOptions = {
 	origin: 'http://localhost:3000',
@@ -11,8 +15,11 @@ const corsOptions = {
   };
 
 const webSocket = require('./middleware/socket');
-var authRouter = require('./routes/auth');
-var chatRouter = require('./routes/chat');
+const authRouter = require('./routes/auth');
+const chatRouter = require('./routes/chat');
+
+//라우터에서 io를 객체로 쓸 수 있게함
+app.set('io', io);
 
 // Middlewares
 app.use(express.json());
@@ -29,10 +36,12 @@ app.use(function (req, res, next) {
 
 app.use('/auth', authRouter);
 app.use('/chatting', chatRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 // Server
 const port = process.env.PORT || 5000
 
 app.get('/', (req, res) => res.send('Hello World!'))
-const server = http.listen(port, () => console.log(`Server running on port ${port}`))
-webSocket(server, app);
+server.listen(port, () => console.log(`Server running on port ${port}`))
+webSocket(io);
+
