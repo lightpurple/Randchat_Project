@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const validate = require("../middleware/validate");
 const pool = require("../middleware/pool");
-const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 router.get("/:roomId", validate.isLoggedin, async (req, res) => {
     let con1 = await pool.getConnection(async (conn) => conn);
@@ -57,8 +56,7 @@ router.post("/", validate.isLoggedin, async function (req, res) {
 
     try {
         con1.beginTransaction();
-        const user = await con1.query("SELECT * FROM Users WHERE email = ? ", [
-            // 유저 찾기
+        const user = await con1.query("SELECT * FROM Users WHERE email = ? ", [// 유저 찾기
             req.decoded.email,
         ]);
 
