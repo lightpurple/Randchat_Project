@@ -1,10 +1,20 @@
 import React, {useState} from 'react';
 import NickModal from './NickModal';
 import client from "../../lib/api/client";
+const queryString = require('query-string');
 
 
-function Nick() {
+const Nick = () => {
     const [ modalOpen, setModalOpen ] = useState(false);
+
+    const [introduce, setUsers] = useState(null);
+    client.get("/auth/mypage")
+    .then(response => {
+      setUsers(response.data.introduce);
+    })
+    .catch(error => {
+      console.error(error);
+    })
   
     const openModal = () => {
         setModalOpen(true);
@@ -12,10 +22,50 @@ function Nick() {
     const changeModal = () => {
         console.log(text);
 
-    client.patch('/auth/mypage', {nickname: text})
-    .catch(error => {
-        console.error('Error!', error);
-    });
+    var data = {
+        introduce: introduce,
+        nickname: text
+    }
+
+    // client({
+    //     method: 'put',
+    //     url: '/auth/mypage',
+    //     data: data.nickname
+    // })
+    // .then(function(response) {
+    //     console.log(response);
+    // })
+    // .catch(function(error) {
+    //     console.error('Error!', error);
+    // });
+
+
+    // client.put('/auth/mypage', text)
+    // .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+
+
+    client.put('/auth/mypage',queryString.stringify(data)).then(res => {
+        console.log(res)
+        console.log(data)
+    })
+
+
+    // client({
+    // method: 'put',
+    // url: '/auth/mypage',
+    // nickname : text
+    
+    // })
+    // .then((response) => {
+        
+    //    console.log(response);
+    // });
+
     
        //404 오류. put 방법 찾기. put 하고 페이지 새로고침 => DB 변경에 따라 마이페이지 닉네임 변경
        //username만 수정되는 게 아니라 전체가 변경됨 > password, username 동시변경 안됨
@@ -48,7 +98,6 @@ function Nick() {
               <NickModal open={ modalOpen } change={ changeModal } close={ closeModal } header="닉네임 변경" ChangeNickname={text}>
               {/* 열기, 닫기, 모달 헤더 텍스트, 패스워드값을 자식으로 보냄 */}     
 
-
         <div className="valuename">
             <p>닉네임</p>
         </div>
@@ -58,8 +107,11 @@ function Nick() {
         <div>
             <h4>* 2자 이상의 한글, 영문, 숫자</h4>
         </div>
-              </NickModal>
-          </React.Fragment>
+            </NickModal>
+        </React.Fragment>
+        <div className="hidden">
+        <p>{introduce}</p>
+        </div>
       </div>
     );
   }

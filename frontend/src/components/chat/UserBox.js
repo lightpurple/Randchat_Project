@@ -8,8 +8,6 @@ const UserBox = () =>{
     const [chatterintro, setChatterintro] = useState(null);
     
     client.get('/chatting/').then((res)=>{
-        console.log(res.data);
-        console.log("토큰" + localStorage.getItem('token'));
         setChattername(res.data.nickname);
         setChatterintro(res.data.introduce)
     })

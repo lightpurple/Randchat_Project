@@ -2,12 +2,12 @@ import React from 'react';
 import ChatBlock from '../components/chat/ChatBlock';
 import ChatForm from '../components/chat/ChatForm';
 import Footer from '../components/Footer';
-import HeaderContainer from '../containers/chat/HeaderContainer';
+import Header from '../components/Header';
 
 const ChatPage = () => {
     return(
         <ChatBlock>
-            <HeaderContainer/>
+            <Header/>
             <ChatForm/>
             <Footer/>
         </ChatBlock>

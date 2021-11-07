@@ -16,7 +16,7 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 	var match_gender = data.gender === 'M' ? 'F' : 'M';
 
 	try {
-		const db = await con1.query('SELECT * FROM User WHERE email = ?',[data.email]);
+		const db = await con1.query('SELECT * FROM users WHERE email = ?',[data.email]);
 		if (db[0][0]) {
 			con1.release()
 			return res.status(400).json({
@@ -33,17 +33,17 @@ router.post('/signup', validate.validateRegister, async function(req, res) {
 		} else {
 			try {
 				await con1.query(
-					'INSERT INTO User(email, nickname, gender, match_gender, password) VALUES(?, ?, ?, ?, ?)',
+					'INSERT INTO users(email, nickname, gender, match_gender, password) VALUES(?, ?, ?, ?, ?)',
 					[data.email, data.nickname, data.gender, match_gender, hash]
 					)
 				con1.commit()
 				res.status(200).json({ msg: "Success" });
 			} catch (e) {
 				con1.rollback()
-				con1.release()
 				throw e;
+			} finally {
+				con1.release()
 			}
-			con1.release()
 	}})
 })
 
@@ -55,7 +55,7 @@ router.post('/login', async function(req, res) {
 	con1.beginTransaction()
 
 	try {
-		const db = await con1.query('SELECT * FROM User WHERE email = ?',[data.email]);
+		const db = await con1.query('SELECT * FROM users WHERE email = ?',[data.email]);
 		if (db[0][0]) {
 			bcrypt.compare(data.password, db[0][0].password, function(err, result) {
 				if (!result) {
@@ -65,15 +65,15 @@ router.post('/login', async function(req, res) {
 				} else {
 					jwt.sign({
 						email: db[0][0].email,
+						nick: db[0][0].nickname
 						},
 						process.env.JWT_SECRET,
 						{expiresIn: 60*60*24*15},
 						function(err, token) {
 							if (err) {
-							con1.release()
 							throw err;
 							}
-							return res.status(200).json({
+							res.status(200).json({
 								msg : "Success",
 								token : token
 							});
@@ -84,10 +84,10 @@ router.post('/login', async function(req, res) {
 			res.status(400).json({ msg: "Email does not exist!"});
 		}
 	} catch (e) {
-		con1.release()
 		throw e;
+	} finally {
+		con1.release()
 	}
-	con1.release()
 })
 
 
@@ -98,7 +98,7 @@ router.post('/mypage/change_password', validate.isLoggedin, async function(req, 
 	var email = req.decoded.email;
 
 	try {
-		const db = await con1.query('SELECT * FROM User WHERE email = ?',[email]);
+		const db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			bcrypt.compare(data.old_password, db[0][0].password, function(err, result) {
 				if (!result) {
@@ -109,24 +109,23 @@ router.post('/mypage/change_password', validate.isLoggedin, async function(req, 
 							throw err;
 						} else {
 							try {
-								await con1.query('UPDATE User SET password = ? WHERE email = ?',
+								await con1.query('UPDATE users SET password = ? WHERE email = ?',
 								[hash, data.email])
 								con1.commit()
 								res.status(200).send({
 									msg: "Password change successful!"
 								});
 							} catch (e) {
-								con1.release()
 								throw e;
 							}
 						}})
 				}
 			})
-			con1.release()
 		}
 	} catch (e) {
-		con1.release()
 		throw e;
+	} finally {
+		con1.release()
 	}
 })
 
@@ -135,7 +134,7 @@ router.get('/mypage', validate.isLoggedin, async function(req, res) {
 	con1.beginTransaction()
 
 	try {
-		const db = await con1.query('SELECT * FROM User WHERE email = ?',[req.decoded.email]);
+		const db = await con1.query('SELECT * FROM users WHERE email = ?',[req.decoded.email]);
 		if (db[0][0]) {
 			let data = db[0][0];
 			res.status(200).json({
@@ -146,10 +145,10 @@ router.get('/mypage', validate.isLoggedin, async function(req, res) {
 			});
 		}
 	} catch (e) {
-		con1.release()
 		throw e;
+	} finally {
+		con1.release()
 	}
-	con1.release()
 })
 
 
@@ -160,13 +159,13 @@ router.put('/mypage', validate.isLoggedin, async function(req, res) {
 	con1.beginTransaction()
 
 	try {
-		let db = await con1.query('SELECT * FROM User WHERE email = ?',[email]);
+		let db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
 		if (db[0][0]) {
 			try {
-				await con1.query('UPDATE User SET nickname = ?, introduce = ?, match_gender = ? WHERE email = ?',
+				await con1.query('UPDATE users SET nickname = ?, introduce = ?, match_gender = ? WHERE email = ?',
 				[data.nickname, data.introduce, data.match_gender, email])
 				con1.commit()
-				let db = await con1.query('SELECT * FROM User WHERE email = ?',[email]);
+				let db = await con1.query('SELECT * FROM users WHERE email = ?',[email]);
 				res.status(200).send({
 					msg: "User data change successful!",
 					nickname: db[0][0].nickname,
@@ -175,15 +174,14 @@ router.put('/mypage', validate.isLoggedin, async function(req, res) {
 				});
 			} catch (e) {
 				con1.rollback()
-				con1.release()
 				throw e;
 			}
 		}
 	} catch (e) {
-		con1.release()
 		throw e;
+	} finally {
+		con1.release()
 	}
-	con1.release()
 })
 
 router.delete('/mypage', validate.isLoggedin, async function(req, res) {
@@ -191,14 +189,14 @@ router.delete('/mypage', validate.isLoggedin, async function(req, res) {
 	con1.beginTransaction()
 
 	try {
-		await con1.query('DELETE FROM User WHERE email = ?', [req.decoded.email])
+		await con1.query('DELETE FROM users WHERE email = ?', [req.decoded.email])
 		con1.commit()
-		con1.release()
 		return res.status(200).json({ msg: 'User delete complete! '});
 	} catch (e) {
 		con1.rollback()
-		con1.release()
 		throw e;
+	} finally {
+		con1.release()
 	}
 })
 

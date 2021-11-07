@@ -9,8 +9,8 @@ const chatback = {
     background : "#ffffff"
 };
 
-const ChatBlock = ({children, ...rest}) => {
-    return <div {...rest} style={chatback}>{children}</div>
+const ChatBlock = ({children, ...props}) => {
+    return <div {...props} style={chatback}>{children}</div>
 }
 
 export default ChatBlock;
