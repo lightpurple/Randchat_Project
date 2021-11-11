@@ -15,7 +15,7 @@ const changePassword = () => {
     client.delete("/auth/mypage")
     .then(response => {
         console.log(response.data.nickname);
-        window.location.replace ("/")
+        // window.location.replace ("/")
     })
     .catch(error => {
         console.error(error);
