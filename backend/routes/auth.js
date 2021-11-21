@@ -141,24 +141,22 @@ router.post("/login", async (req, res) => {
 
 router.post('/mypage/change_password', validate.isLoggedin, async function(req, res) {
 	let con1 = await pool.getConnection(async conn => conn)
-	var	data = req.body;
-	var email = req.decoded.email;
 
 	try {
 		con1.beginTransaction()
-		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[email]);
+		const db = await con1.query('SELECT * FROM Users WHERE email = ?',[req.decoded.email]);
 		if (db[0][0]) {
-			bcrypt.compare(data.old_password, db[0][0].password, function(err, result) {
+			bcrypt.compare(req.body.old_password, db[0][0].password, function(err, result) {
 				if (!result) {
 					res.status(400).json({ msg: "Old Password is incorrect!" })
 				} else {
-					bcrypt.hash(data.new_password, 10, async (err, hash) => {
+					bcrypt.hash(req.body.new_password, 10, async (err, hash) => {
 						if (err) {
 							throw err;
 						} else {
 							try {
 								await con1.query('UPDATE Users SET password = ? WHERE email = ?',
-								[hash, data.email])
+								[hash, req.body.email])
 								con1.commit()
 								res.status(200).send({
 									msg: "Password change successful!"
