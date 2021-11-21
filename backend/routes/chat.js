@@ -122,7 +122,7 @@ router.get("/", validate.isLoggedin, async function (req, res) {
             req.decoded.email,
         ]);
         if (db[0][0]) {
-            webSocket(io); // 웹소켓 연결
+            webSocket(req.app.get("io")); // 웹소켓 연결
             res.status(200).json({
                 result: true,
                 nickname: db[0][0].nickname,
