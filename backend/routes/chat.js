@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 const validate = require("../middleware/validate");
 const pool = require("../middleware/pool");
+const webSocket = require("../middleware/socket");
 
 router.get("/:roomId", validate.isLoggedin, async (req, res) => {
     let con1 = await pool.getConnection(async (conn) => conn);
@@ -51,6 +51,7 @@ router.post("/:roomId", validate.isLoggedin, async (req, res) => {
     }
 });
 
+/*
 router.post("/", validate.isLoggedin, async function (req, res) {
     let con1 = await pool.getConnection(async (conn) => conn);
 
@@ -113,16 +114,15 @@ router.post("/", validate.isLoggedin, async function (req, res) {
         con1.release();
     }
 });
+*/
 
 router.get("/", validate.isLoggedin, async function (req, res) {
-    var email = req.decoded.email;
-    let con1 = await pool.getConnection(async (conn) => conn);
     try {
-        con1.beginTransaction();
-        const db = await con1.query("SELECT * FROM Users WHERE email = ?", [
-            email,
+        const db = await pool.query("SELECT * FROM Users WHERE email = ?", [
+            req.decoded.email,
         ]);
         if (db[0][0]) {
+            webSocket(io); // 웹소켓 연결
             res.status(200).json({
                 result: true,
                 nickname: db[0][0].nickname,
@@ -132,8 +132,6 @@ router.get("/", validate.isLoggedin, async function (req, res) {
         }
     } catch (e) {
         throw e;
-    } finally {
-        con1.release();
     }
 });
 
