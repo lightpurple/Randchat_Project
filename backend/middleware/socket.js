@@ -1,10 +1,10 @@
-const redis = require("socket.io-redis");
+//const redis = require("socket.io-redis");
 const router = require("../routes/auth");
 
 var clients = [];
 
 module.exports = (io) => {
-    io.adapter(redis({ host: "localhost", port: 6379 }));
+    //io.adapter(redis({ host: "localhost", port: 6379 }));
 
     io.on("connection", (socket) => {
         socket.on("findChat", (data) => {
