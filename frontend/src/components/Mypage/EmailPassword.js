@@ -11,8 +11,8 @@ return (
         </div>
         <div className="Contents">
             <p><InUseEmail/></p>
-            <div className="Change"><Password/>
-            </div>
+            {/* <div className="Change"><Password/>
+            </div> */}
         </div>
         <hr/>
         </div>

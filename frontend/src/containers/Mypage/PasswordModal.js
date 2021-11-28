@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../components/Mypage/CSS/Modal.css";
 
-const Modal = ( props ) => {
+const PasswordModal = ( props ) => {
     // 열기, 닫기, 모달 헤더 텍스트 패스워드값을 부모로부터 받아옴
     const { open, close, change, header, ChangePassword } = props;
     //패스워드 유효성 검사
@@ -31,4 +31,4 @@ const Modal = ( props ) => {
     )
 }
 
-export default Modal;
+export default PasswordModal;

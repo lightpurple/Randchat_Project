@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Modal = ( props ) => {
-    const { open, close, change, header } = props;
+    const { open, close, header } = props;
     return (
         <div className={ open ? 'openModal modal' : 'modal' }>
             { open ? (  
@@ -15,11 +15,6 @@ const Modal = ( props ) => {
                         {props.children}
                         
                     </main>
-                    <footer>
-                    {/* <button className="change" disabled={ChangeNickname.length>1&&result===true
-                    ?false:true} onClick={change}> 변경 </button> */}
-                        
-                    </footer>
                 </section>
             ) : null }
         </div>

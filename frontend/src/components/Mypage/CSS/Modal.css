@@ -69,7 +69,7 @@ h5{
 }
 .a_close{
     padding: 8px 14px;
-    margin: 3px 0 16px 10px;
+    margin: 20px 0 20px 10px;
     color: #fff;
     background-color: #858c92;
     border-radius: 5px;
@@ -98,7 +98,7 @@ h5{
 }
 .a_delete{
     padding: 8px 14px;
-    margin: 3px 10px 16px 0;
+    margin: 20px 10px 20px 0;
     color: #fff;
     background-color: #e06262;
     border-radius: 5px;
@@ -111,6 +111,8 @@ h5{
     display: inline-block;
     margin: 0 20px 10px 0;
     vertical-align: 6%;
+    font-size: 20px;
+    font-weight: 600;
 }
 .value {
     display: inline;
@@ -134,7 +136,9 @@ h5{
 }
 .inputvalue{
     display: inline;
+    padding: 5px;
     width: 50%;
     border: 0;
     border-bottom: 2px solid #9e9e9e;
+    font-size: 15px;
 }
