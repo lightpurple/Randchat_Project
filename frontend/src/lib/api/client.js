@@ -18,14 +18,19 @@ client.interceptors.response.use(
     
     return response;
   }, error => {
-      if(error.response.data.msg === "Password is incorrect!"){
-        //Request failed with status code 400
-        alert('잘못된 이메일/비밀번호 입니다.');
+    alert('실패!')
+      // if(error.response.data.msg === "Password is incorrect!"){
+      //   //Request failed with status code 400
+      //   alert('잘못된 이메일/비밀번호 입니다.');
+      // }
+      // if(error.response.data.msg === "User is aleady exist!"){
+      //   //Request failed with status code 400
+      //   alert('존재하는 이메일입니다.');
+      // }
+      if(error.response.status === 400){
+        alert('실패')
       }
-      if(error.response.data.msg === "User is aleady exist!"){
-        //Request failed with status code 400
-        alert('존재하는 이메일입니다.');
-      }
+      else{alert('실패')}
       return Promise.reject(error);
     },
 )

@@ -13,7 +13,7 @@ const openModal = () => {
 
 const deleteUser = () => {
 
-    console.log(text);
+    console.log(password);
 
     // var data = {
     //     password: text
@@ -28,23 +28,27 @@ const deleteUser = () => {
     // 일치 여부는 백에서?
 
     // 비밀번호 값 일치하면 삭제
-    // client.delete("/auth/mypage")
-    // .then(response => {
-    //     console.log(response.data.nickname);
-    //     // window.location.replace ("/")
-    // })
-    // .catch(error => {
-    //     console.error(error);
-    // })
+    client.delete('/auth/mypage', {
+        data: {
+            password: password
+        }
+    })
+    .then(response => {
+        console.log(response.data);
+        // window.location.replace ("/")
+    })
+    .catch(error => {
+        console.error(error);
+    })
 
-    setModalOpen(false);
+    // setModalOpen(false);
 };
 
 const closeModal = () => {
     setModalOpen(false);
 }
 
-const [text, setText] = useState("");
+const [password, setText] = useState("");
     // 하단 input 박스에서 값 변경 시 이벤트 객체가 파라미터(e)에 담겨서 옴
     const onChange = (e) => {
         // e.target에는 이벤트가 발생한 input DOM에 대한 정보를 가지고 있음
@@ -63,7 +67,7 @@ return (
         <div className="valuename">
             <p>현재 비밀번호</p>
         </div>
-            <input type="text" className="inputvalue" onChange={onChange} value={text}/>
+            <input type="text" className="inputvalue" onChange={onChange} value={password}/>
         </div>
         <button className="a_delete" onClick={deleteUser}>삭제</button>
         <button className="a_close" onClick={closeModal}> 닫기 </button>
