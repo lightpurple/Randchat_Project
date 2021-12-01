@@ -5,15 +5,17 @@ const client = axios.create({
   headers:{
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
     "Accept": "*/*",
-    'x-access-token':`${localStorage.getItem("token")}`,
+    'x-access-token':`${localStorage.getItem('token')}`,
   },
   // withCredentials : true
 });
 
-client.defaults.headers.common['x-access-token']=localStorage.getItem('token')
+
+// 
 
 client.interceptors.response.use(
   response =>{
+    
     return response;
   }, error => {
       if(error.response.data.msg === "Password is incorrect!"){
@@ -27,7 +29,5 @@ client.interceptors.response.use(
       return Promise.reject(error);
     },
 )
-
-
 
 export default client;

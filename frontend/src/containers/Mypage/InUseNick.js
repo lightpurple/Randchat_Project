@@ -2,28 +2,32 @@ import React, { useState, useEffect } from 'react';
 import client from "../../lib/api/client";
 
 function InUseNick() {
-  const [users, setUsers] = useState(null);
+  // const [users, setUsers] = useState(null);
 
-  useEffect(() => {
-    const getNick = async () => {
-        setUsers(null);
-        const response = await client.get(
-          '/auth/mypage?id=1'
-        );
-        setUsers(response.data); // 데이터는 response.data 안에 들어있음
-    };
+  //   const getNick = async () => {
+  //       const response = await client.get(
+  //         '/auth/mypage'
+  //       );
+  //       setUsers(response); // 데이터는 response.data 안에 들어있음
+  //       console.log(response);
+  //   };
+  //   useEffect(() => {
+  //   getNick();
+  // }, []);
 
-    getNick();
-  }, []);
+  client.get("/auth/mypage")
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.error(error);
+    })
 
-  if (!users) return null;
+
+//  if (!users) return null;
   return (
     <>
-      {users.map(user => (
-        <p key={user.id}>
-          {user.nickname}
-        </p>
-      ))}
+    <input type='text' name='title' className="inputTitle" />
     </>
   );
 }

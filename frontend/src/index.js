@@ -16,18 +16,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 
-function localUser(){
-  try{
-    const user = localStorage.getItem("token");
-    if(!user) return; //로그인 상태가 아니라면 아무것도 안 함
-    store.dispatch(user);
-  } catch(e){
-    console.log('로그인상태 아니래 어떡할래?');
-  }
-}
-
 sagaMiddleware.run(rootSaga);
-localUser();
 
 ReactDOM.render(
   <Provider store={store}>
