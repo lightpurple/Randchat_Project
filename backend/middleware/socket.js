@@ -5,7 +5,7 @@ var clients = [];
 
 module.exports = (io) => {
     //io.adapter(redis({ host: "localhost", port: 6379 }));
-    process.setMaxListeners(15);
+    process.setMaxListeners(0);
     io.on("connection", (socket) => {
         socket.on("findChat", (data) => {
             if (!data.nick) {
