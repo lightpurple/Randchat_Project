@@ -13,7 +13,7 @@ module.exports = (io) => {
                 return;
             }
             for (var i = 0; i < clients.length; i++) {
-                if (clients[i].nick == data.name) {
+                if (clients[i].nick == data.nick) {
                     socket.emit("Error", "이미 대화상대를 찾는 중입니다.");
                     return;
                 }
