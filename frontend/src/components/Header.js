@@ -1,16 +1,8 @@
-import React, {  useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import client from "../lib/api/client";
 import './Header.css';
 
 const Header = () => {
-    // const [user, setUser] = useState(null);
-
-    // client.get('/chatting/').then((res)=>{
-    //     console.log("header : "+ res)
-    //     setUser(res.data.nickname);
-    // }) 
-
     const onLogout = () => {
         localStorage.clear();
     };
@@ -18,7 +10,7 @@ const Header = () => {
     return(
         <div className="headerback">
             <div className="TopTitle">
-                Funny Chatter
+                가볍게 상대방과 하는 채팅
             </div>
                 <div className="TopBtn">
                     <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>

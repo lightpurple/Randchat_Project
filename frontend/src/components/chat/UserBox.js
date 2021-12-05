@@ -1,22 +1,16 @@
 
-import React, { useEffect, useState } from 'react';
-import client from '../../lib/api/client';
+import React from 'react';
 import './CSS/UserBox.css';
 
-const UserBox = () =>{
-    const [chattername, setChattername] = useState(null);
-    const [chatterintro, setChatterintro] = useState("");
-    
-        client.get('/chatting/').then((res)=>{
-            setChattername(res.data.nickname);
-            setChatterintro(res.data.introduce)
-        })
-    
+const UserBox = (props) =>{
+    const {other, introduce} = props
+
     return (
         <div className="userbox">
             <img src="https://image.flaticon.com/icons/png/512/1946/1946429.png" className="icon" alt="profile"/>
-            <p className="name">{chattername}</p>
-            <p className="intro">{chatterintro}</p>
+            {/* <p className="name">{chattername}</p> */}
+            <p className="name">{other}</p>
+            <p className="intro">{introduce}</p>
         </div>
     );
 }

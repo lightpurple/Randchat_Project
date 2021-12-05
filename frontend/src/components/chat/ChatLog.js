@@ -1,36 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const ChatLog = ({ socket }) => {
-    const [msgList, setMsgList] = useState([]);
+const ChatLog = (props) => {
+    const { sysmsg} = props
+    // const [msgList, setMsgList] = useState([]);
 
-    useEffect(() => {
-        // messsgeItem : {msg: String, name: String, timeStamp: String}
-        socket.on("message", (message) => {
-        setMsgList((msgList) => [...msgList, message]);
-        console.log(message);
-        });
+    // useEffect(() => {
+    //     // messsgeItem : {msg: String, name: String, timeStamp: String}
+    //     socket.on("message", (message) => {
+    //     setMsgList((msgList) => [...msgList, message]);
+    //     console.log(message);
+    //     });
 
-        socket.on("sysMsg", (sysMsg) => {
-        setMsgList((msgList) => [...msgList, { msg: sysMsg }]);
-        });
+    //     socket.on("sysMsg", (message) => {
+    //      setMsgList((msgList) => [...msgList, { msg: message }]);
+    //     });
 
-        socket.on("sysMsg", (sysMsg) => {
-        setMsgList((msgList) => [...msgList, { msg: sysMsg }]);
-        });
+    //     socket.on("sysMsg", (message) => {
+    //     setMsgList((msgList) => [...msgList, { msg: message }]);
+    //     });
 
-        return () => {
-            socket.disconnect();
-        };
+    //     return () => {
+    //         socket.disconnect();
+    //     };
         
-    }, [socket]);
+    // }, [socket]);
 
     return (
         <div>
-            {msgList.map((msg, idx) => (
+            {/* {msgList.map((data, idx) => (
                 <div key={idx}>
-                    <div>{msg.msg}</div>
+                    <div>{data.massage}</div>
                 </div>
-            ))}
+            ))} */}
+            <p>{sysmsg}</p>
         </div>
     );
 };
