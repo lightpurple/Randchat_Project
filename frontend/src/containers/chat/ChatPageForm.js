@@ -3,7 +3,9 @@ import ChatForm from "../../components/chat/ChatForm"
 import io from "socket.io-client";
 import client from '../../lib/api/client';
 
-const socket = io.connect('http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting')
+const socket = io.connect(
+    'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting'
+)
 
 const ChatPageForm = () =>{
     
@@ -14,7 +16,7 @@ const ChatPageForm = () =>{
     const [introduce, setIntro] = useState("")
     const [loading, setLoading] = useState(false)
     const [sysmsg, setSysMsg] = useState("")
-    let match = ''
+    var match = ''
     useEffect(()=>{
         client.get('/chatting/')
             .then((res)=>{
@@ -28,32 +30,56 @@ const ChatPageForm = () =>{
         })
     },[user])
 
-    const data = {
-        nick: user,
-        gender: gender
+    const data ={
+        nick:user,
+        gender:gender
     }
+
     
     // 남, 녀 버튼 클릭 시
-    const findChat = () =>{
-        socket.emit("findChat",data)
+    const matching = () =>{
+        socket.emit("findChat",{nick: user, gender: gender})
         startFinding();
+        console.log("findchat")
     }
+    // $("#matching").on("click", () => { ///333
+    //     $("#chat").html("").append("<li>대화상대를 찾고있습니다...</li>");
+    //     startFinding(); //실제로 대화상대찾기 시작
+    // })
 
     socket.on("Error", (result)=>{
         alert(result)
         console.log(result)
     })
 
-    socket.on("userFinding",(data)=>{
-        console.log(data)
+    socket.on("userFinding",(e)=>{
+        console.log(e)
+        // startFinding();
         setLoading(true)
         // setSysMsg(msg)
     })
-    
+    // socket.on("userFinding",function(){ //222
+    //     $("#chatBox").removeClass("chatDisabled").addClass("chatabled");
+    //     $("#nickNameForm").css("display","none");
+    //     $("#sendMessage").hide(); $("#closing").hide();
+    // });
+
+    socket.on("userMatchingComplete", (data) => {
+        stopFinding();
+        console.log("찾았다!!")
+        console.log(data)
+        setRoomId(data.roomId)
+    })
+    // socket.on("userMatchingComplete",function(data){    //444
+    //     stopFinding(); //찾는걸 성공했으니 찾는걸 멈춰야댐.
+    //     $("#chat").html("").append("<li><p>대화방에 입장했습니다!!</p><hr></li>");
+    //     $("#sendMessage").show(); $("#closing").show();
+    //     $("matching").hide();
+    //     roomName = data.roomId;
+    // });
+
     // cancel 버튼 클릭 시
     const stopUserFinding = () => {
-        // "findChat" 중 취소 버튼 클릭 시 "stopUserFinding" 호출(nick, gender담아서)
-        socket.emit("stopUserFinding", data)
         stopFinding();
         console.log("cancel")
     }
@@ -64,43 +90,61 @@ const ChatPageForm = () =>{
                 socket.emit("randomChatFinding",{nick: user, match_gender:match})
                 console.log({nick: user, match_gender:match})
                 console.log("찾는")
-            }, 500)
+            }, 1000)
         }
     }
 
     const stopFinding = () => {
         clearInterval(handle)
         handle = null
+        socket.emit("stopUserFinding", {nick:user});
     }
 
-    socket.on("userMatchingComplete", (data) => {
-        stopFinding();
-        console.log("찾았다!!")
-        console.log(data)
-        setRoomId()
-            // $("#chat").html("").append("<li><p>대화방에 입장했습니다!!</p><hr></li>");
-            // $("#sendMessage").show(); $("#closing").show();
-            // $("#ramdomChatFindBtn").hide();
-            // setRoomId( data )
-    })
+    // $("#sendMessage").on("click",function(){
+    //     var content = $("#content").val();
+    //     if(!content){
+    //         alert("대화내용을 입력해주세요");
+    //         return ;
+    //     }
+    //     var str = "";
+    //     str += "<li>";
+    //     str += "<strong>"+nick+"</strong>";
+    //     str += "<p>"+content+"</p>";
+    //     str += "<hr>";
+    //     str += "</li>";
+
+    //     socket.emit("message",{roomId:roomName, message:str});
+    //     $("#content").val("");
+    //     $("#chat").scrollTop($("#chat")[0].scrollHeight);
+    //     $("#chat").append(str);
+    // });
+
+    // socket.on("message",function(data){
+    //     $("#chat").append(data.message);
+    // });
     
     socket.on("message", (message)=>{
         setSysMsg(message)
     })
-
-    // socket.emit("message", {message:message})
     
     
 
     const disconnect = () =>{
-        socket.emit("disconnect", {nick: user})
+        socket.emit("chatClosingBtn",{roomId:roomId});
+        socket.emit("ChatClosing",{roomId:roomId});
     }
     
+    // $("#closing").on("click",function(){
+    //     socket.emit("chatClosingBtn",{roomId:roomName});
+    //     $("#chat").append("<li><p>대화방이 종료되었습니다</p><hr></li>");
+    //     $("#sendMessage").hide(); $("#closing").hide();
+    //     socket.emit("ChatClosing",{roomId:roomName});
+    //     $("#chatBox").removeClass("chatabled").addClass("chatDisabled");
+    //     $("#nickNameForm").css("display","block");
+    // })
+
     socket.on("sysMsg", (data)=>{
-        // $("#chat").append("<li><p>대화방이 종료되었습니다</p><hr></li>");
-        //$("#sendMessage").hide(); $("#closing").hide();
-        //$("#ramdomChatFindBtn").show();
-        socket.emit("ChatClosing",{roomId: roomId})
+        setSysMsg(data.message)
     })
 
     
@@ -120,7 +164,7 @@ const ChatPageForm = () =>{
             introduce={introduce}
             sysmsg={sysmsg}
             data={data}
-            findChat={findChat}
+            findChat={matching}
             loading={loading}
 
 

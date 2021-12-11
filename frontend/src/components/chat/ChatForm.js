@@ -33,7 +33,7 @@ const ChatForm = (props) =>{
                 <div className="chat">
                     <UserBox other={other} introduce={introduce}/>
                     {socket ? (     
-                        <ChatLog socket={socket} sysmsg={sysmsg}/>
+                        <ChatLog socket={socket} sysmsg={sysmsg} other={other}/>
                         ):(
                         <Loading></Loading>
                     )} 

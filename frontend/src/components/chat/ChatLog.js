@@ -1,7 +1,8 @@
 import React from "react";
+import './CSS/ChatLog.css'
 
 const ChatLog = (props) => {
-    const { sysmsg} = props
+    const { sysmsg,other } = props
     // const [msgList, setMsgList] = useState([]);
 
     // useEffect(() => {
@@ -26,13 +27,28 @@ const ChatLog = (props) => {
     // }, [socket]);
 
     return (
-        <div>
+        <div className="chatlog">
+            <div><p className="enter">{other}님이 입장했습니다.</p></div>
+            <div>
+                <div className="other">
+                    <p id="othernick">other</p>
+                    <br></br>
+                    <p id="otherChat">다른사람이야</p>
+                </div>
+
+                <div className="me"> 
+                    <p id="mynick">user</p>
+                    <br></br>
+                    <p id="myChat">me야</p>
+                </div>
+            </div>
             {/* {msgList.map((data, idx) => (
                 <div key={idx}>
                     <div>{data.massage}</div>
                 </div>
             ))} */}
-            <p>{sysmsg}</p>
+            {/* <p>{sysmsg}</p> */}
+            
         </div>
     );
 };
