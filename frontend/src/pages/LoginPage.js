@@ -6,7 +6,7 @@ import LoginForm from '../containers/auth/LoginForm';
 const LoginPage = () =>{
     return (
         <AuthBlock>
-            <Title title="Funny Chatter"></Title>
+            <Title title="가볍게 상대방과 하는 채팅"></Title>
             <LoginForm/>
         </AuthBlock>
     );

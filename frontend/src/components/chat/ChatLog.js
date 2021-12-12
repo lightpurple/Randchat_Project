@@ -1,37 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import './CSS/ChatLog.css'
 
-const ChatLog = ({ socket }) => {
-    const [msgList, setMsgList] = useState([]);
+const ChatLog = (props) => {
+    const { sysmsg,other } = props
+    // const [msgList, setMsgList] = useState([]);
 
-    useEffect(() => {
-        // messsgeItem : {msg: String, name: String, timeStamp: String}
-        socket.on("onReceive", (messageItem) => {
-        setMsgList((msgList) => [...msgList, messageItem]);
-        console.log(messageItem);
-        });
+    // useEffect(() => {
+    //     // messsgeItem : {msg: String, name: String, timeStamp: String}
+    //     socket.on("message", (message) => {
+    //     setMsgList((msgList) => [...msgList, message]);
+    //     console.log(message);
+    //     });
 
-        socket.on("onConnect", (systemMessage) => {
-        setMsgList((msgList) => [...msgList, { msg: systemMessage }]);
-        });
+    //     socket.on("sysMsg", (message) => {
+    //      setMsgList((msgList) => [...msgList, { msg: message }]);
+    //     });
 
-        socket.on("onDisconnect", (systemMessage) => {
-        setMsgList((msgList) => [...msgList, { msg: systemMessage }]);
-        });
+    //     socket.on("sysMsg", (message) => {
+    //     setMsgList((msgList) => [...msgList, { msg: message }]);
+    //     });
 
-        return () => {
-            socket.disconnect();
-        };
+    //     return () => {
+    //         socket.disconnect();
+    //     };
         
-    }, [socket]);
+    // }, [socket]);
 
     return (
-        <div>
-            {msgList.map((msg, idx) => (
-                <div key={idx}>
-                    <div>{msg.timeStamp}</div>
-                    <div>{msg.msg}</div>
+        <div className="chatlog">
+            <div><p className="enter">{other}님이 입장했습니다.</p></div>
+            <div>
+                <div className="other">
+                    <p id="othernick">other</p>
+                    <br></br>
+                    <p id="otherChat">다른사람이야</p>
                 </div>
-            ))}
+
+                <div className="me"> 
+                    <p id="mynick">user</p>
+                    <br></br>
+                    <p id="myChat">me야</p>
+                </div>
+            </div>
+            {/* {msgList.map((data, idx) => (
+                <div key={idx}>
+                    <div>{data.massage}</div>
+                </div>
+            ))} */}
+            {/* <p>{sysmsg}</p> */}
+            
         </div>
     );
 };

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
 *{margin: 0; padding:0;}
 body {
   margin: 0 auto;
@@ -10,6 +11,7 @@ body {
 
 code {
   font-family: 'Rajdhani', sans-serif;
+  font-family: 'Nanum Pen Script', cursive;
 }
 
 ::-webkit-scrollbar { display: none; }
