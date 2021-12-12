@@ -6,7 +6,6 @@ const ChatLog = (props) => {
     socket.on("message", function(data){
         // $("#chat").append(data.message);
     })
-
         // $("#sendMessage").on("click",function(){
     //     var content = $("#content").val();
     //     if(!content){
