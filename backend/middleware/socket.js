@@ -1,9 +1,12 @@
+const SocketIO = require("socket.io");
+
 //const redis = require("socket.io-redis");
 var clients = [];
 const waiting = 0;
 const finding = 1;
 
-module.exports = (io) => {
+module.exports = (server) => {
+    const io = SocketIO(server, { cors: { origin: "http://localhost:3000" } });
     //io.adapter(redis({ host: "localhost", port: 6379 }));
     process.setMaxListeners(0);
     io.on("connection", (socket) => {
