@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import Matchgender from '../../containers/chat/Matchgender';
 
 const ChatForm = (props) =>{
-    const { socket, user, gender, other, disconnect, findChat, cancel, loading, introduce, sysmsg, data} = props
+    const { socket, user, gender, other, closing, matching, find, findChat, cancel, loading, introduce, sysmsg, data} = props
     const [visible, setVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
@@ -42,7 +42,7 @@ const ChatForm = (props) =>{
                         <div className="menubox" >
                             <button className="menubtn">신고하기</button>
                             <button className="menubtn">차단하기</button>
-                            <button className="menubtn" onClick={disconnect}>나가기</button>
+                            <button className="menubtn" onClick={closing}>나가기</button>
                         </div>
                     }
                 </div>
@@ -74,7 +74,9 @@ const ChatForm = (props) =>{
                         gender={gender}
                         data={data}
                         
+                        find={find}
                         findChat={findChat}
+                        matching={matching}
                         cancel={cancel}
                         loading={loading}
                         

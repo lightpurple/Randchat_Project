@@ -4,7 +4,7 @@ import '../../components/chat/CSS/Modal.css'
 import { withRouter } from 'react-router';
 
 const Matchgender = (props) => {
-    const { showModal, closeModal, cancel , findChat, loading} = props
+    const { showModal, closeModal, cancel , matching, loading, find, findChat} = props
     var matchgender = ''
 
     const match_gender = () =>{
@@ -15,7 +15,7 @@ const Matchgender = (props) => {
         <div>
   
             <React.Fragment>
-                <MatchgenderModal open={ showModal } close={ closeModal } header="매칭 성별" cancel={cancel}>
+                <MatchgenderModal open={ showModal } close={ closeModal } header="매칭 성별" cancel={cancel} find={find} matching={matching}>
                     { loading ? 
                         <div>대화상대를 찾고 있습니다.</div> 
                         :<div>
@@ -24,17 +24,17 @@ const Matchgender = (props) => {
                                 onClick={()=>{
                                     matchgender = 'M';
                                     match_gender();
-                                    findChat();
+                                    findChat()
                                 }}
                                 
-                            >남성 매칭</button>
+                            >Male</button>
                             <button className="change" id="matchgender"
                                 onClick ={()=>{
                                     matchgender='F'
                                     match_gender();
                                     findChat();
                                 }}
-                            >여성 매칭</button>
+                            >Female</button>
                         </div>
                     }
                     
