@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const cors = require("cors");
-const io = require("socket.io")(server, { cors: { origin: "*" } });
+const webSocket = require("./middleware/socket");
 
 require("dotenv").config();
 
-const { swaggerUi, specs } = require("./swagger");
+// const { swaggerUi, specs } = require("./swagger");
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -15,9 +15,6 @@ const corsOptions = {
 
 const authRouter = require("./routes/auth");
 const chatRouter = require("./routes/chat");
-
-//라우터에서 io를 객체로 쓸 수 있게함
-app.set("io", io);
 
 // Middlewares
 app.use(express.json());
@@ -37,10 +34,11 @@ app.use(function (req, res, next) {
 
 app.use("/auth", authRouter);
 app.use("/chatting", chatRouter);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Server
 const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => res.send("Hello World!"));
 server.listen(port, () => console.log(`Server running on port ${port}`));
+webSocket(server); // 웹소켓 연결
