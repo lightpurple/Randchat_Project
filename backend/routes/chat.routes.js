@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const validate = require("../middleware/validate");
-const pool = require("../middleware/pool");
+import { Router } from "express";
+export const path = "/auth";
+export const router = Router();
+
+import validate from "../middleware/validate.js";
 
 router.get("/:roomId", validate.isLoggedin, async (req, res) => {
     let con1 = await pool.getConnection(async (conn) => conn);
@@ -132,5 +133,3 @@ router.get("/", validate.isLoggedin, async function (req, res) {
         throw e;
     }
 });
-
-module.exports = router;
