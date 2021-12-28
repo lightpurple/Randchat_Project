@@ -7,10 +7,10 @@ import pool from "../middleware/pool.js";
 
 export default {
     changePasswd: async (req, res, next) => {
-        let con1 = pool.getConnection(async (conn) => conn);
+        let con1 = await pool.getConnection(async (conn) => conn);
 
         try {
-            const db = pool.query("SELECT * FROM Users WHERE email = ?", [
+            const db = await pool.query("SELECT * FROM Users WHERE email = ?", [
                 req.decoded.email,
             ]);
             if (db[0][0]) {
@@ -50,6 +50,8 @@ export default {
                         }
                     }
                 );
+            } else {
+                res.status(400).send({ msg: "User Not Exist!" });
             }
         } catch (e) {
             throw e;
@@ -59,7 +61,7 @@ export default {
     },
     myPageShow: async (req, res, next) => {
         try {
-            const User = pool.query(
+            const User = await pool.query(
                 "SELECT * FROM Users WHERE email = ?",
                 req.decoded.email
             );
@@ -75,55 +77,64 @@ export default {
     myPagePut: async (req, res, next) => {
         let con1 = pool.getConnection(async (conn) => conn);
         try {
-            con1.beginTransaction();
-            await con1.query(
+            (await con1).beginTransaction();
+            (await con1).query(
                 "UPDATE Users SET nickname = ?, introduce = ? WHERE email = ?",
                 [req.body.nickname, req.body.introduce, req.decoded.email]
             );
-            con1.commit();
+            (await con1).commit();
             res.status(200).json({
                 result: true,
                 msg: "User update successful!",
             });
         } catch (e) {
-            con1.rollback();
+            (await con1).rollback();
             throw e;
         } finally {
-            con1.release();
+            (await con1).release();
         }
     },
     myPageDelete: async (req, res, next) => {
         let con1 = pool.getConnection(async (conn) => conn);
 
         try {
-            con1.beginTransaction();
-            const User = await con1.query(
+            const User = await pool.query(
                 "SELECT * FROM Users WHERE email = ?",
                 [req.decoded.email]
             );
-            compare(
-                req.body.password,
-                User[0][0].password,
-                async (err, result) => {
-                    if (!result) {
-                        res.status(400).json({
-                            result: false,
-                            msg: "Password is incorrect!",
-                        });
-                    } else {
-                        await con1.query("DELETE FROM Users WHERE email = ?", [
-                            req.decoded.email,
-                        ]);
-                        con1.commit();
-                        res.status(200).json({ msg: "User delete complete! " });
+            console.log(User[0][0]);
+
+            if (User[0][0]) {
+                compare(
+                    req.body.password,
+                    User[0][0].password,
+                    async (err, result) => {
+                        if (!result) {
+                            res.status(400).json({
+                                result: false,
+                                msg: "Password is incorrect!",
+                            });
+                        } else {
+                            (await con1).beginTransaction;
+                            (await con1).query(
+                                "DELETE FROM Users WHERE email = ?",
+                                [req.decoded.email]
+                            );
+                            (await con1).commit();
+                            res.status(200).json({
+                                msg: "User delete complete! ",
+                            });
+                        }
                     }
-                }
-            );
+                );
+            } else {
+                res.status(400).send({ msg: "User Not Exist!" });
+            }
         } catch (e) {
-            con1.rollback();
+            (await con1).rollback();
             throw e;
         } finally {
-            con1.release();
+            (await con1).release();
         }
     },
 };
