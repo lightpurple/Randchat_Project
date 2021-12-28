@@ -5,11 +5,7 @@ import Mypage from "../controllers/mypage.controllers.js";
 export const path = "/mypage";
 export const router = Router();
 
-router.post(
-    "/mypage/change_password",
-    validate.isLoggedin,
-    Mypage.changePasswd
-);
-router.get("/mypage", validate.isLoggedin, Mypage.myPageShow);
-router.put("/mypage", validate.isLoggedin, Mypage.myPagePut);
-router.delete("/mypage", validate.isLoggedin, Mypage.myPageDelete);
+router.post("/change_password", validate.isLoggedin, Mypage.changePasswd);
+router.get("/", validate.isLoggedin, Mypage.myPageShow);
+router.put("/", validate.isLoggedin, Mypage.myPagePut);
+router.delete("/", validate.isLoggedin, Mypage.myPageDelete);
