@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-export const path = "";
+export const path = "/api";
 export const router = Router();
 
 import * as authRouter from "./auth.routes.js";
