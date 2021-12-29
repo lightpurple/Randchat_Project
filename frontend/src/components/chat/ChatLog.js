@@ -2,7 +2,28 @@ import React from "react";
 import './CSS/ChatLog.css'
 
 const ChatLog = (props) => {
-    const { sysmsg,other } = props
+    const { sysmsg,other, socket } = props
+    socket.on("message", function(data){
+        // $("#chat").append(data.message);
+    })
+        // $("#sendMessage").on("click",function(){
+    //     var content = $("#content").val();
+    //     if(!content){
+    //         alert("대화내용을 입력해주세요");
+    //         return ;
+    //     }
+    //     var str = "";
+    //     str += "<li>";
+    //     str += "<strong>"+nick+"</strong>";
+    //     str += "<p>"+content+"</p>";
+    //     str += "<hr>";
+    //     str += "</li>";
+
+    //     socket.emit("message",{roomId:roomName, message:str});
+    //     $("#content").val("");
+    //     $("#chat").scrollTop($("#chat")[0].scrollHeight);
+    //     $("#chat").append(str);
+    // });
     // const [msgList, setMsgList] = useState([]);
 
     // useEffect(() => {

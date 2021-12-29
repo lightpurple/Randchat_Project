@@ -2,7 +2,7 @@ import React from 'react'
 import '../../components/chat/CSS/Modal.css'
 
 const MatchgenderModal = (props) => {
-    const { open, close, header, cancel } = props;
+    const { open, close, header, cancel, find, matching } = props;
 
     return (
         <>
@@ -17,11 +17,21 @@ const MatchgenderModal = (props) => {
                             {props.children}
                         </main>
                         <footer>
-                            <button className="change" onClick={()=>{
-                                cancel()
-                                close()
-                            }}> 취소 </button>
-                            <button className="close" onClick={close}> 닫기 </button>
+                            {find ? (
+                                <button className="change" onClick={()=>{   
+                                    cancel()
+                                    close()
+                                }}> 취소 </button>
+                            ):(
+                                <button className="change" onClick={()=>{   
+                                    matching()
+                                }}> 매칭 </button>
+                            )}
+                            
+                            <button className="close" onClick={()=>{   
+                                    cancel()
+                                    close()
+                            }}> 닫기 </button>
                         </footer>
                     </section>
                 ) : null }
