@@ -6,9 +6,6 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Mypage from './pages/Mypage';
 
-
-
-
 function App() {
   let isAuthorized = localStorage.getItem("isAuthorized");
   // let roomId = localStorage.getItem('roomID');
@@ -25,7 +22,9 @@ function App() {
       } */}
       <Switch>
         <Route component={LoginPage} path={["/"]} exact/>
-        <Route component={ChatPage} path={["/chat"]}/>
+        <Route component={ChatPage} path={["/chat",'/chat/:roomId']}
+          // exact render={()=><ChatPage user}
+        />
       
       
         <Route component={RegisterPage} path="/signup"/>

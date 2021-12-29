@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import ChatForm from "../../components/chat/ChatForm"
-// const io = require("socket.io-client");
-import {  io } from "socket.io-client";
+import io from "socket.io-client";
 import client from '../../lib/api/client';
 
-
-// const socket = io.connect("http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/", { transports: ['websocket'] });
-//     (() => {
-//         console.log("connection 성공")
-//     })();
-
-const socket = io("http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/");
-
-console.log(socket.id)
-
-socket.on("connect", () =>{
-    console.log(socket.connected)
-})
+// var socket = io.connect 'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting')
+var socket = io.connect(
+    'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000'
+)
 
 const ChatPageForm = () =>{
     
-    
+
 
     var handle = null
     const [user, setUser] = useState("")        // nick
@@ -30,9 +20,13 @@ const ChatPageForm = () =>{
     const [loading, setLoading] = useState(false)   // Loading
     const [find, setFind] = useState(false)
     const [sysmsg, setSysMsg] = useState("")    // 서비스 메세지
-
     var match = ''  // match_gender
     
+    //useEffect(()=>{
+    //    var socket = io.connect(
+    //        'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting'
+    //    )
+    //})
 
     useEffect(()=>{
         client.get('/chatting/')
@@ -45,10 +39,7 @@ const ChatPageForm = () =>{
         .catch(error => {
             console.error(error);
         })
-        
-    },[])
-
-
+    },[user])
 
     const data ={
         nick:user,
@@ -58,13 +49,7 @@ const ChatPageForm = () =>{
     
     // 남, 녀 버튼 클릭 시
     const findChat = () =>{
-        socket.emit('findChat',null,{nick: user, gender: gender})
-            console.log("findChat?")
-            console.log({nick: user, gender: gender})
-        // socket.on('connect', function(){
-            
-        // })
-        // socket.emit("findChat",{nick: user, gender: gender})
+        socket.emit("findChat",{nick: user, gender: gender})
         console.log("findchat")
         console.log({nick: user, gender: gender, match_gender: match})
     }
@@ -74,6 +59,11 @@ const ChatPageForm = () =>{
         console.log(result)
     })
 
+    // cancel 버튼 클릭 시
+    const stopUserFinding = () => {
+        stopFinding();
+        console.log("cancel")
+    }
 
     socket.on("userFinding",function(){
     //     $("#chatBox").removeClass("chatDisabled").addClass("chatabled");
@@ -148,8 +138,6 @@ const ChatPageForm = () =>{
         clearInterval(handle)
         handle = null
         socket.emit("stopUserFinding", {nick:user});
-        console.log("stopFinding")
-        setFind(false)
     }
     
 
@@ -163,7 +151,7 @@ const ChatPageForm = () =>{
             gender={gender}
             closing={closing}
             
-            cancel={stopFinding}
+            cancel={stopUserFinding}
             
             introduce={introduce}
             sysmsg={sysmsg}
