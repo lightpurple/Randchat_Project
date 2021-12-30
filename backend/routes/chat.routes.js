@@ -1,55 +1,58 @@
 import { Router } from "express";
-export const path = "/auth";
+import validate from "../middleware/validate.js";
+import Chat from "../controllers/chat.controllers.js";
+
+export const path = "/chat";
 export const router = Router();
 
-import validate from "../middleware/validate.js";
+router.get("/", validate.isLoggedin, Chat.chatGet);
 
-router.get("/:roomId", validate.isLoggedin, async (req, res) => {
-    let con1 = await pool.getConnection(async (conn) => conn);
+// router.get("/:roomId", validate.isLoggedin, async (req, res) => {
+//     let con1 = await pool.getConnection(async (conn) => conn);
 
-    try {
-        con1.beginTransaction();
-        const other = await con1.query("SELECT * FROM Users WHERE email = ?", [
-            req.body.other,
-        ]);
-        res.status(200).json({
-            result: true,
-            nickname: other[0][0].nickname,
-            introduce: other[0][0].introduce,
-            gender: other[0][0].gender,
-        });
-        con1.commit();
-    } catch (e) {
-        con1.rollback();
-        throw e;
-    } finally {
-        con1.release();
-    }
-});
+//     try {
+//         con1.beginTransaction();
+//         const other = await con1.query("SELECT * FROM Users WHERE email = ?", [
+//             req.body.other,
+//         ]);
+//         res.status(200).json({
+//             result: true,
+//             nickname: other[0][0].nickname,
+//             introduce: other[0][0].introduce,
+//             gender: other[0][0].gender,
+//         });
+//         con1.commit();
+//     } catch (e) {
+//         con1.rollback();
+//         throw e;
+//     } finally {
+//         con1.release();
+//     }
+// });
 
-router.post("/:roomId", validate.isLoggedin, async (req, res) => {
-    let con1 = await pool.getConnection(async (conn) => conn);
+// router.post("/:roomId", validate.isLoggedin, async (req, res) => {
+//     let con1 = await pool.getConnection(async (conn) => conn);
 
-    try {
-        con1.beginTransaction();
-        await con1.query(
-            "INSERT INTO Chats(user, roomId, message) VALUES(?, ?, ?)",
-            [req.decoded.nick, req.body.roomId, req.body.message]
-        );
-        con1.commit();
-        const chat = await con1.query(
-            "SELECT * FROM Chats WHERE message = ? ORDER BY created_at DESC LIMIT 1",
-            [req.body.message]
-        );
-        req.app.get("io").to(req.body.roomId).emit("message", chat[0][0]);
-        res.status(200).send({ result: true });
-    } catch (e) {
-        con1.rollback();
-        throw e;
-    } finally {
-        con1.release();
-    }
-});
+//     try {
+//         con1.beginTransaction();
+//         await con1.query(
+//             "INSERT INTO Chats(user, roomId, message) VALUES(?, ?, ?)",
+//             [req.decoded.nick, req.body.roomId, req.body.message]
+//         );
+//         con1.commit();
+//         const chat = await con1.query(
+//             "SELECT * FROM Chats WHERE message = ? ORDER BY created_at DESC LIMIT 1",
+//             [req.body.message]
+//         );
+//         req.app.get("io").to(req.body.roomId).emit("message", chat[0][0]);
+//         res.status(200).send({ result: true });
+//     } catch (e) {
+//         con1.rollback();
+//         throw e;
+//     } finally {
+//         con1.release();
+//     }
+// });
 
 /*
 router.post("/", validate.isLoggedin, async function (req, res) {
@@ -115,21 +118,3 @@ router.post("/", validate.isLoggedin, async function (req, res) {
     }
 });
 */
-
-router.get("/", validate.isLoggedin, async function (req, res) {
-    try {
-        const db = await pool.query("SELECT * FROM Users WHERE email = ?", [
-            req.decoded.email,
-        ]);
-        if (db[0][0]) {
-            res.status(200).json({
-                result: true,
-                nickname: db[0][0].nickname,
-                introduce: db[0][0].introduce,
-                gender: db[0][0].gender,
-            });
-        }
-    } catch (e) {
-        throw e;
-    }
-});
