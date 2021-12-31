@@ -5,7 +5,6 @@ import ChatPage from './pages/ChatPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Mypage from './pages/Mypage';
-import Change_password from './pages/Change_password';
 
 function App() {
   let isAuthorized = localStorage.getItem("isAuthorized");

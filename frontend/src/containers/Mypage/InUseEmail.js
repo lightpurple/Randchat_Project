@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import client from "../../lib/api/client";
 
 function InUseEmail() {
