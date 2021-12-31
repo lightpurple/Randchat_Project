@@ -3,33 +3,24 @@ import ChatForm from "../../components/chat/ChatForm"
 import io from "socket.io-client";
 import client from '../../lib/api/client';
 
-// var socket = io.connect 'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting')
-var socket = io.connect(
-    'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000'
-)
+const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
+
+const socket = io.connect(ENDPOINT)
 
 const ChatPageForm = () =>{
-    
-
 
     var handle = null
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
     const [roomId, setRoomId ] = useState("")   // roomid
+    const [other, setOther] = useState("")      // other
     const [introduce, setIntro] = useState("")  // introduce
     const [loading, setLoading] = useState(false)   // Loading
-    const [find, setFind] = useState(false)
     const [sysmsg, setSysMsg] = useState("")    // 서비스 메세지
     var match = ''  // match_gender
     
-    //useEffect(()=>{
-    //    var socket = io.connect(
-    //        'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting'
-    //    )
-    //})
-
     useEffect(()=>{
-        client.get('/chatting/')
+        client.get('/api/chat')
             .then((res)=>{
             setUser(res.data.nickname)
             setGender(res.data.gender)
@@ -54,9 +45,15 @@ const ChatPageForm = () =>{
         console.log({nick: user, gender: gender, match_gender: match})
     }
 
+    // Error시 알람 띄우기
     socket.on("Error", (result)=>{
         alert(result)
         console.log(result)
+    })
+    // userFinding
+    socket.on("userFinding", function(){
+        setLoading(true);
+        startFinding();
     })
 
     // cancel 버튼 클릭 시
@@ -65,29 +62,24 @@ const ChatPageForm = () =>{
         console.log("cancel")
     }
 
-    socket.on("userFinding",function(){
-    //     $("#chatBox").removeClass("chatDisabled").addClass("chatabled");
-    //     $("#nickNameForm").css("display","none");
-    //     $("#sendMessage").hide(); $("#closing").hide();
-        setLoading(true)
-    })
-
+    
+    
     socket.on("userMatchingComplete", function(data){
         stopFinding()
     //     $("#chat").html("").append("<li><p>대화방에 입장했습니다!!</p><hr></li>");
     //     $("#sendMessage").show(); $("#closing").show();
     //     $("matching").hide();
         setRoomId(data.roomId)
+        setOther(data.other)
+        console.log(data)
     })
 
     socket.on("sysMsg", (data)=>{
         setSysMsg(data.message)
+        console.log(data)
     })
 
-    const matching = () => {
-        setFind(true)
-        startFinding();
-    }
+    
 
     // $("#sendMessage").on("click",function(){
     //     var content = $("#content").val();
@@ -116,9 +108,11 @@ const ChatPageForm = () =>{
 
     function closing(){
         socket.emit("chatClosingBtn",{roomId: roomId})
+        // setSysMsg("대화방이 종료되었습니다")
 //     $("#chat").append("<li><p>대화방이 종료되었습니다</p><hr></li>");
 //     $("#sendMessage").hide(); $("#closing").hide();
         socket.emit("ChatClosing",{roomId: roomId})
+        
     // $("#chatBox").removeClass("chatabled").addClass("chatDisabled");
 //     $("#nickNameForm").css("display","block");
     }
@@ -126,18 +120,18 @@ const ChatPageForm = () =>{
     
     function startFinding(){
         if(handle == null){
-            handle = setInterval(()=>{
+            handle = setInterval(function(){
                 socket.emit("randomChatFinding",{nick: user, match_gender:match})
                 console.log({nick: user, match_gender:match})
                 console.log("찾는")
-            }, 1000)
+            }, 10000)
         }
     }
 
     function stopFinding(){
         clearInterval(handle)
         handle = null
-        socket.emit("stopUserFinding", {nick:user});
+        socket.emit("stopUserFinding", {nick:user}); // 서버에 있는 대기열에서 nick 삭제
     }
     
 
@@ -155,11 +149,10 @@ const ChatPageForm = () =>{
             
             introduce={introduce}
             sysmsg={sysmsg}
+            other={other}
             data={data}
             
-            find={find}
             findChat={findChat}
-            matching={matching}
             loading={loading}
 
 

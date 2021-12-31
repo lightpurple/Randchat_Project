@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import Matchgender from '../../containers/chat/Matchgender';
 
 const ChatForm = (props) =>{
-    const { socket, user, gender, other, closing, matching, find, findChat, cancel, loading, introduce, sysmsg, data} = props
+    const { socket, user, gender, other, closing, findChat, cancel, loading, introduce, sysmsg, data} = props
     const [visible, setVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
@@ -27,13 +27,14 @@ const ChatForm = (props) =>{
         <div className="chatback">
             <div className="chatbox">
                 <div className="chatboxtitle">
-                    <h3>Chat</h3>
+                    {/* <h3>Chat</h3> */}
+                    Chat
                 </div>
                     
                 <div className="chat">
                     <UserBox other={other} introduce={introduce}/>
                     {socket ? (     
-                        <ChatLog socket={socket} sysmsg={sysmsg} other={other}/>
+                        <ChatLog socket={socket} sysmsg={sysmsg} other={other} user={user}/>
                         ):(
                         <Loading></Loading>
                     )} 
@@ -60,7 +61,7 @@ const ChatForm = (props) =>{
             <div className="roombox">
 
                 <div className="boxtitle">
-                    <h3>Room</h3>
+                    Room
                 </div>
 
                 <div className="Roomlist">
@@ -74,9 +75,7 @@ const ChatForm = (props) =>{
                         gender={gender}
                         data={data}
                         
-                        find={find}
                         findChat={findChat}
-                        matching={matching}
                         cancel={cancel}
                         loading={loading}
                         

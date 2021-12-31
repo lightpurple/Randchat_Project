@@ -2,12 +2,12 @@ import React from "react";
 import './CSS/ChatLog.css'
 
 const ChatLog = (props) => {
-    const { sysmsg,other, socket } = props
+    const { sysmsg, other, socket, user } = props
     socket.on("message", function(data){
         // $("#chat").append(data.message);
     })
 
-        // $("#sendMessage").on("click",function(){
+// $("#sendMessage").on("click",function(){
     //     var content = $("#content").val();
     //     if(!content){
     //         alert("대화내용을 입력해주세요");
@@ -51,6 +51,7 @@ const ChatLog = (props) => {
     return (
         <div className="chatlog">
             <div><p className="enter">{other}님이 입장했습니다.</p></div>
+            <div><p className="enter">{sysmsg}</p></div>
             <div>
                 <div className="other">
                     <p id="othernick">other</p>
@@ -59,7 +60,7 @@ const ChatLog = (props) => {
                 </div>
 
                 <div className="me"> 
-                    <p id="mynick">user</p>
+                    <p id="mynick">{user}</p>
                     <br></br>
                     <p id="myChat">me야</p>
                 </div>
