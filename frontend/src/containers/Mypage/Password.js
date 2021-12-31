@@ -11,7 +11,7 @@ function Password() {
     }
     const changeModal = () => {
 
-    client.patch('/mypage/change_password', {password: text})
+    client.patch('/api/mypage/change_password', {password: text})
     .catch(error => {
         console.error('Error!', error);
     });

@@ -9,7 +9,7 @@ function Password() {
     const [ modalOpen, setModalOpen ] = useState(false);
   
     const [nickname, setUsers] = useState(null);
-    client.get("/mypage")
+    client.get("/api/mypage")
       .then(response => {
         setUsers(response.data.nickname);
       })
@@ -29,7 +29,7 @@ function Password() {
             nickname: nickname
         }
 
-        client.put('/mypage',queryString.stringify(data)).then(res => {
+        client.put('/api/mypage',queryString.stringify(data)).then(res => {
             console.log(res)
             console.log(data)
         })
@@ -39,7 +39,7 @@ function Password() {
     
         // client({
         //     method: 'put',
-        //     url: '/mypage',
+        //     url: '/api/mypage',
         //     introduce: data.introduce
         // })
         // .then(function(response) {

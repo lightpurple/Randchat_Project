@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Changepage = () => {
 
-    // client.delete("/auth/mypage")
+    // client.delete("/api/mypage")
     // .then(response => {
     //   console.log(response.data.nickname);
     //   setUsers(response.data.nickname);

@@ -12,7 +12,7 @@ const queryString = require('query-string');
             old_password: oldpw, new_password: newpw
         }
 
-        client.post('/mypage/change_password',queryString.stringify(data)).then(res => {
+        client.post('/api/mypage/change_password',queryString.stringify(data)).then(res => {
             alert(res.status);
             alert(res.data.msg);
             // window.location.replace ("/mypage");

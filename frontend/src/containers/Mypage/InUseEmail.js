@@ -8,7 +8,7 @@ function InUseEmail() {
   //   const getNick = async () => {
   //       setUsers(null);
   //       const response = await client.get(
-  //         '/mypage'
+  //         '/api/mypage'
   //       );
   //       setUsers(response.data);
   //   };
@@ -18,7 +18,7 @@ function InUseEmail() {
 
   const [email, setUsers] = useState(null);
 
-  client.get("/mypage")
+  client.get("/api/mypage")
     .then(response => {
       console.log(response.data.email);
       setUsers(response.data.email);

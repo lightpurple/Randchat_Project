@@ -20,7 +20,7 @@ const deleteUser = () => {
     // }
 
     // 현재 비밀번호 값 보내기
-    // client.put('/mypage',queryString.stringify(data)).then(res => {
+    // client.put('/api/mypage',queryString.stringify(data)).then(res => {
     //     console.log(res)
     //     console.log(data)
     // })
@@ -34,7 +34,7 @@ const deleteUser = () => {
 
     // console.log(data);
 
-    client.delete('/mypage', queryString.stringify(data))
+    client.delete('/api/mypage', queryString.stringify(data))
     .then(response => {
         console.log(response.data);
         // window.location.replace ("/")

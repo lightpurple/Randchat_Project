@@ -8,7 +8,7 @@ const Nick = () => {
     const [ modalOpen, setModalOpen ] = useState(false);
 
     const [introduce, setUsers] = useState(null);
-    client.get("/mypage")
+    client.get("/api/mypage")
     .then(response => {
       setUsers(response.data.introduce);
     })
@@ -29,7 +29,7 @@ const Nick = () => {
 
     // client({
     //     method: 'put',
-    //     url: '/mypage',
+    //     url: '/api/mypage',
     //     data: data.nickname
     // })
     // .then(function(response) {
@@ -40,7 +40,7 @@ const Nick = () => {
     // });
 
 
-    // client.put('/mypage', text)
+    // client.put('/api/mypage', text)
     // .then((response) => {
     //     console.log(response);
     //   })
@@ -49,7 +49,7 @@ const Nick = () => {
     //   });
 
 
-    client.put('/mypage',queryString.stringify(data)).then(res => {
+    client.put('/api/mypage',queryString.stringify(data)).then(res => {
         console.log(res)
         console.log(data)
     })
@@ -57,7 +57,7 @@ const Nick = () => {
 
     // client({
     // method: 'put',
-    // url: '/mypage',
+    // url: '/api/mypage',
     // nickname : text
     
     // })

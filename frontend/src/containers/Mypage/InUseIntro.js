@@ -8,7 +8,7 @@ function InUseIntro() {
   //   const getIntro = async () => {
   //       setUsers(null);
   //       const response = await client.get(
-  //         '/mypage'
+  //         '/api/mypage'
   //       );
   //       setUsers(response.data);
   //   };
@@ -18,7 +18,7 @@ function InUseIntro() {
   const [introduce, setUsers] = useState(null);
   
 
-  client.get("/mypage")
+  client.get("/api/mypage")
     .then(response => {
       console.log(response.data.introduce);
       setUsers(response.data.introduce);
