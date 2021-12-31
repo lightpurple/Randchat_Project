@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import client from "../../lib/api/client";
-import Nick from './Nick';
+// import Nick from './Nick';
 
 function InUseNick() {
   // const [users, setUsers] = useState(null);
 
   //   const getNick = async () => {
   //       const response = await client.get(
-  //         '/auth/mypage'
+  //         '/mypage'
   //       );
   //       setUsers(response); // 데이터는 response.data 안에 들어있음
   //       console.log(response);
@@ -18,7 +18,7 @@ function InUseNick() {
 
   const [nickname, setUsers] = useState(null);
 
-  client.get("/auth/mypage")
+  client.get("/mypage")
     .then(response => {
       console.log(response.data.nickname);
       setUsers(response.data.nickname);

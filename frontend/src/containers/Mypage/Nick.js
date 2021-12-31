@@ -8,7 +8,7 @@ const Nick = () => {
     const [ modalOpen, setModalOpen ] = useState(false);
 
     const [introduce, setUsers] = useState(null);
-    client.get("/auth/mypage")
+    client.get("/mypage")
     .then(response => {
       setUsers(response.data.introduce);
     })
@@ -29,7 +29,7 @@ const Nick = () => {
 
     // client({
     //     method: 'put',
-    //     url: '/auth/mypage',
+    //     url: '/mypage',
     //     data: data.nickname
     // })
     // .then(function(response) {
@@ -40,7 +40,7 @@ const Nick = () => {
     // });
 
 
-    // client.put('/auth/mypage', text)
+    // client.put('/mypage', text)
     // .then((response) => {
     //     console.log(response);
     //   })
@@ -49,7 +49,7 @@ const Nick = () => {
     //   });
 
 
-    client.put('/auth/mypage',queryString.stringify(data)).then(res => {
+    client.put('/mypage',queryString.stringify(data)).then(res => {
         console.log(res)
         console.log(data)
     })
@@ -57,7 +57,7 @@ const Nick = () => {
 
     // client({
     // method: 'put',
-    // url: '/auth/mypage',
+    // url: '/mypage',
     // nickname : text
     
     // })
@@ -73,7 +73,7 @@ const Nick = () => {
        //=>put 전체 수정, patch 일부 수정
         
         setModalOpen(false);
-        window.location.reload();
+        // window.location.reload();
     }
     const closeModal = () => {
         setModalOpen(false);

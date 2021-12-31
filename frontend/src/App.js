@@ -12,8 +12,8 @@ function App() {
       <Route component={LoginPage} path={["/"]} exact/>
       <Route component={RegisterPage} path="/signup"/>
       <Route component={ChatPage} path={["/chat"]}/>
-      <Route component={Mypage} path="/Mypage" exact/>
-      <Route component={Change_password} path="/Mypage/Change_password"/>
+      <Route component={Mypage} path="/mypage" exact/>
+      <Route component={Change_password} path="/mypage/change_password"/>
     </div>
   );
 }

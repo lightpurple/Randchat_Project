@@ -20,7 +20,7 @@ const deleteUser = () => {
     // }
 
     // 현재 비밀번호 값 보내기
-    // client.put('/auth/mypage',queryString.stringify(data)).then(res => {
+    // client.put('/mypage',queryString.stringify(data)).then(res => {
     //     console.log(res)
     //     console.log(data)
     // })
@@ -28,18 +28,22 @@ const deleteUser = () => {
     // 일치 여부는 백에서?
 
     // 비밀번호 값 일치하면 삭제
-    client.delete('/auth/mypage', {
-        data: {
-            password: password
-        }
-    })
+    var data = {
+        password: password
+    }
+
+    // console.log(data);
+
+    client.delete('/mypage', queryString.stringify(data))
     .then(response => {
         console.log(response.data);
         // window.location.replace ("/")
     })
     .catch(error => {
         console.error(error);
+        alert(error);
     })
+    
 
     // setModalOpen(false);
 };
