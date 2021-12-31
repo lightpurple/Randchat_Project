@@ -1,0 +1,72 @@
+.chatlog{
+    position: relative;
+    display: block;
+}
+
+.enter{
+    position: relative;
+    /* float : ; */
+    /*align-items : center;*/
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    /* margin: 10px; */
+}
+
+.other{
+    position: relative;
+    float: left;
+    display: block;
+    border-radius: 10px;
+    width: 100%;
+}
+
+
+#othernick{
+    position: relative;
+    display: block;
+    float: left;
+    text-align: left;
+    margin-left: 14px;
+    font-weight: bold;
+    width: fit-content;
+}
+#otherChat{
+    position: relative;
+    display: block;
+    float: left;
+    text-align: left;
+    margin: 0px 14px 14px 14px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.me{
+    position: relative;
+    display: block;
+    float: right;
+    border-radius: 10px;
+    width: 100%;
+}
+
+#mynick{
+    position: relative;
+    display: block;
+    float: right;
+    text-align: right;
+    margin-right: 14px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+#myChat{
+    position: relative;
+    display: block;
+    float: right;
+    text-align: right;
+    margin: 0px 14px 14px 14px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+}

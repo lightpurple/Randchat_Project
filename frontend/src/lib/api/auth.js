@@ -6,12 +6,13 @@ export const login = ({email, password}) => {
     const data = {
         email, password
     };
-    client.post('/auth/login',queryString.stringify(data)).then(res => {
+    client.post('/api/auth/login',queryString.stringify(data)).then(res => {
         localStorage.setItem("token", res.data.token );
         console.log(localStorage.getItem("token"))
         
         if(res.status === 200){
             window.location.href = '/chat'
+            localStorage.setItem("isAuthorized", "true")
             client.defaults.headers.common['x-access-token'] = res.data.token
         }
     })
@@ -22,7 +23,7 @@ export const register = ( {email, nickname, gender, password} ) => {
     const data = {
         email, nickname, gender, password
     };
-    client.post('/auth/signup',queryString.stringify(data)).then(res => {
+    client.post('/api/auth/signup',queryString.stringify(data)).then(res => {
         console.log(res)
         console.log(data)
 
