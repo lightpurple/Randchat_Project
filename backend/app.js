@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
+import { createServer } from "http";
+import cors from "cors";
 const app = express();
-const server = require("http").createServer(app);
-const cors = require("cors");
-const webSocket = require("./middleware/socket");
-
-require("dotenv").config();
+const server = createServer(app);
+import webSocket from "./middleware/socket.js";
+import * as Api from "./routes/routes.js";
 
 // const { swaggerUi, specs } = require("./swagger");
 
@@ -13,14 +13,11 @@ const corsOptions = {
     credentials: true,
 };
 
-const authRouter = require("./routes/auth");
-const chatRouter = require("./routes/chat");
-
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
         "Access-Control-Allow-Methods",
@@ -31,14 +28,13 @@ app.use(function (req, res, next) {
 });
 
 // API
-
-app.use("/auth", authRouter);
-app.use("/chatting", chatRouter);
+app.use(Api.path, Api.router);
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Server
 const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => res.send("Hello World!"));
+
 server.listen(port, () => console.log(`Server running on port ${port}`));
 webSocket(server); // 웹소켓 연결

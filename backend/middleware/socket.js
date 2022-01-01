@@ -1,12 +1,14 @@
-const SocketIO = require("socket.io");
+import { Server } from "socket.io";
 
 //const redis = require("socket.io-redis");
 var clients = [];
 const waiting = 0;
 const finding = 1;
 
-module.exports = (server) => {
-    const io = SocketIO(server, { cors: { origin: "http://localhost:3000" } });
+export default (server) => {
+    const io = new Server(server, {
+        cors: { origin: "http://localhost:3000" },
+    });
     //io.adapter(redis({ host: "localhost", port: 6379 }));
     process.setMaxListeners(0);
     io.on("connection", (socket) => {
@@ -70,6 +72,7 @@ module.exports = (server) => {
         socket.on("message", (data) => {
             socket.to(data.roomId).emit("message", {
                 message: data.message,
+                nick: data.nick,
             });
         });
 
