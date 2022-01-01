@@ -49,6 +49,7 @@ export default (server) => {
                         continue;
                     } else if (clients[i].gender == data.match_gender) {
                         var roomId = new Date().getTime() + "";
+                        var users = [clients[i].nick, data.nick];
                         clients[i].status = waiting;
                         clients[i].client.join(roomId);
                         for (var j = 0; j < clients.length; j++) {
@@ -59,6 +60,7 @@ export default (server) => {
                         }
                         io.to(roomId).emit("userMatchingComplete", {
                             roomId: roomId,
+                            users: users,
                         });
                         io.to(roomId).emit("sysMsg", {
                             message: "대화방에 입장하셨습니다!!",
