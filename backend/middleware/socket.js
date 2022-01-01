@@ -72,6 +72,7 @@ export default (server) => {
         socket.on("message", (data) => {
             socket.to(data.roomId).emit("message", {
                 message: data.message,
+                nick: data.nick,
             });
         });
 
