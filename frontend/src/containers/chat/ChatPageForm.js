@@ -16,8 +16,9 @@ const ChatPageForm = () =>{
     const [other, setOther] = useState("")      // other
     const [introduce, setIntro] = useState("")  // introduce
     const [loading, setLoading] = useState(false)   // Loading
-    const [sysmsg, setSysMsg] = useState("")    // 서비스 메세지
-    var match = ''  // match_gender
+
+    let match = ''  // match_gender
+    var success = false
     
     useEffect(()=>{
         client.get('/api/chat')
@@ -57,80 +58,60 @@ const ChatPageForm = () =>{
     })
 
     // cancel 버튼 클릭 시
-    const stopUserFinding = () => {
+    const cancel = () => {
         stopFinding();
         console.log("cancel")
     }
-
-    
-    
+    // useEffect(()=>{
+    //     socket.on("userMatchingComplete", function(data){
+    //         stopFinding()
+    //         setRoomId(data.roomId)
+    //         setOther(data.other)
+    //         // success = true
+    //         console.log(data)
+    //         console.log(success)
+    //     })
+    // },[socket])
     socket.on("userMatchingComplete", function(data){
         stopFinding()
-    //     $("#chat").html("").append("<li><p>대화방에 입장했습니다!!</p><hr></li>");
-    //     $("#sendMessage").show(); $("#closing").show();
-    //     $("matching").hide();
         setRoomId(data.roomId)
-        setOther(data.other)
+        for(var i = 0; i < data.users.length; i++){
+            if(data.users[i] !== user){
+                setOther(data.users[i])
+            }
+        }
+        // success = true
         console.log(data)
+        console.log(success)
     })
-
-    socket.on("sysMsg", (data)=>{
-        setSysMsg(data.message)
-        console.log(data)
-    })
-
     
 
-    // $("#sendMessage").on("click",function(){
-    //     var content = $("#content").val();
-    //     if(!content){
-    //         alert("대화내용을 입력해주세요");
-    //         return ;
-    //     }
-    //     var str = "";
-    //     str += "<li>";
-    //     str += "<strong>"+nick+"</strong>";
-    //     str += "<p>"+content+"</p>";
-    //     str += "<hr>";
-    //     str += "</li>";
-
-    //     socket.emit("message",{roomId:roomName, message:str});
-    //     $("#content").val("");
-    //     $("#chat").scrollTop($("#chat")[0].scrollHeight);
-    //     $("#chat").append(str);
-    // });
-
-    // socket.on("message",function(data){
-    //     setSysMsg(message)
-    //     $("#chat").append(data.message);
-    // });
-    
-
-    function closing(){
+    function disconnect(){
         socket.emit("chatClosingBtn",{roomId: roomId})
-        // setSysMsg("대화방이 종료되었습니다")
-//     $("#chat").append("<li><p>대화방이 종료되었습니다</p><hr></li>");
-//     $("#sendMessage").hide(); $("#closing").hide();
         socket.emit("ChatClosing",{roomId: roomId})
-        
-    // $("#chatBox").removeClass("chatabled").addClass("chatDisabled");
-//     $("#nickNameForm").css("display","block");
+        setRoomId("")
+        setOther("")
+        success = false
+        console.log(success)
     }
 
     
     function startFinding(){
-        if(handle == null){
+        if(handle === null){
             handle = setInterval(function(){
                 socket.emit("randomChatFinding",{nick: user, match_gender:match})
                 console.log({nick: user, match_gender:match})
                 console.log("찾는")
-            }, 10000)
+            }, 1000)
         }
     }
 
     function stopFinding(){
-        clearInterval(handle)
-        handle = null
+        if(handle !== null) {
+            clearInterval(handle);
+            handle = null
+        }
+        setLoading(false)
         socket.emit("stopUserFinding", {nick:user}); // 서버에 있는 대기열에서 nick 삭제
     }
     
@@ -138,18 +119,20 @@ const ChatPageForm = () =>{
     const Match_Gender = (matchgender) =>{
         match = matchgender
     }
+
     return(
         <ChatForm 
             user={user}
             socket={socket}
             gender={gender}
-            closing={closing}
+            disconnect={disconnect}
             
-            cancel={stopUserFinding}
+            cancel={cancel}
+            success={success} // 매칭 성공 시 모달 창 닫기
             
             introduce={introduce}
-            sysmsg={sysmsg}
             other={other}
+            roomId={roomId}
             data={data}
             
             findChat={findChat}

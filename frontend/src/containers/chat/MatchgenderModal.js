@@ -6,7 +6,7 @@ const MatchgenderModal = (props) => {
 
     return (
         <>
-            <div className={ open ? 'openModal modal' : 'modal' }>
+            <div className={ open   ? 'openModal modal' : 'modal' }>
                 { open ? (  
                     <section>
                         <header>
@@ -19,7 +19,6 @@ const MatchgenderModal = (props) => {
                         <footer>
                             <button className="change" onClick={()=>{   
                                 cancel()
-                                close()
                             }}> 취소 </button>
                             
                             <button className="close" onClick={()=>{   
@@ -28,7 +27,7 @@ const MatchgenderModal = (props) => {
                             }}> 닫기 </button>
                         </footer>
                     </section>
-                ) : null }
+                ) : null}
             </div>
         </>
     )

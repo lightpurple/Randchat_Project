@@ -82,13 +82,19 @@
 .chat{
     position: relative;
     width: 100%;
-    height: 80%;
+    height: 445pt;
     background-color: #DFE9F9;
     display: block;
-    overflow-y: scroll;
     -ms-overflow-style: none;
+    overflow: auto;
 }
 
+.chatLog{
+    width: 100%;
+    height: 360pt;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
 .inputbox{
     padding: 10pt 0 10pt 0;
     width: 100%;
@@ -155,6 +161,7 @@
     bottom: 0;
     text-align: center;
     align-items: center;
+    
 }
 
 .menubtn{
@@ -168,8 +175,75 @@
     font-size: 14px;
     box-shadow: 1px 1px 1px 1px gray;
 }
-/* function viewFunction(menu){
-    var menubox = document.getElementById(menu);
-    if(menubox.style.display=="block"){ menubox.style.display = "none"; }
-     else{ menubox.style.display = "block"; }
-} */
+
+.chatlog{
+    position: relative;
+    display: block;
+
+}
+
+.enter{
+    position: relative;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.other{
+    position: relative;
+    float: left;
+    display: block;
+    border-radius: 10px;
+    width: 100%;
+}
+
+
+#othernick{
+    position: relative;
+    display: block;
+    float: left;
+    text-align: left;
+    margin-left: 14px;
+    font-weight: bold;
+    width: fit-content;
+}
+#otherChat{
+    position: relative;
+    display: block;
+    float: left;
+    text-align: left;
+    margin: 0px 14px 14px 14px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.me{
+    position: relative;
+    display: block;
+    float: right;
+    border-radius: 10px;
+    width: 100%;
+}
+
+#mynick{
+    position: relative;
+    display: block;
+    float: right;
+    text-align: right;
+    margin-right: 14px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+#myChat{
+    position: relative;
+    display: block;
+    float: right;
+    text-align: right;
+    margin: 0px 14px 14px 14px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    white-space:pre;
+}
