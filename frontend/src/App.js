@@ -31,7 +31,6 @@ function App() {
         <Route component={RegisterPage} path="/signup"/>
         
         <Route component={Mypage} path="/Mypage" exact/>
-
         <Route component={ChangePasswordpage} path="/Mypage/Change_password" exact/>
       </Switch>
     </div>

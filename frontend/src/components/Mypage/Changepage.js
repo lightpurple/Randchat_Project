@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Changepage = () => {
 
@@ -11,11 +12,11 @@ const Changepage = () => {
     //   console.error(error);
     // })
 
-return (
-    <div className="changepage">
-    <Link to="/chat" className="c_button">채팅하기</Link>
-    <Link to="/Mypage/Change_password" className="p_button">비밀번호 변경</Link>
-    </div>
-);
+    return (
+        <div className="changepage">
+            <Link to="/chat" className="c_button">채팅하기</Link>
+            <Link to="/Mypage/Change_password" className="p_button">비밀번호 변경</Link>
+        </div>
+    );
 };
 export default Changepage;

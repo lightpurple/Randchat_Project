@@ -1,35 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import ChatForm from "../../components/chat/ChatForm"
 import io from "socket.io-client";
 import client from '../../lib/api/client';
 
-// var socket = io.connect 'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting')
-var socket = io.connect(
-    'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000'
-)
+const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
+
+const socket = io.connect(ENDPOINT)
 
 const ChatPageForm = () =>{
-    
-
 
     var handle = null
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
     const [roomId, setRoomId ] = useState("")   // roomid
+    const [other, setOther] = useState("")      // other
     const [introduce, setIntro] = useState("")  // introduce
     const [loading, setLoading] = useState(false)   // Loading
-    const [find, setFind] = useState(false)
-    const [sysmsg, setSysMsg] = useState("")    // 서비스 메세지
-    var match = ''  // match_gender
     
-    //useEffect(()=>{
-    //    var socket = io.connect(
-    //        'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000/chatting'
-    //    )
-    //})
-
+    let match = ''  // match_gender
+    
     useEffect(()=>{
-        client.get('/chatting/')
+        client.get('/api/chat')
             .then((res)=>{
             setUser(res.data.nickname)
             setGender(res.data.gender)
@@ -53,80 +45,47 @@ const ChatPageForm = () =>{
         console.log("findchat")
         console.log({nick: user, gender: gender, match_gender: match})
     }
-
-    socket.on("Error", (result)=>{
-        alert(result)
-        console.log(result)
+    // Error시 알람 띄우기
+    useEffect(()=>{
+        socket.on("Error", (result)=>{
+            alert(result)
+            console.log(result)
+        })
+    },[socket])
+    
+    
+    // userFinding
+    socket.on("userFinding", function(){
+        setLoading(true);
+        startFinding();
     })
 
-    // cancel 버튼 클릭 시
-    const stopUserFinding = () => {
-        stopFinding();
-        console.log("cancel")
-    }
-
-    socket.on("userFinding",function(){
-    //     $("#chatBox").removeClass("chatDisabled").addClass("chatabled");
-    //     $("#nickNameForm").css("display","none");
-    //     $("#sendMessage").hide(); $("#closing").hide();
-        setLoading(true)
-    })
 
     socket.on("userMatchingComplete", function(data){
         stopFinding()
-    //     $("#chat").html("").append("<li><p>대화방에 입장했습니다!!</p><hr></li>");
-    //     $("#sendMessage").show(); $("#closing").show();
-    //     $("matching").hide();
         setRoomId(data.roomId)
+        for(var i = 0; i < data.users.length; i++){
+            if(data.users[i] !== user){
+                setOther(data.users[i])
+            }
+        }
+        console.log(data)
     })
-
-    socket.on("sysMsg", (data)=>{
-        setSysMsg(data.message)
-    })
-
-    const matching = () => {
-        setFind(true)
-        startFinding();
-    }
-
-    // $("#sendMessage").on("click",function(){
-    //     var content = $("#content").val();
-    //     if(!content){
-    //         alert("대화내용을 입력해주세요");
-    //         return ;
-    //     }
-    //     var str = "";
-    //     str += "<li>";
-    //     str += "<strong>"+nick+"</strong>";
-    //     str += "<p>"+content+"</p>";
-    //     str += "<hr>";
-    //     str += "</li>";
-
-    //     socket.emit("message",{roomId:roomName, message:str});
-    //     $("#content").val("");
-    //     $("#chat").scrollTop($("#chat")[0].scrollHeight);
-    //     $("#chat").append(str);
-    // });
-
-    // socket.on("message",function(data){
-    //     setSysMsg(message)
-    //     $("#chat").append(data.message);
-    // });
     
 
-    function closing(){
-        socket.emit("chatClosingBtn",{roomId: roomId})
-//     $("#chat").append("<li><p>대화방이 종료되었습니다</p><hr></li>");
-//     $("#sendMessage").hide(); $("#closing").hide();
-        socket.emit("ChatClosing",{roomId: roomId})
-    // $("#chatBox").removeClass("chatabled").addClass("chatDisabled");
-//     $("#nickNameForm").css("display","block");
+    function disconnect(){
+        // socket.emit("chatClosingBtn",{roomId: roomId,nick:user})
+        // socket.emit("ChatClosing",{roomId: roomId,nick:user})
+        // socket.emit("disconnect",{roomId: roomId, nick:user})
+        socket.disconnect();
+        setRoomId("")
+        setOther("")
     }
 
     
     function startFinding(){
-        if(handle == null){
-            handle = setInterval(()=>{
+        if(handle === null){
+            handle = setInterval(function(){
                 socket.emit("randomChatFinding",{nick: user, match_gender:match})
                 console.log({nick: user, match_gender:match})
                 console.log("찾는")
@@ -135,31 +94,42 @@ const ChatPageForm = () =>{
     }
 
     function stopFinding(){
-        clearInterval(handle)
+
+        clearInterval(handle);
         handle = null
-        socket.emit("stopUserFinding", {nick:user});
+        setLoading(false)
+        socket.emit("stopUserFinding", {nick:user}); // 서버에 있는 대기열에서 nick 삭제
     }
-    
+
+    // cancel 버튼 클릭 시
+    const cancel = () => {
+        clearInterval(handle);
+        handle = null
+        setLoading(false)
+        socket.emit("stopUserFinding", {nick:user});
+        console.log("취소")
+        console.log(handle)
+    }
 
     const Match_Gender = (matchgender) =>{
         match = matchgender
     }
+
     return(
         <ChatForm 
             user={user}
             socket={socket}
             gender={gender}
-            closing={closing}
+            disconnect={disconnect}
             
-            cancel={stopUserFinding}
+            cancel={cancel}
             
             introduce={introduce}
-            sysmsg={sysmsg}
+            other={other}
+            roomId={roomId}
             data={data}
             
-            find={find}
             findChat={findChat}
-            matching={matching}
             loading={loading}
 
 

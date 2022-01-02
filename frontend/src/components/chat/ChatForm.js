@@ -1,57 +1,152 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './CSS/ChatForm.css';
 import UserBox from './UserBox';
-import ChatLog from './ChatLog';
-import Loading from "./Loading";
+import Loader from "./Loader";
 import Matchgender from '../../containers/chat/Matchgender';
 
 const ChatForm = (props) =>{
-    const { socket, user, gender, other, closing, matching, find, findChat, cancel, loading, introduce, sysmsg, data} = props
+    const { socket, user, gender, other, roomId, disconnect, findChat, cancel, loading, introduce, data} = props
+
     const [visible, setVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => {
-        setShowModal(true);
-    }
+    const [sysmsg, setSysMsg] = useState("") // 서비스 메세지
 
-    const closeModal = () => {
-        setShowModal(false);
-    }
+    const [chatMsg, setChatMsg] = useState(""); // 메시지 
+    const [msgList, setMsgList] = useState([])
+
+    const openModal = () => { setShowModal(true); }
+
+    const closeModal = () => { setShowModal(false); }
     
-    const highFunction = (matchgender)=>{
+    socket.on("userMatchingComplete", function(data){
+        setShowModal(false)
+    })
+
+    const highFunction = (matchgender)=>{ 
         props.MatchGender(matchgender)
     }
+
+
+    const submit = (e) =>{
+        e.preventDefault();
+        var content = chatMsg
+        
+        if(!content){
+            alert("대화내용을 입력해주세요");
+            e.preventDefault()
+            return;
+        }
+        console.log(content)
+        
+        setMsgList((msgList) => [...msgList, [content, user]]);
+        socket.emit("message",{roomId: roomId, message:content, nick: user});
+        setChatMsg("");
+    }
+
+    const onChatMsgChange = (e) =>{
+        setChatMsg(e.target.value);
+    }
+
+    useEffect(()=>{
+        socket.on("message",function(data){
+            setMsgList((msgList) => [...msgList, [ data.message, data.nick]]);
+            console.log(data);
+        })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[socket])
+
+    useEffect(()=>{
+        socket.on("sysMsg", (data)=>{
+            setSysMsg(data.message)
+            console.log(data)
+        })
+    },[socket])
+
     
+    
+    // const report = (e) =>{
+    //     e.preventDefault();
+    // }
+    // const blocking = (e) =>{
+    //     e.preventDefault();
+    // }
+    
+    // 스크롤바 자동 이동
+    const scrollRef = useRef(null);
+    const scrollToBottom = () => {
+        scrollRef.current?.scrollIntoView({behavior:"smooth"})
+    }
+   useEffect(()=>{
+        scrollToBottom()
+    },[msgList])
+
 
     return(
         <div className="chatback">
             <div className="chatbox">
                 <div className="chatboxtitle">
-                    <h3>Chat</h3>
+                    Chat
                 </div>
                     
                 <div className="chat">
                     <UserBox other={other} introduce={introduce}/>
-                    {socket ? (     
-                        <ChatLog socket={socket} sysmsg={sysmsg} other={other}/>
-                        ):(
-                        <Loading></Loading>
-                    )} 
+                    <div className="chatLog">
+                        {roomId ? (     
+                            <div className="chatlog">
+                                <div><p className="enter">{other}님이 입장했습니다.</p></div>
+                                <p className="enter">{sysmsg}</p>
+
+                                {msgList.map((data, idx)=>(
+                                    <div key={idx} >
+                                        { data[1] === user ?(
+                                            <div className="me" ref={scrollRef}> 
+                                                <p id="mynick">{data[1]}</p>
+                                                <br></br>
+                                                <p id="myChat">{data[0]}</p>
+                                            </div>
+                                        ):(
+                                            <div className="other" ref={scrollRef}>
+                                                <p id="othernick">{data[1]}</p>
+                                                <br></br>
+                                                <p id="otherChat">{data[0]}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                                <div />
+      
+                            
+                            </div>
+                            ):(
+                            <div>
+                                <p className="enter">{sysmsg}</p>
+                                <Loader></Loader>
+                            </div>
+                        )} 
+                    </div>
 
                     {visible && 
                         <div className="menubox" >
-                            <button className="menubtn">신고하기</button>
-                            <button className="menubtn">차단하기</button>
-                            <button className="menubtn" onClick={closing}>나가기</button>
+                            
+                            <button className="menubtn" type="button">차단하기</button>
+                            <button className="menubtn" type="button" 
+                            onClick={()=> {disconnect() 
+                            setMsgList([])
+                            // setSysMsg("")
+                        }}>나가기</button>
                         </div>
                     }
                 </div>
 
                 <div className="inputbox">
                     <form className="chatinput">
-                        <input placeholder="Press Enter for send message." > 
-                        </input>
-                        <button className="inputbtn">입력</button>  
+                        <input 
+                            placeholder="Press Enter for send message."
+                            value={chatMsg}
+                            onChange={onChatMsgChange}
+                        ></input>
+                        <button className="inputbtn" onClick={submit}>전송</button>  
                     </form>
                     <button className="check-btn" onClick={() => setVisible(!visible)}>메뉴</button>
                 </div>      
@@ -60,28 +155,30 @@ const ChatForm = (props) =>{
             <div className="roombox">
 
                 <div className="boxtitle">
-                    <h3>Room</h3>
+                    Room
                 </div>
 
                 <div className="Roomlist">
                     <button to='/chat' className="Plus" onClick={openModal}>+</button>
-                    <Matchgender 
-                        showModal={showModal} 
-                        closeModal={closeModal} 
+                    {roomId ? null : (
+                        <Matchgender 
+                            showModal={showModal} 
+                            closeModal={closeModal} 
 
-                        socket={socket} 
-                        user={user}
-                        gender={gender}
-                        data={data}
-                        
-                        find={find}
-                        findChat={findChat}
-                        matching={matching}
-                        cancel={cancel}
-                        loading={loading}
-                        
-                        propFunction={highFunction}
-                    ></Matchgender>
+                            socket={socket} 
+                            user={user}
+                            gender={gender}
+                            data={data}
+                            roomId={roomId}
+                            
+                            findChat={findChat}
+                            cancel={cancel}
+                            loading={loading}
+                            
+                            propFunction={highFunction}
+                        ></Matchgender>
+                    )}
+                    
             </div>              
 
             </div>
