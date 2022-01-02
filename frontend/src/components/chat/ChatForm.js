@@ -5,7 +5,7 @@ import Loader from "./Loader";
 import Matchgender from '../../containers/chat/Matchgender';
 
 const ChatForm = (props) =>{
-    const { socket, user, gender, other, roomId, disconnect, findChat, cancel, loading, introduce, data, success} = props
+    const { socket, user, gender, other, roomId, disconnect, findChat, cancel, loading, introduce, data} = props
 
     const [visible, setVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -19,6 +19,10 @@ const ChatForm = (props) =>{
 
     const closeModal = () => { setShowModal(false); }
     
+    socket.on("userMatchingComplete", function(data){
+        setShowModal(false)
+    })
+
     const highFunction = (matchgender)=>{ 
         props.MatchGender(matchgender)
     }
@@ -124,9 +128,13 @@ const ChatForm = (props) =>{
 
                     {visible && 
                         <div className="menubox" >
-                            <button className="menubtn" type="button">신고하기</button>
+                            
                             <button className="menubtn" type="button">차단하기</button>
-                            <button className="menubtn" type="button" onClick={disconnect}>나가기</button>
+                            <button className="menubtn" type="button" 
+                            onClick={()=> {disconnect() 
+                            setMsgList([])
+                            // setSysMsg("")
+                        }}>나가기</button>
                         </div>
                     }
                 </div>
@@ -152,22 +160,25 @@ const ChatForm = (props) =>{
 
                 <div className="Roomlist">
                     <button to='/chat' className="Plus" onClick={openModal}>+</button>
-                    <Matchgender 
-                        showModal={showModal} 
-                        closeModal={closeModal} 
+                    {roomId ? null : (
+                        <Matchgender 
+                            showModal={showModal} 
+                            closeModal={closeModal} 
 
-                        socket={socket} 
-                        user={user}
-                        gender={gender}
-                        data={data}
-                        
-                        findChat={findChat}
-                        cancel={cancel}
-                        loading={loading}
-                        success={success}
-                        
-                        propFunction={highFunction}
-                    ></Matchgender>
+                            socket={socket} 
+                            user={user}
+                            gender={gender}
+                            data={data}
+                            roomId={roomId}
+                            
+                            findChat={findChat}
+                            cancel={cancel}
+                            loading={loading}
+                            
+                            propFunction={highFunction}
+                        ></Matchgender>
+                    )}
+                    
             </div>              
 
             </div>

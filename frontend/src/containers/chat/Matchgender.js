@@ -15,7 +15,7 @@ const Matchgender = (props) => {
         <div>
   
             <React.Fragment>
-                <MatchgenderModal open={ showModal } close={ closeModal } header="매칭 성별" cancel={cancel} >
+                <MatchgenderModal open={ showModal } close={ closeModal } header="매칭 성별" cancel={cancel}>
                     { loading ? 
                         <div>대화상대를 찾고 있습니다.</div> 
                         :<div>

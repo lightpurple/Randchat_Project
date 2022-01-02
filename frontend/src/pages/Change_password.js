@@ -1,3 +1,4 @@
+import React from 'react';
 import Title from '../components/Login/Title';
 import ChangePW from '../components/Mypage/ChangePW';
 

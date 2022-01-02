@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import ChatForm from "../../components/chat/ChatForm"
 import io from "socket.io-client";
@@ -16,9 +17,8 @@ const ChatPageForm = () =>{
     const [other, setOther] = useState("")      // other
     const [introduce, setIntro] = useState("")  // introduce
     const [loading, setLoading] = useState(false)   // Loading
-
+    
     let match = ''  // match_gender
-    var success = false
     
     useEffect(()=>{
         client.get('/api/chat')
@@ -45,33 +45,22 @@ const ChatPageForm = () =>{
         console.log("findchat")
         console.log({nick: user, gender: gender, match_gender: match})
     }
-
     // Error시 알람 띄우기
-    socket.on("Error", (result)=>{
-        alert(result)
-        console.log(result)
-    })
+    useEffect(()=>{
+        socket.on("Error", (result)=>{
+            alert(result)
+            console.log(result)
+        })
+    },[socket])
+    
+    
     // userFinding
     socket.on("userFinding", function(){
         setLoading(true);
         startFinding();
     })
 
-    // cancel 버튼 클릭 시
-    const cancel = () => {
-        stopFinding();
-        console.log("cancel")
-    }
-    // useEffect(()=>{
-    //     socket.on("userMatchingComplete", function(data){
-    //         stopFinding()
-    //         setRoomId(data.roomId)
-    //         setOther(data.other)
-    //         // success = true
-    //         console.log(data)
-    //         console.log(success)
-    //     })
-    // },[socket])
+
     socket.on("userMatchingComplete", function(data){
         stopFinding()
         setRoomId(data.roomId)
@@ -80,19 +69,17 @@ const ChatPageForm = () =>{
                 setOther(data.users[i])
             }
         }
-        // success = true
         console.log(data)
-        console.log(success)
     })
     
 
     function disconnect(){
-        socket.emit("chatClosingBtn",{roomId: roomId})
-        socket.emit("ChatClosing",{roomId: roomId})
+        // socket.emit("chatClosingBtn",{roomId: roomId,nick:user})
+        // socket.emit("ChatClosing",{roomId: roomId,nick:user})
+        // socket.emit("disconnect",{roomId: roomId, nick:user})
+        socket.disconnect();
         setRoomId("")
         setOther("")
-        success = false
-        console.log(success)
     }
 
     
@@ -107,14 +94,22 @@ const ChatPageForm = () =>{
     }
 
     function stopFinding(){
-        if(handle !== null) {
-            clearInterval(handle);
-            handle = null
-        }
+
+        clearInterval(handle);
+        handle = null
         setLoading(false)
         socket.emit("stopUserFinding", {nick:user}); // 서버에 있는 대기열에서 nick 삭제
     }
-    
+
+    // cancel 버튼 클릭 시
+    const cancel = () => {
+        clearInterval(handle);
+        handle = null
+        setLoading(false)
+        socket.emit("stopUserFinding", {nick:user});
+        console.log("취소")
+        console.log(handle)
+    }
 
     const Match_Gender = (matchgender) =>{
         match = matchgender
@@ -128,7 +123,6 @@ const ChatPageForm = () =>{
             disconnect={disconnect}
             
             cancel={cancel}
-            success={success} // 매칭 성공 시 모달 창 닫기
             
             introduce={introduce}
             other={other}

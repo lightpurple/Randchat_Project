@@ -22,7 +22,6 @@ const MatchgenderModal = (props) => {
                             }}> 취소 </button>
                             
                             <button className="close" onClick={()=>{   
-                                cancel()
                                 close()
                             }}> 닫기 </button>
                         </footer>
