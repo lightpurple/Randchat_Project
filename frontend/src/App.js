@@ -5,6 +5,7 @@ import ChatPage from './pages/ChatPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Mypage from './pages/Mypage';
+import ChangePasswordpage from './pages/Change_password';
 
 function App() {
   let isAuthorized = localStorage.getItem("isAuthorized");
@@ -30,6 +31,8 @@ function App() {
         <Route component={RegisterPage} path="/signup"/>
         
         <Route component={Mypage} path="/Mypage" exact/>
+
+        <Route component={ChangePasswordpage} path="/Mypage/Change_password" exact/>
       </Switch>
     </div>
   );

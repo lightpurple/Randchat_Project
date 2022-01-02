@@ -34,7 +34,16 @@ const deleteUser = () => {
 
     // console.log(data);
 
-    client.delete('/api/mypage', queryString.stringify(data))
+    // const res = await client({
+    //     method: 'delete',
+    //     url: '/api/mypage',
+    //     data: {
+    //         password: password
+    //     }
+    // })
+
+    client.delete("/api/mypage", queryString.stringify(data)
+    )
     .then(response => {
         console.log(response.data);
         // window.location.replace ("/")

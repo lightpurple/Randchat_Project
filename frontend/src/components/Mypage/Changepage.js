@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Changepage = () => {
 
     // client.delete("/api/mypage")
@@ -11,8 +13,8 @@ const Changepage = () => {
 
 return (
     <div className="changepage">
-    <a className="c_button" href='/chat'>채팅하기</a>
-    <a className="p_button" href='/Mypage/Change_password'>비밀번호 변경</a>
+    <Link to="/chat" className="c_button">채팅하기</Link>
+    <Link to="/Mypage/Change_password" className="p_button">비밀번호 변경</Link>
     </div>
 );
 };
