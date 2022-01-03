@@ -18,4 +18,15 @@ export default {
             throw e;
         }
     },
+    getIntroduce: async (nick) => {
+        try {
+            const introduce = await pool.query(
+                "SELECT introduce FROM Users WHERE nickname = ?",
+                [nick]
+            );
+            return introduce[0][0].introduce;
+        } catch (e) {
+            throw e;
+        }
+    },
 };

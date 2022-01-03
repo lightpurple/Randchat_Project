@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import Chat from "../controllers/chat.controllers.js";
 
 //const redis = require("socket.io-redis");
 var clients = [];
@@ -12,8 +13,9 @@ export default (server) => {
     //io.adapter(redis({ host: "localhost", port: 6379 }));
     process.setMaxListeners(0);
     io.on("connection", (socket) => {
-        console.log("커넥션 성공!");
+        console.log("커넥션 성공");
         socket.on("findChat", (data) => {
+            console.log("findChat 이벤트 호출");
             if (!data.nick) {
                 socket.emit("Error", "닉네임이 없습니다.");
                 return;
@@ -65,10 +67,19 @@ export default (server) => {
                         io.to(roomId).emit("sysMsg", {
                             message: "대화방에 입장하셨습니다!!",
                         });
+                        console.log("유저매칭 성공");
                         return;
                     }
                 }
             }
+        });
+
+        socket.on("getIntroduce", async (data) => {
+            const Introduce = await Chat.getIntroduce(data.nick);
+            socket.to(data.roomId).emit("showIntroduce", {
+                introduce: Introduce,
+            });
+            console.log("introduce 보내기 성공");
         });
 
         socket.on("message", (data) => {
@@ -83,7 +94,7 @@ export default (server) => {
                 message: `${data.nick}님이 퇴장하셨습니다.`,
             });
             socket.leave(data.roomId);
-            console.log("room 접속 해제ㅠㅠ");
+            console.log("room 접속 해제");
         });
     });
 };
