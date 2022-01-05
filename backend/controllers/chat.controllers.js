@@ -29,4 +29,25 @@ export default {
       throw e;
     }
   },
+  banUser: async (user, other) => {
+    try {
+      // 유저검색
+      const userId = await pool.query(
+        "SELECT id FROM Users WHERE nickname = ?",
+        [user]
+      );
+      // 밴할유저 검색
+      const banId = await pool.query(
+        "SELECT id FROM Users WHERE nickname = ?",
+        [other]
+      );
+      // ban_list 업뎃
+      await pool.query("INSERT INTO Ban_list (id, ban_user) VALUES (?, ?);", [
+        userId[0][0].id,
+        banId[0][0].id,
+      ]);
+    } catch (e) {
+      throw e;
+    }
+  },
 };

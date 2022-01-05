@@ -37,7 +37,7 @@ export default {
         try {
           (await con1).beginTransaction();
           (await con1).query(
-            "INSERT INTO Users(email, nickname, gender, password) VALUES(?, ?, ?, ?)",
+            "INSERT INTO Users(email, nickname, gender, password) VALUES (?, ?, ?, ?)",
             [req.body.email, req.body.nickname, req.body.gender, hash]
           );
           (await con1).commit();

@@ -92,6 +92,11 @@ export default (server) => {
       });
     });
 
+    socket.on("ban", async (data) => {
+      await Chat.banUser(data.user, data.other);
+      socket.to(data.roomId).emit("banComplete");
+    });
+
     socket.on("disconnect", (data) => {
       socket.to(data.roomId).emit("sysMsg", {
         message: `${data.nick}님이 퇴장하셨습니다.`,
