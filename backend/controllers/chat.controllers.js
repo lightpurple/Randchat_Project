@@ -30,6 +30,7 @@ export default {
     }
   },
   banUser: async (user, other) => {
+    let con1 = pool.getConnection(async (conn) => conn);
     try {
       // 유저검색
       const userId = await pool.query(
@@ -42,12 +43,17 @@ export default {
         [other]
       );
       // ban_list 업뎃
-      await pool.query("INSERT INTO Ban_list (id, ban_user) VALUES (?, ?);", [
+      (await con1).beginTransaction();
+      (await con1).query("INSERT INTO Ban_list (id, ban_user) VALUES (?, ?);", [
         userId[0][0].id,
         banId[0][0].id,
       ]);
+      (await con1).commit();
     } catch (e) {
+      (await con1).rollback();
       throw e;
+    } finally {
+      (await con1).release();
     }
   },
 };
