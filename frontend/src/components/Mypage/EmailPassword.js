@@ -1,4 +1,4 @@
-import Password from '../../containers/Mypage/Password';
+// import Password from '../../containers/Mypage/Password';
 import InUseEmail from "../../containers/Mypage/InUseEmail";
 
 const EmailPassword = () => {
