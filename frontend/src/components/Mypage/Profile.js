@@ -30,9 +30,9 @@ return (
         <p>소개 한마디</p>
     </div>
     <div className="Contents">
-    <p>
+
             <InUseIntro/>
-            </p>
+
         <div className="Change">
             <Intro/>
         </div>
@@ -44,7 +44,7 @@ return (
             </div>
 
     <div className="itemSelect">
-    <label className="inputFileButton" for="file">
+    <label className="inputFileButton" htmlFor="file">
   사진 선택
 </label>
       <input className="itemFile" type="file" id="file" onChange={handleFileChange} />

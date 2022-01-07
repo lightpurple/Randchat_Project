@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import "./CSS/Gender.css";
 import client from '../../lib/api/client';

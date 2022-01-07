@@ -15,13 +15,13 @@ function InUseIntro() {
   //   getIntro();
   // }, []);
 
-  const [introduce, setUsers] = useState(null);
+  const [introduce, setIntroduce] = useState(null);
   
 
   client.get("/api/mypage")
     .then(response => {
       console.log(response.data.introduce);
-      setUsers(response.data.introduce);
+      setIntroduce(response.data.introduce);
     })
     .catch(error => {
       console.error(error);

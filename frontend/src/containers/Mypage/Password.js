@@ -38,17 +38,17 @@ function Password() {
               {/* 열기, 닫기, 모달 헤더 텍스트, 패스워드값을 자식으로 보냄 */}     
 
 
-        <div className="valuename">
-            <p>비밀번호</p>
-        </div>
-        <div className="value">
-        <input type="text" className="inputvalue" onChange={onChange} value={text} name="password" />
-        </div>
-        <div>
-            <h4>* 8자 이상의 영문, 숫자</h4>
-        </div>
-              </PasswordModal>
-          </React.Fragment>
+            <div className="valuename">
+                <p>비밀번호</p>
+            </div>
+            <div className="value">
+                <input type="text" className="inputvalue" onChange={onChange} value={text} name="password" />
+            </div>
+            <div>
+                <h4>* 8자 이상의 영문, 숫자</h4>
+            </div>
+            </PasswordModal>
+        </React.Fragment>
   
   
       </div>

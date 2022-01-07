@@ -16,12 +16,12 @@ function InUseNick() {
   //   getNick();
   // }, []);
 
-  const [nickname, setUsers] = useState(null);
+  const [nickname, setNickname] = useState("");
 
   client.get("/api/mypage")
     .then(response => {
       console.log(response.data.nickname);
-      setUsers(response.data.nickname);
+      setNickname(response.data.nickname);
     })
     .catch(error => {
       console.error(error);
