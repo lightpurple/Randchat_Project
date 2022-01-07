@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import client from "../../lib/api/client";
 // import Nick from './Nick';
 
@@ -18,20 +18,24 @@ function InUseNick() {
 
   const [nickname, setNickname] = useState("");
 
-  client.get("/api/mypage")
-    .then(response => {
+  useEffect(()=>{
+    client.get("/api/mypage")
+      .then(response => {
       console.log(response.data.nickname);
       setNickname(response.data.nickname);
     })
-    .catch(error => {
+      .catch(error => {
       console.error(error);
     })
+  },[nickname])
+
+  
 
 
 //  if (!users) return null;
   return (
     <>
-    <p>{nickname}</p>
+      <p>{nickname}</p>
     </>
   );
 }
