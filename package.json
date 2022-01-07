@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-hook-form": "^7.21.2"
+    "react-hook-form": "^7.21.2",
+    "react-loading": "^2.0.3"
   }
 }
