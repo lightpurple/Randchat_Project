@@ -14,38 +14,34 @@ export default {
         req.decoded.email,
       ]);
       if (db[0][0]) {
-        compare(
-          req.body.old_password,
-          db[0][0].password,
-          function (err, result) {
-            if (!result) {
-              res.status(400).json({
-                msg: "Old Password is incorrect!",
-              });
-            } else {
-              hash(req.body.new_password, 10, async (err, hash) => {
-                if (err) {
-                  throw err;
-                } else {
-                  try {
-                    con1.beginTransaction();
-                    await con1.query(
-                      "UPDATE Users SET password = ? WHERE email = ?",
-                      [hash, req.body.email]
-                    );
-                    con1.commit();
-                    res.status(200).send({
-                      msg: "Password change successful!",
-                    });
-                  } catch (e) {
-                    con1.rollback();
-                    throw e;
-                  }
+        compare(req.body.old_password, db[0][0].password, (err, result) => {
+          if (!result) {
+            res.status(400).json({
+              msg: "Old Password is incorrect!",
+            });
+          } else {
+            hash(req.body.new_password, 10, async (err, hash) => {
+              if (err) {
+                throw err;
+              } else {
+                try {
+                  con1.beginTransaction();
+                  await con1.query(
+                    "UPDATE Users SET password = ? WHERE email = ?",
+                    [hash, req.decoded.email]
+                  );
+                  con1.commit();
+                  res.status(200).send({
+                    msg: "Password change successful!",
+                  });
+                } catch (e) {
+                  con1.rollback();
+                  throw e;
                 }
-              });
-            }
+              }
+            });
           }
-        );
+        });
       } else {
         res.status(400).send({ msg: "User Not Exist!" });
       }
