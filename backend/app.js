@@ -1,12 +1,12 @@
 import express from "express";
 import { createServer } from "http";
 import cors from "cors";
-const app = express();
-const server = createServer(app);
 import webSocket from "./middleware/socket.js";
 import * as Api from "./routes/routes.js";
 
 // const { swaggerUi, specs } = require("./swagger");
+const app = express();
+const server = createServer(app);
 
 const corsOptions = {
   origin: "http://localhost:3000",

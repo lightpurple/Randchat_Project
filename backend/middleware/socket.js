@@ -57,7 +57,7 @@ export default (server) => {
             const users = [clients[i].nick, data.nick];
             clients[i].status = waiting;
             clients[i].client.join(roomId);
-            for (let j = 0; j < clients.length; j++) {
+            for (const j = 0; j < clients.length; j++) {
               if (clients[j].nick == data.nick) {
                 clients[j].status = waiting;
                 clients[j].client.join(roomId);
