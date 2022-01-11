@@ -1,37 +1,76 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import './CSS/ChatLog.css'
 
-const ChatLog = ({ socket }) => {
-    const [msgList, setMsgList] = useState([]);
+const ChatLog = (props) => {
+    const { sysmsg,other, socket } = props
+    socket.on("message", function(data){
+        // $("#chat").append(data.message);
+    })
 
-    useEffect(() => {
-        // messsgeItem : {msg: String, name: String, timeStamp: String}
-        socket.on("onReceive", (messageItem) => {
-        setMsgList((msgList) => [...msgList, messageItem]);
-        console.log(messageItem);
-        });
+        // $("#sendMessage").on("click",function(){
+    //     var content = $("#content").val();
+    //     if(!content){
+    //         alert("대화내용을 입력해주세요");
+    //         return ;
+    //     }
+    //     var str = "";
+    //     str += "<li>";
+    //     str += "<strong>"+nick+"</strong>";
+    //     str += "<p>"+content+"</p>";
+    //     str += "<hr>";
+    //     str += "</li>";
 
-        socket.on("onConnect", (systemMessage) => {
-        setMsgList((msgList) => [...msgList, { msg: systemMessage }]);
-        });
+    //     socket.emit("message",{roomId:roomName, message:str});
+    //     $("#content").val("");
+    //     $("#chat").scrollTop($("#chat")[0].scrollHeight);
+    //     $("#chat").append(str);
+    // });
+    // const [msgList, setMsgList] = useState([]);
 
-        socket.on("onDisconnect", (systemMessage) => {
-        setMsgList((msgList) => [...msgList, { msg: systemMessage }]);
-        });
+    // useEffect(() => {
+    //     // messsgeItem : {msg: String, name: String, timeStamp: String}
+    //     socket.on("message", (message) => {
+    //     setMsgList((msgList) => [...msgList, message]);
+    //     console.log(message);
+    //     });
 
-        return () => {
-            socket.disconnect();
-        };
+    //     socket.on("sysMsg", (message) => {
+    //      setMsgList((msgList) => [...msgList, { msg: message }]);
+    //     });
+
+    //     socket.on("sysMsg", (message) => {
+    //     setMsgList((msgList) => [...msgList, { msg: message }]);
+    //     });
+
+    //     return () => {
+    //         socket.disconnect();
+    //     };
         
-    }, [socket]);
+    // }, [socket]);
 
     return (
-        <div>
-            {msgList.map((msg, idx) => (
-                <div key={idx}>
-                    <div>{msg.timeStamp}</div>
-                    <div>{msg.msg}</div>
+        <div className="chatlog">
+            <div><p className="enter">{other}님이 입장했습니다.</p></div>
+            <div>
+                <div className="other">
+                    <p id="othernick">other</p>
+                    <br></br>
+                    <p id="otherChat">다른사람이야</p>
                 </div>
-            ))}
+
+                <div className="me"> 
+                    <p id="mynick">user</p>
+                    <br></br>
+                    <p id="myChat">me야</p>
+                </div>
+            </div>
+            {/* {msgList.map((data, idx) => (
+                <div key={idx}>
+                    <div>{data.massage}</div>
+                </div>
+            ))} */}
+            {/* <p>{sysmsg}</p> */}
+            
         </div>
     );
 };
