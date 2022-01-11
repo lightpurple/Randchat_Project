@@ -3,9 +3,10 @@ import pool from "../middleware/pool.js";
 export default {
   chatGet: async (req, res) => {
     try {
-      const db = await pool.query("SELECT * FROM Users WHERE email = ?", [
-        req.decoded.email,
-      ]);
+      const db = await pool.query(
+        "SELECT nickname, introduce, gender FROM Users WHERE id = ?",
+        [req.decoded.id]
+      );
       if (db[0][0]) {
         res.status(200).json({
           result: true,
@@ -29,7 +30,7 @@ export default {
       throw e;
     }
   },
-  banUser: async (user, other) => {
+  putBanUser: async (user, other) => {
     let con1 = pool.getConnection(async (conn) => conn);
     try {
       // 유저검색
@@ -56,4 +57,5 @@ export default {
       (await con1).release();
     }
   },
+  getBanUser: async (user) => {},
 };

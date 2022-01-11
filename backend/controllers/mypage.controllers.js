@@ -10,8 +10,8 @@ export default {
     let con1 = await pool.getConnection(async (conn) => conn);
 
     try {
-      const db = await pool.query("SELECT * FROM Users WHERE email = ?", [
-        req.decoded.email,
+      const db = await pool.query("SELECT password FROM Users WHERE id = ?", [
+        req.decoded.id,
       ]);
       if (db[0][0]) {
         compare(req.body.old_password, db[0][0].password, (err, result) => {
@@ -27,8 +27,8 @@ export default {
                 try {
                   con1.beginTransaction();
                   await con1.query(
-                    "UPDATE Users SET password = ? WHERE email = ?",
-                    [hash, req.decoded.email]
+                    "UPDATE Users SET password = ? WHERE id = ?",
+                    [hash, req.decoded.id]
                   );
                   con1.commit();
                   res.status(200).send({
@@ -54,13 +54,14 @@ export default {
   myPageShow: async (req, res, next) => {
     try {
       const User = await pool.query(
-        "SELECT * FROM Users WHERE email = ?",
-        req.decoded.email
+        "SELECT email, nickname, introduce, image FROM Users WHERE id = ?",
+        req.decoded.id
       );
       return res.status(200).json({
         email: User[0][0].email,
         nickname: User[0][0].nickname,
         introduce: User[0][0].introduce,
+        image: User[0][0].image,
       });
     } catch (e) {
       throw e;
@@ -71,8 +72,8 @@ export default {
     try {
       (await con1).beginTransaction();
       (await con1).query(
-        "UPDATE Users SET nickname = ?, introduce = ? WHERE email = ?",
-        [req.body.nickname, req.body.introduce, req.decoded.email]
+        "UPDATE Users SET nickname = ?, introduce = ? WHERE id = ?",
+        [req.body.nickname, req.body.introduce, req.decoded.id]
       );
       (await con1).commit();
       res.status(200).json({
@@ -90,10 +91,9 @@ export default {
     let con1 = pool.getConnection(async (conn) => conn);
 
     try {
-      const User = await pool.query("SELECT * FROM Users WHERE email = ?", [
-        req.decoded.email,
+      const User = await pool.query("SELECT password FROM Users WHERE id = ?", [
+        req.decoded.id,
       ]);
-      console.log(User[0][0]);
 
       if (User[0][0]) {
         compare(req.body.password, User[0][0].password, async (err, result) => {
@@ -104,8 +104,8 @@ export default {
             });
           } else {
             (await con1).beginTransaction;
-            (await con1).query("DELETE FROM Users WHERE email = ?", [
-              req.decoded.email,
+            (await con1).query("DELETE FROM Users WHERE id = ?", [
+              req.decoded.id,
             ]);
             (await con1).commit();
             res.status(200).json({
@@ -116,6 +116,25 @@ export default {
       } else {
         res.status(400).send({ msg: "User Not Exist!" });
       }
+    } catch (e) {
+      (await con1).rollback();
+      throw e;
+    } finally {
+      (await con1).release();
+    }
+  },
+  uploadProfile: async (req, res, next) => {
+    const con1 = pool.getConnection(async (conn) => conn);
+    try {
+      console.log(req.file.location);
+      (await con1).beginTransaction();
+      (await con1).query("UPDATE Users SET image = ? WHERE id = ?", [
+        req.file.location,
+        req.decoded.id,
+      ]);
+      res.status(200).json({
+        msg: "Image upload successful!",
+      });
     } catch (e) {
       (await con1).rollback();
       throw e;
