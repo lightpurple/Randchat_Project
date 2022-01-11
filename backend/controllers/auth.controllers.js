@@ -14,11 +14,11 @@ export default {
     try {
       // DB에 email, nickname이 겹치는 user가 있는지 확인
       const same_email = await pool.query(
-        "SELECT * FROM Users WHERE email = ?",
+        "SELECT id FROM Users WHERE email = ?",
         req.body.email
       );
       const same_nick = await pool.query(
-        "SELECT * FROM Users WHERE nickname = ?",
+        "SELECT id FROM Users WHERE nickname = ?",
         req.body.nickname
       );
       if (same_email[0][0] !== undefined || same_nick[0][0] !== undefined) {
@@ -54,9 +54,10 @@ export default {
   login: async (req, res, next) => {
     try {
       // email로 유저 검색
-      const User = await pool.query("SELECT * FROM Users WHERE email = ?", [
-        req.body.email,
-      ]);
+      const User = await pool.query(
+        "SELECT id,password FROM Users WHERE email = ?",
+        [req.body.email]
+      );
       if (!User[0][0]) {
         // 유저가 존재하지 않을 경우
         res.status(400).json({
@@ -75,8 +76,7 @@ export default {
             sign(
               {
                 // 토큰에 담는 정보
-                email: User[0][0].email,
-                nick: User[0][0].nickname,
+                id: User[0][0].id,
               },
               process.env.JWT_SECRET,
               { expiresIn: 60 * 60 * 24 * 15 }, // 토큰 만료 기간 15일

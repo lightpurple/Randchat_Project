@@ -93,7 +93,7 @@ export default (server) => {
     });
 
     socket.on("ban", async (data) => {
-      await Chat.banUser(data.user, data.other);
+      await Chat.putBanUser(data.user, data.other);
       socket.to(data.roomId).emit("banComplete");
     });
 
