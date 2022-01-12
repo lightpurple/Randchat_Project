@@ -19,13 +19,16 @@ export default {
       throw e;
     }
   },
-  getIntroduce: async (nick) => {
+  getInfo: async (nick) => {
     try {
-      const introduce = await pool.query(
-        "SELECT introduce FROM Users WHERE nickname = ?",
+      const userInfo = await pool.query(
+        "SELECT introduce,image FROM Users WHERE nickname = ?",
         [nick]
       );
-      return introduce[0][0].introduce;
+      return {
+        introduce: userInfo[0][0].introduce,
+        image: userInfo[0][0].image,
+      };
     } catch (e) {
       throw e;
     }
@@ -57,5 +60,19 @@ export default {
       (await con1).release();
     }
   },
-  getBanUser: async (user) => {},
+  getBanUser: async (user) => {
+    try {
+      const banList = [];
+      const ban = await pool.query(
+        "select ban_id from Users right outer join Ban_list on Users.id=Ban_list.user_id where Users.nickname=?;",
+        user
+      );
+      for (let id in ban[0]) {
+        banList.push(ban[0][id].banId);
+      }
+      return banList;
+    } catch (e) {
+      throw e;
+    }
+  },
 };
