@@ -65,3 +65,11 @@
     font-size: 28px;
     border: none;
 }
+
+.Match button:hover{
+    background-color: hsl(218, 44%, 58%);
+}
+
+.Match button:focus{
+    background-color: hsl(218, 44%, 58%);
+}

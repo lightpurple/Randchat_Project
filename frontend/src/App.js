@@ -14,7 +14,7 @@ function App() {
   // let roomId = localStorage.getItem('roomID');
   return (
     <div>
-      {!isAuthorized ? <Redirect to="/" /> : <Redirect to="/chat" />}
+      {!isAuthorized ? <Redirect to="/" /> : <Redirect to="/mainpage" />}
       {/* {roomId ? 
         <Route
           path="/chat/@:{roomId}"
