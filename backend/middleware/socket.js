@@ -6,11 +6,12 @@ var clients = [];
 const waiting = 0;
 const finding = 1;
 
-const newUser = (nick, client, gender, status) => {
+const newUser = (nick, client, gender, status, banList) => {
   this.nick = nick;
   this.client = client;
   this.gender = gender;
   this.status = status;
+  this.banList = banList;
 };
 
 export default (server) => {
@@ -21,26 +22,33 @@ export default (server) => {
   process.setMaxListeners(0);
   io.on("connection", (socket) => {
     console.log("커넥션 성공");
-    socket.on("findChat", (data) => {
+    socket.on("findChat", async (data) => {
       console.log("findChat 이벤트 호출");
       if (!data.nick) {
         socket.emit("Error", "닉네임이 없습니다.");
         return;
       }
       for (let i = 0; i < clients.length; i++) {
-        if (clients[i].nick == data.nick) {
+        if (clients[i].nick === data.nick) {
           socket.emit("Error", "이미 대화상대를 찾는 중입니다.");
           return;
         }
       }
-      const newUser = new newUser(data.nick, socket, data.gender, finding);
+      const banList = await Chat.getBanUser(data.nick); // 유저 밴 목록 가져오기
+      const newUser = new newUser(
+        data.nick,
+        socket,
+        data.gender,
+        finding,
+        banList
+      );
       clients.push(newUser);
       socket.emit("userFinding"); // 로딩화면용
     });
 
     socket.on("stopUserFinding", (data) => {
-      for (let i = 0; i < clients.length; i++) {
-        if (clients[i].nick == data.nick) {
+      for (let i in clients) {
+        if (clients[i].nick === data.nick) {
           clients.splice(i, 1);
           return;
         }
@@ -48,39 +56,41 @@ export default (server) => {
     });
 
     socket.on("randomChatFinding", (data) => {
-      for (let i = 0; i < clients.length; i++) {
-        if (clients[i].status === finding) {
-          if (clients[i].nick == data.nick) {
-            continue;
-          } else if (clients[i].gender == data.match_gender) {
-            const roomId = new Date().getTime() + "";
-            const users = [clients[i].nick, data.nick];
-            clients[i].status = waiting;
-            clients[i].client.join(roomId);
-            for (const j = 0; j < clients.length; j++) {
-              if (clients[j].nick == data.nick) {
-                clients[j].status = waiting;
-                clients[j].client.join(roomId);
-              }
+      for (let user of clients) {
+        if (user.nick === data.nick) {
+          // data.nick 찾기
+          for (let other of clients) {
+            if (
+              user.nick !== other.nick &&
+              user.banList.indexOf(other.nick) === -1
+            ) {
+              // user.banList에 없는 other 찾기
+              const roomId = new Date.now();
+              const users = [user.nick, other.nick];
+              user.status = waiting;
+              other.status = waiting;
+              user.client.join(roomId);
+              other.client.join(roomId);
+              io.to(roomId).emit("userMatchingComplete", {
+                roomId: roomId,
+                users: users,
+              });
+              io.to(roomId).emit("sysMsg", {
+                message: "대화방에 입장하셨습니다!!",
+              });
+              console.log("유저매칭 성공");
+              return;
             }
-            io.to(roomId).emit("userMatchingComplete", {
-              roomId: roomId,
-              users: users,
-            });
-            io.to(roomId).emit("sysMsg", {
-              message: "대화방에 입장하셨습니다!!",
-            });
-            console.log("유저매칭 성공");
-            return;
           }
         }
       }
     });
 
     socket.on("getIntroduce", async (data) => {
-      const Introduce = await Chat.getIntroduce(data.nick);
+      const Info = await Chat.getInfo(data.nick);
       socket.to(data.roomId).emit("showIntroduce", {
-        introduce: Introduce,
+        introduce: Info.introduce,
+        image: Info.image,
       });
       console.log("introduce 보내기 성공");
     });
