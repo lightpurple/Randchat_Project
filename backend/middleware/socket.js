@@ -36,14 +36,14 @@ export default (server) => {
         }
       }
       const banList = await Chat.getBanUser(data.nick); // 유저 밴 목록 가져오기
-      const newUser = new newUser(
+      const newClient = new newUser(
         data.nick,
         socket,
         data.gender,
         finding,
         banList
       );
-      clients.push(newUser);
+      clients.push(newClient);
       socket.emit("userFinding"); // 로딩화면용
     });
 
