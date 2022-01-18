@@ -14,7 +14,7 @@ const Header = () => {
             </div>
                 <div className="TopBtn">
                     <Link to="/chatting" className="headermenu">chatting</Link>
-                    <Link to="/mainpage" className="headermenu">mainpage</Link>
+                    <Link to="/main" className="headermenu">mainpage</Link>
                     <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>
                     <Link to="/mypage" className="headermenu">mypage</Link>
                     <Link to="/about" className="headermenu">About</Link>
