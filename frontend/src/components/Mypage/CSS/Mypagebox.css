@@ -3,6 +3,7 @@ body{
     width: 100%;
     padding: 0;
     margin: 0;
+    text-align: center;
     background-color: #7C9ACC;
 }
 h2{
@@ -53,24 +54,26 @@ hr{
     margin-right: 60px;
 }
 .delete{
+    display: inline;
     text-align: right;
-    width: 600px;
-    margin: auto;
-    margin-bottom: 5px;
+    width: 20px;
+    height: 100px;
+    margin: 0 0 0 0;
+    padding: 0;
     text-decoration: underline;
     text-decoration-color: #ffffff;
     text-underline-position: under;
-}
+}   
 .d_button{
     display: inline;
     margin-left: 5px;
-    margin-right: 0px;
+    margin-right: 130px;
     border: rgb(0, 0, 0, 0);
     background-color: rgb(0, 0, 0, 0);
     color:#ffffff;
     font-size: 15px;
     height: 35px;
-    width: 80px;
+    width: 20px;
 }
 .changepage{
     position: relative;
@@ -81,12 +84,14 @@ hr{
     background-color: rgb(0, 0, 0, 0);
 }
 .c_button{
-    position: relative;
+    display: inline;
+    width: 80px;
     padding: 6px 12px 6px 12px;
-    margin: 0 0 0 135px;
+    line-height: 40px;
     background-color: #ffffff;
     border: 1px solid #cccccc;
     border-radius: 5px;
+    text-align: center;
     text-decoration: none;
     color:#000000;
     font-size: 16px;
