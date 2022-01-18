@@ -14,7 +14,7 @@ function App() {
   // let roomId = localStorage.getItem('roomID');
   return (
     <div>
-      {!isAuthorized ? <Redirect to="/" /> : <Redirect to="/mainpage" />}
+      {!isAuthorized ? <Redirect to="/" /> : <Redirect to="/main" />}
       {/* {roomId ? 
         <Route
           path="/chat/@:{roomId}"
@@ -31,7 +31,7 @@ function App() {
       
         <Route component={Chatting} path="/Chatting"/>
         <Route component={RegisterPage} path="/signup"/>
-        <Route component={Mainpage} path="/mainpage"/>
+        <Route component={Mainpage} path="/main"/>
         <Route component={Mypage} path="/Mypage" exact/>
         <Route component={ChangePasswordpage} path="/Mypage/Change_password" exact/>
       </Switch>
