@@ -8,24 +8,10 @@ const ChatForm = (props) =>{
     const { socket, user, gender, other, roomId, disconnect, findChat, cancel, loading, introduce, data} = props
 
     const [visible, setVisible] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-
     const [sysmsg, setSysMsg] = useState("") // 서비스 메세지
-
     const [chatMsg, setChatMsg] = useState(""); // 메시지 
     const [msgList, setMsgList] = useState([])
 
-    const openModal = () => { setShowModal(true); }
-
-    const closeModal = () => { setShowModal(false); }
-    
-    socket.on("userMatchingComplete", function(data){
-        setShowModal(false)
-    })
-
-    const highFunction = (matchgender)=>{ 
-        props.MatchGender(matchgender)
-    }
 
 
     const submit = (e) =>{
@@ -40,7 +26,7 @@ const ChatForm = (props) =>{
         console.log(content)
         
         setMsgList((msgList) => [...msgList, [content, user]]);
-        socket.emit("message",{roomId: roomId, message:content, nick: user});
+        // socket.emit("message",{roomId: roomId, message:content, nick: user});
         setChatMsg("");
     }
 
@@ -48,20 +34,20 @@ const ChatForm = (props) =>{
         setChatMsg(e.target.value);
     }
 
-    useEffect(()=>{
-        socket.on("message",function(data){
-            setMsgList((msgList) => [...msgList, [ data.message, data.nick]]);
-            console.log(data);
-        })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[socket])
+    // useEffect(()=>{
+    //     socket.on("message",function(data){
+    //         setMsgList((msgList) => [...msgList, [ data.message, data.nick]]);
+    //         console.log(data);
+    //     })
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // },[socket])
 
-    useEffect(()=>{
-        socket.on("sysMsg", (data)=>{
-            setSysMsg(data.message)
-            console.log(data)
-        })
-    },[socket])
+    // useEffect(()=>{
+    //     socket.on("sysMsg", (data)=>{
+    //         setSysMsg(data.message)
+    //         console.log(data)
+    //     })
+    // },[socket])
 
     
     
@@ -77,6 +63,7 @@ const ChatForm = (props) =>{
     const scrollToBottom = () => {
         scrollRef.current?.scrollIntoView({behavior:"smooth"})
     }
+
    useEffect(()=>{
         scrollToBottom()
     },[msgList])
@@ -128,7 +115,6 @@ const ChatForm = (props) =>{
 
                     {visible && 
                         <div className="menubox" >
-                            
                             <button className="menubtn" type="button">차단하기</button>
                             <button className="menubtn" type="button" 
                             onClick={()=> {disconnect() 
@@ -159,12 +145,9 @@ const ChatForm = (props) =>{
                 </div>
 
                 <div className="Roomlist">
-                    <button to='/chat' className="Plus" onClick={openModal}>+</button>
+                    <button to='/chat' className="Plus">+</button>
                     {roomId ? null : (
                         <Matchgender 
-                            showModal={showModal} 
-                            closeModal={closeModal} 
-
                             socket={socket} 
                             user={user}
                             gender={gender}
@@ -174,12 +157,10 @@ const ChatForm = (props) =>{
                             findChat={findChat}
                             cancel={cancel}
                             loading={loading}
-                            
-                            propFunction={highFunction}
+                        
                         ></Matchgender>
-                    )}
-                    
-            </div>              
+                    )}  
+                </div>              
 
             </div>
         </div>
