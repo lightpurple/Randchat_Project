@@ -14,43 +14,40 @@ const Profile = () => {
         setFileUrl(imageUrl)
      }
 
-return (
-    <>
-    <div className="MyPageProfile">
-    
-    <div className="imageBox">
-    
-    <div>
-    <img className="image" src={fileUrl} alt=""/>
-    </div>
-     
-    </div>
+    return (
 
-    <div className="Item">
-        <p>소개 한마디</p>
-    </div>
-    <div className="Contents">
-    <p>
-            <InUseIntro/>
-            </p>
-        <div className="Change">
-            <Intro/>
-        </div>
-        <hr style={
-            {margin: "20px 0 20px 30px",
-            width: "60%",
-            border: "solid 1px",
-            color: "#cccccc"}}/>
+        <div className="MyPageProfile">
+        
+            <div className="imageBox">
+                <img className="image" src={fileUrl} alt=""/>
             </div>
 
-    <div className="itemSelect">
-    <label className="inputFileButton" for="file">
-  사진 선택
-</label>
-      <input className="itemFile" type="file" id="file" onChange={handleFileChange} />
-    </div>
-    </div>
-    </>
-);
+            <div className="Item">
+                <p>소개 한마디</p>
+            </div>
+            
+            <div className="Contents">
+
+                <InUseIntro/>
+
+                <div className="Change">
+                    <Intro/>
+                </div>
+                <hr style={
+                    {margin: "20px 0 20px 30px",
+                    width: "60%",
+                    border: "solid 1px",
+                    color: "#cccccc"}}
+                />
+            </div>
+
+            <div className="itemSelect">
+                <label className="inputFileButton" htmlFor="file">
+                    사진 선택
+                </label>
+                <input className="itemFile" type="file" id="file" onChange={handleFileChange} />
+            </div>
+        </div>
+    );
 };
 export default Profile;

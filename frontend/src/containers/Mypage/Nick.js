@@ -94,23 +94,23 @@ const Nick = () => {
       <div >
   
         <React.Fragment>
-              <button className="changevalue" onClick={ openModal }>닉네임 변경</button>
-              <NickModal open={ modalOpen } change={ changeModal } close={ closeModal } header="닉네임 변경" ChangeNickname={text}>
-              {/* 열기, 닫기, 모달 헤더 텍스트, 패스워드값을 자식으로 보냄 */}     
+          <button className="changevalue" onClick={ openModal }>닉네임 변경</button>
+          <NickModal open={ modalOpen } change={ changeModal } close={ closeModal } header="닉네임 변경" ChangeNickname={text}>
+          {/* 열기, 닫기, 모달 헤더 텍스트, 패스워드값을 자식으로 보냄 */}     
 
-        <div className="valuename">
-            <p>닉네임</p>
-        </div>
-        <div className="value">
-        <input type="text" className="inputvalue" onChange={onChange} value={text} name="nickname" />
-        </div>
-        <div>
-            <h4>* 2자 이상의 한글, 영문, 숫자</h4>
-        </div>
-            </NickModal>
+            <div className="valuename">
+                <p>닉네임</p>
+            </div>
+            <div className="value">
+              <input type="text" className="inputvalue" onChange={onChange} value={text} name="nickname" />
+            </div>
+            <div>
+                <h4>* 2자 이상의 한글, 영문, 숫자</h4>
+            </div>
+          </NickModal>
         </React.Fragment>
         <div className="hidden">
-        <p>{introduce}</p>
+          <p>{introduce}</p>
         </div>
       </div>
     );

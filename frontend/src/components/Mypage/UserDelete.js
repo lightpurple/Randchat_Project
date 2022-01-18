@@ -73,21 +73,21 @@ const [password, setText] = useState("");
 
 return (
     <div className="delete">
-    <button className="d_button" onClick={openModal}>계정 삭제</button>
+        <button className="d_button" onClick={openModal}>계정 삭제</button>
         <DeleteModal open={ modalOpen } change={ deleteUser } close={ closeModal } header="계정 삭제">
               {/* 열기, 닫기, 모달 헤더 텍스트, 패스워드값을 자식으로 보냄 */}
-        <div>
-        <div className="valuename">
-            <p>현재 비밀번호</p>
-        </div>
-            <input type="text" className="inputvalue" onChange={onChange} value={password}/>
-        </div>
-        <button className="a_delete" onClick={deleteUser}>삭제</button>
-        <button className="a_close" onClick={closeModal}> 닫기 </button>
-        <div>
-            <h5>* 삭제 버튼을 누르면 계정이 삭제됩니다</h5>
-        </div>
-            </DeleteModal>
+            <div>
+            <div className="valuename">
+                <p>현재 비밀번호</p>
+            </div>
+                <input type="text" className="inputvalue" onChange={onChange} value={password}/>
+            </div>
+            <button className="a_delete" onClick={deleteUser}>삭제</button>
+            <button className="a_close" onClick={closeModal}> 닫기 </button>
+            <div>
+                <h5>* 삭제 버튼을 누르면 계정이 삭제됩니다</h5>
+            </div>
+        </DeleteModal>
     </div>
 );
 };
