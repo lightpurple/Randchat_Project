@@ -6,13 +6,13 @@ var clients = [];
 const waiting = 0;
 const finding = 1;
 
-const newUser = (nick, client, gender, status, banList) => {
+function newUser(nick, client, gender, status, banList) {
   this.nick = nick;
   this.client = client;
   this.gender = gender;
   this.status = status;
   this.banList = banList;
-};
+}
 
 export default (server) => {
   const io = new Server(server, {
