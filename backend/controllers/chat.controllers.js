@@ -75,4 +75,25 @@ export default {
       throw e;
     }
   },
+  newUser: (nick, client, gender, matchGender, status, banList) => {
+    this.nick = nick;
+    this.client = client;
+    this.gender = gender;
+    this.matchGender = matchGender;
+    this.status = status;
+    this.banList = banList;
+  },
+  matchCondition: (user, other) => {
+    if (
+      user.nick !== other.nick &&
+      user.banList.indexOf(other.nick) === -1 &&
+      other.banList.indexOf(user.nick) === -1 &&
+      user.gender === other.matchGender &&
+      user.matchGender === other.gender
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  },
 };

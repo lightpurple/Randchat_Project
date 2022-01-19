@@ -6,14 +6,6 @@ var clients = [];
 const waiting = 0;
 const finding = 1;
 
-function newUser(nick, client, gender, status, banList) {
-  this.nick = nick;
-  this.client = client;
-  this.gender = gender;
-  this.status = status;
-  this.banList = banList;
-}
-
 export default (server) => {
   const io = new Server(server, {
     cors: { origin: "http://localhost:3000" },
@@ -23,8 +15,8 @@ export default (server) => {
   io.on("connection", (socket) => {
     // let clientSocket = io.sockets.connected[user.socketId];
     console.log("커넥션 성공");
-    socket.on("findChat", async (data) => {
-      console.log("findChat 이벤트 호출");
+    socket.on("userSetting", async (data) => {
+      console.log("userSetting 이벤트 호출");
       if (!data.nick) {
         socket.emit("Error", "닉네임이 없습니다.");
         return;
@@ -36,18 +28,21 @@ export default (server) => {
         }
       }
       const banList = await Chat.getBanUser(data.nick); // 유저 밴 목록 가져오기
-      const newClient = new newUser(
+      const newClient = new Chat.newUser(
         data.nick,
         socket,
         data.gender,
+        data.matchGender,
         finding,
         banList
       );
       clients.push(newClient);
-      socket.emit("userFinding"); // 로딩화면용
+      console.log("userReady 이벤트 호출");
+      socket.emit("userReady"); // 로딩화면용
     });
 
-    socket.on("stopUserFinding", (data) => {
+    socket.on("userRelease", (data) => {
+      console.log("userRelease 이벤트 호출");
       for (let i in clients) {
         if (clients[i].nick === data.nick) {
           clients.splice(i, 1);
@@ -56,23 +51,22 @@ export default (server) => {
       }
     });
 
-    socket.on("randomChatFinding", (data) => {
+    socket.on("roomSetting", (data) => {
+      // data.match_gender
+      console.log("roomSetting 이벤트 호출");
       for (let user of clients) {
+        // clients에서 user찾기
         if (user.nick === data.nick) {
-          // data.nick 찾기
           for (let other of clients) {
-            if (
-              user.nick !== other.nick &&
-              user.banList.indexOf(other.nick) === -1
-            ) {
-              // user.banList에 없는 other 찾기
+            if (Chat.matchCondition(user, other)) {
               const roomId = new Date.now();
               const users = [user.nick, other.nick];
               user.status = waiting;
               other.status = waiting;
               user.client.join(roomId);
               other.client.join(roomId);
-              io.to(roomId).emit("userMatchingComplete", {
+              console.log("roomReady 이벤트 호출");
+              io.to(roomId).emit("roomReady", {
                 roomId: roomId,
                 users: users,
               });
@@ -87,9 +81,11 @@ export default (server) => {
       }
     });
 
-    socket.on("getIntroduce", async (data) => {
+    socket.on("infoSetting", async (data) => {
+      console.log("infoSetting 이벤트 호출");
       const Info = await Chat.getInfo(data.nick);
-      socket.to(data.roomId).emit("showIntroduce", {
+      console.log("infoReady 이벤트 호출");
+      socket.to(data.roomId).emit("infoReady", {
         introduce: Info.introduce,
         image: Info.image,
       });
