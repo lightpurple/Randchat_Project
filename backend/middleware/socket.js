@@ -57,6 +57,7 @@ export default (server) => {
     });
 
     socket.on("randomChatFinding", (data) => {
+      // data.match_gender
       for (let user of clients) {
         if (user.nick === data.nick) {
           // data.nick 찾기
