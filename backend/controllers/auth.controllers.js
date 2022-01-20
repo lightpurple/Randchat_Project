@@ -13,15 +13,11 @@ export default {
 
     try {
       // DB에 email, nickname이 겹치는 user가 있는지 확인
-      const same_email = await pool.query(
-        "SELECT id FROM Users WHERE email = ?",
-        req.body.email
+      const same_user = await pool.query(
+        "SELECT id FROM Users WHERE email = ? OR nickname = ?",
+        [req.body.email, req.body.nickname]
       );
-      const same_nick = await pool.query(
-        "SELECT id FROM Users WHERE nickname = ?",
-        req.body.nickname
-      );
-      if (same_email[0][0] !== undefined || same_nick[0][0] !== undefined) {
+      if (same_user[0][0]) {
         return res.status(400).json({
           result: false,
           msg: "User is aleady exist!",
@@ -54,11 +50,12 @@ export default {
   login: async (req, res, next) => {
     try {
       // email로 유저 검색
-      const User = await pool.query(
+      let User = await pool.query(
         "SELECT id,password FROM Users WHERE email = ?",
         [req.body.email]
       );
-      if (!User[0][0]) {
+      User = User[0][0];
+      if (!User) {
         // 유저가 존재하지 않을 경우
         res.status(400).json({
           result: false,
@@ -66,7 +63,7 @@ export default {
         });
       } else {
         // hash로 암호화된 password를 req로 들어온 password와 비교
-        compare(req.body.password, User[0][0].password, (err, result) => {
+        compare(req.body.password, User.password, (err, result) => {
           if (!result) {
             res.status(400).json({
               result: false,
@@ -76,7 +73,7 @@ export default {
             sign(
               {
                 // 토큰에 담는 정보
-                id: User[0][0].id,
+                id: User.id,
               },
               process.env.JWT_SECRET,
               { expiresIn: 60 * 60 * 24 * 15 }, // 토큰 만료 기간 15일
