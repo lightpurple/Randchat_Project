@@ -10,11 +10,12 @@ export default {
     let con1 = await pool.getConnection(async (conn) => conn);
 
     try {
-      const db = await pool.query("SELECT password FROM Users WHERE id = ?", [
+      let db = await pool.query("SELECT password FROM Users WHERE id = ?", [
         req.decoded.id,
       ]);
-      if (db[0][0]) {
-        compare(req.body.old_password, db[0][0].password, (err, result) => {
+      db = db[0][0];
+      if (db) {
+        compare(req.body.old_password, db.password, (err, result) => {
           if (!result) {
             res.status(400).json({
               msg: "Old Password is incorrect!",
@@ -46,6 +47,7 @@ export default {
         res.status(400).send({ msg: "User Not Exist!" });
       }
     } catch (e) {
+      con1.rollback();
       throw e;
     } finally {
       con1.release();
@@ -53,15 +55,16 @@ export default {
   },
   myPageShow: async (req, res, next) => {
     try {
-      const User = await pool.query(
+      let User = await pool.query(
         "SELECT email, nickname, introduce, image FROM Users WHERE id = ?",
         req.decoded.id
       );
+      User = User[0][0];
       return res.status(200).json({
-        email: User[0][0].email,
-        nickname: User[0][0].nickname,
-        introduce: User[0][0].introduce,
-        image: User[0][0].image,
+        email: User.email,
+        nickname: User.nickname,
+        introduce: User.introduce,
+        image: User.image,
       });
     } catch (e) {
       throw e;
@@ -94,9 +97,10 @@ export default {
       const User = await pool.query("SELECT password FROM Users WHERE id = ?", [
         req.decoded.id,
       ]);
+      User = User[0][0];
 
-      if (User[0][0]) {
-        compare(req.body.password, User[0][0].password, async (err, result) => {
+      if (User) {
+        compare(req.body.password, User.password, async (err, result) => {
           if (!result) {
             res.status(400).json({
               result: false,
