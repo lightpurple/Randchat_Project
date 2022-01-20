@@ -59,7 +59,7 @@ export default (server) => {
         if (user.nick === data.nick) {
           for (let other of clients) {
             if (Chat.matchCondition(user, other)) {
-              const roomId = new Date.now();
+              const roomId = Date.now();
               const users = [user.nick, other.nick];
               user.status = waiting;
               other.status = waiting;

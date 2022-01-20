@@ -81,7 +81,7 @@ export default {
       throw e;
     }
   },
-  newUser: (nick, client, gender, matchGender, status, banList) => {
+  newUser: function (nick, client, gender, matchGender, status, banList) {
     this.nick = nick;
     this.client = client;
     this.gender = gender;
