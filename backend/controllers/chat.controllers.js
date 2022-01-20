@@ -3,16 +3,17 @@ import pool from "../middleware/pool.js";
 export default {
   chatGet: async (req, res) => {
     try {
-      const db = await pool.query(
+      let db = await pool.query(
         "SELECT nickname, introduce, gender FROM Users WHERE id = ?",
         [req.decoded.id]
       );
-      if (db[0][0]) {
+      db = db[0][0];
+      if (db) {
         res.status(200).json({
           result: true,
-          nickname: db[0][0].nickname,
-          introduce: db[0][0].introduce,
-          gender: db[0][0].gender,
+          nickname: db.nickname,
+          introduce: db.introduce,
+          gender: db.gender,
         });
       }
     } catch (e) {
@@ -21,13 +22,14 @@ export default {
   },
   getInfo: async (nick) => {
     try {
-      const userInfo = await pool.query(
+      let userInfo = await pool.query(
         "SELECT introduce,image FROM Users WHERE nickname = ?",
         [nick]
       );
+      userInfo = userInfo[0][0];
       return {
-        introduce: userInfo[0][0].introduce,
-        image: userInfo[0][0].image,
+        introduce: userInfo.introduce,
+        image: userInfo.image,
       };
     } catch (e) {
       throw e;
@@ -68,7 +70,11 @@ export default {
         user
       );
       for (let id in ban[0]) {
-        banList.push(ban[0][id].banId);
+        let banNick = await pool.query(
+          "select nickname from Users where id=?",
+          ban[0][id].ban_id
+        );
+        banList.push(banNick[0][0].nickname);
       }
       return banList;
     } catch (e) {
