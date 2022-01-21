@@ -43,10 +43,6 @@ const MainPage = () =>{
         socket.emit("findChat",{nick: user, gender: gender})
         console.log("findchat")
         console.log({nick: user, gender: gender, match_gender: match})
-        // socket.on("userFinding", function(){
-        //     setLoading(true);
-        //     startFinding();
-        // })
     }
 
     // Error시 알람 띄우기
@@ -78,14 +74,6 @@ const MainPage = () =>{
     })
     
 
-    function disconnect(){
-        // socket.emit("chatClosingBtn",{roomId: roomId,nick:user})
-        // socket.emit("ChatClosing",{roomId: roomId,nick:user})
-        // socket.emit("disconnect",{roomId: roomId, nick:user})
-        socket.disconnect();
-        setRoomId("")
-        setOther("")
-    }
 
     
     function startFinding(){
@@ -111,6 +99,7 @@ const MainPage = () =>{
         handle = null
         setLoading(false)
         socket.emit("stopUserFinding", {nick:user});
+        stopFinding();
         console.log("취소")
         console.log(handle)
     }
@@ -125,7 +114,6 @@ const MainPage = () =>{
             user={user}
             socket={socket}
             gender={gender}
-            disconnect={disconnect}
             
             cancel={cancel}
             
