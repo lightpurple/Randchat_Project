@@ -35,7 +35,7 @@ const ChatBox = () => {
         <div className="FieldBox">
             <div className="Field"><input className="message"/>
             </div>
-            <div className="FieldButton"></div>
+            <button className="FieldButton"></button>
             <div className="UserList">
                 <div className="User">
                     <button className="YourProfile" onClick={modalClose}></button>
