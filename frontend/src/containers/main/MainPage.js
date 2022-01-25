@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import io from "socket.io-client";
 import client from '../../lib/api/client';
 import ChatList from '../../components/Mainpage/ChatList';
@@ -9,18 +10,65 @@ const socket = io.connect(ENDPOINT)
 
 const MainPage = () =>{
 
-    var handle = null
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
-    const [roomId, setRoomId ] = useState("")   // roomid
-    const [other, setOther] = useState("")      // other
     const [introduce, setIntro] = useState("")  // introduce
     const [loading, setLoading] = useState(false)   // Loading
+    const roomId = ''
+    const other = ''
+
+    const [roomIdList, setRoomIdList] = useState([])
+  
+    const nextId = useRef(0)
+
+    const roomplus = useCallback(({roomId, other}) => {
+        const room = {
+            id: nextId.current,
+            roomId,
+            other
+        }
+        let filterOther = roomIdList.map((room) => room.other)
+        console.log(filterOther)
+        console.log(room)
+        console.log(roomIdList)
+        if(!filterOther.includes(room.other)){
+            setRoomIdList(roomIdList.concat(room))
+            localStorage.setItem("roomIdList",JSON.stringify(roomIdList))
+            nextId.current += 1
+            console.log("등록완료")
+            console.log(roomIdList)
+            console.log("등록 : " + localStorage.getItem("roomIdList") )
+        } else{
+            setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
+        }
+    },[roomIdList, roomId, other, user])
+
+    const onRemove = useCallback(
+        id => {
+            setRoomIdList(roomIdList.filter(room => room.id !== id))
+            console.log(roomIdList)
+            localStorage.setItem("roomIdList",JSON.stringify(roomIdList.filter(room => room.id !== id)))
+        },
+        [roomIdList]
+    )
+
+
+
+    const onToggle = useCallback(
+        id => {
+            setRoomIdList(
+                roomIdList.map(room =>
+                    room.id === id ? { ...room, active: !room.active } : room
+                )
+            );
+        },
+        [roomIdList]
+    )
     
     let match = ''  // match_gender
     
     useEffect(()=>{
-        client.get('/api/chat')
+        client.get("/api/chat")
             .then((res)=>{
             setUser(res.data.nickname)
             setGender(res.data.gender)
@@ -32,17 +80,14 @@ const MainPage = () =>{
         })
     },[user])
 
-    const data ={
-        nick:user,
-        gender:gender
-    }
-
+    useEffect(()=>{
+        setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
+    },[])
     
     // 남, 녀 버튼 클릭 시
-    const findChat = () =>{
-        socket.emit("findChat",{nick: user, gender: gender})
-        console.log("findchat")
-        console.log({nick: user, gender: gender, match_gender: match})
+    const userSetting = () =>{
+        socket.emit("userSetting",{nick: user, gender: gender, matchGender: match})
+        console.log("userSetting")
     }
 
     // Error시 알람 띄우기
@@ -53,61 +98,84 @@ const MainPage = () =>{
         })
     },[socket])
     
-    
-    // userFinding
-    socket.on("userFinding", function(){
+    // userReady
+    socket.on("userReady", function(){
         setLoading(true);
         startFinding();
     })
 
 
-    socket.on("userMatchingComplete", function(data){
-        stopFinding()
-        setRoomId(data.roomId)
-        for(var i = 0; i < data.users.length; i++){
-            if(data.users[i] !== user){
-                setOther(data.users[i])
-            }
-        }
-        console.log(data)
-        window.location.href="/chat"
-    })
+    const ChattingList = {
+        socket:socket,
+        roomId : roomId,
+        user: user,
+        other : other
+    }
     
-
+    useEffect(()=>{
+        socket.on("roomReady", function(data){
+            stopFinding()
+            var roomId = data.roomId
+            var other = data.users.filter((nick)=> nick !== user)[0]
+            console.log("user : " + user)
+            console.log("other : " + other)
+            roomplus({roomId, other})
+            
+            // console.log(data)
+            // window.location.href="/chat"
+            // history.push({
+            //     pathname: `/chat/:${roomId}`,
+            //     props : {
+            //         ChattingList
+            //     }
+            // })
+            // if(data.roomId){
+            //     window.history.pushState(
+            //         ChattingList,
+            //         `/chat/:roomId`
+            //     )
+            // }
+        })
+    },[socket, user, roomplus, roomId, other])
+    
+    // socket.on("roomReady",function(){
+    //     stopFinding()
+    // })
 
     
-    function startFinding(){
-        if(handle === null){
-            handle = setInterval(function(){
-                socket.emit("randomChatFinding",{nick: user, match_gender:match})
-                console.log({nick: user, match_gender:match})
-                console.log("찾는")
-            }, 1000)
-        }
-    }
+    
+    // socket.on("infoSetting",{ nick: other, roomId:roomId})
+    // socket.emit("infoReady",{introduce:introduce})
 
-    function stopFinding(){
-        clearInterval(handle);
-        handle = null
-        setLoading(false)
-        socket.emit("stopUserFinding", {nick:user}); // 서버에 있는 대기열에서 nick 삭제
+    const disconnect = () =>{
+        socket.disconnect()
     }
-
-    // cancel 버튼 클릭 시
-    const cancel = () => {
-        clearInterval(handle);
-        handle = null
-        setLoading(false)
-        socket.emit("stopUserFinding", {nick:user});
-        stopFinding();
-        console.log("취소")
-        console.log(handle)
-    }
-
-    const Match_Gender = (matchgender) =>{
+    
+    const MatchGender = (matchgender) =>{
         match = matchgender
         console.log(match)
     }
+
+    const [delay, setDelay]= useState(null)
+
+    const startFinding = ()=>{
+        setDelay(1000)
+    }
+
+    const stopFinding = () =>{
+        socket.emit("userRelease", {nick:user});
+        setDelay(null)
+        setLoading(false)
+    }
+
+    useEffect(()=>{
+        if(delay !== null){
+            let id = setInterval(function(){
+                socket.emit("roomSetting", {nick:user})
+            }, delay)
+            return() => clearInterval(id)
+        }
+    },[delay, user, socket])
 
     return(
         <ChatList 
@@ -115,20 +183,30 @@ const MainPage = () =>{
             socket={socket}
             gender={gender}
             
-            cancel={cancel}
+            disconnect={disconnect}
+            stopFinding={stopFinding}
             
             introduce={introduce}
+
             other={other}
             roomId={roomId}
-            data={data}
+
+
+            roomIdList = {roomIdList}
             
-            findChat={findChat}
+            userSetting={userSetting}
             loading={loading}
+            
 
+            MatchGender={MatchGender}
 
-            MatchGender={Match_Gender}
+            // onChange={onChange}
+            // onCreate={onCreate}
+            onRemove={onRemove}
+            onToggle={onToggle}
         />    
     );
 }
 
-export default MainPage;
+
+export default React.memo(MainPage);
