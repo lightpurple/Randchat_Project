@@ -105,7 +105,7 @@ export default (server) => {
     });
 
     socket.on("disconnect", (data) => {
-      socket.to(data.roomId).emit("sysMsg", {
+      io.to(data.roomId).emit("sysMsg", {
         message: `${data.nick}님이 퇴장하셨습니다.`,
       });
       socket.leave(data.roomId);
