@@ -130,7 +130,6 @@ export default {
   uploadProfile: async (req, res, next) => {
     const con1 = pool.getConnection(async (conn) => conn);
     try {
-      console.log(req.file.location);
       (await con1).beginTransaction();
       (await con1).query("UPDATE Users SET image = ? WHERE id = ?", [
         req.file.location,
