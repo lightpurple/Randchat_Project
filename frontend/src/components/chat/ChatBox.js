@@ -33,9 +33,12 @@ const ChatBox = () => {
         </div>
 
         <div className="FieldBox">
-            <div className="Field"><input className="message"/>
+            <div className="Field">
+                <input className="message" placeholder="메세지를 입력하세요"/>
             </div>
-            <button className="FieldButton"></button>
+            <button className="FieldButton">
+                {/* 버튼 이름 적어야될거같아 */}
+            </button>
             <div className="UserList">
                 <div className="User">
                     <button className="YourProfile" onClick={modalClose}></button>

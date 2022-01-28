@@ -18,7 +18,6 @@ client.interceptors.response.use(
     
     return response;
   }, error => {
-      alert('실패!')
       // if(error.response.data.msg === "Password is incorrect!"){
       //   //Request failed with status code 400
       //   alert('잘못된 이메일/비밀번호 입니다.');
@@ -29,6 +28,7 @@ client.interceptors.response.use(
       // }
       if(error.response.status === 400){
         alert('실패')
+        console.log(error.response)
       }
       else{alert('실패')}
       return Promise.reject(error);

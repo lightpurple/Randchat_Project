@@ -1,6 +1,7 @@
 import Title from '../components/Login/Title';
-import ChatList from '../components/Mainpage/ChatList';
+
 import { Link } from 'react-router-dom';
+import MainPage from '../containers/main/MainPage';
 
 function Mainpage() {
 
@@ -10,7 +11,7 @@ function Mainpage() {
         <Link to="/chat" className='cbutton'>채팅</Link>
         <Link to="/chatting" className='ctbutton'>새 채팅</Link>
         <Link to="/mypage"  className='mbutton'>마이페이지</Link>
-        <ChatList/>
+        <MainPage/>
     </div>
     );
   }

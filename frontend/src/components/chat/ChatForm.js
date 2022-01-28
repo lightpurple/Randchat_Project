@@ -58,6 +58,16 @@ const ChatForm = (props) =>{
     //     e.preventDefault();
     // }
     
+    const ban = () =>{
+        socket.emit("ban",{roomId : roomId, user : user, other: other})
+        socket.on("banComplete",(result)=>{
+            alert(result)
+            console.log(result)
+        })
+        socket.emit("disconnect")
+    }
+    
+
     // 스크롤바 자동 이동
     const scrollRef = useRef(null);
     const scrollToBottom = () => {
@@ -115,7 +125,7 @@ const ChatForm = (props) =>{
 
                     {visible && 
                         <div className="menubox" >
-                            <button className="menubtn" type="button">차단하기</button>
+                            <button className="menubtn" type="button" onClick={ban}>차단하기</button>
                             <button className="menubtn" type="button" 
                             onClick={()=> {disconnect() 
                             setMsgList([])
