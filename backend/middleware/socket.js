@@ -14,9 +14,7 @@ export default (server) => {
   process.setMaxListeners(0);
   io.on("connection", (socket) => {
     // let clientSocket = io.sockets.connected[user.socketId];
-    console.log("커넥션 성공");
     socket.on("userSetting", async (data) => {
-      console.log("userSetting 이벤트 호출");
       if (!data.nick) {
         socket.emit("Error", "닉네임이 없습니다.");
         return;
@@ -37,12 +35,10 @@ export default (server) => {
         banList
       );
       clients.push(newClient);
-      console.log("userReady 이벤트 호출");
       socket.emit("userReady"); // 로딩화면용
     });
 
     socket.on("userRelease", (data) => {
-      console.log("userRelease 이벤트 호출");
       for (let i in clients) {
         if (clients[i].nick === data.nick) {
           clients.splice(i, 1);
@@ -53,7 +49,6 @@ export default (server) => {
 
     socket.on("roomSetting", (data) => {
       // data.match_gender
-      console.log("roomSetting 이벤트 호출");
       for (let user of clients) {
         // clients에서 user찾기
         if (user.nick === data.nick) {
@@ -65,7 +60,6 @@ export default (server) => {
               other.status = waiting;
               user.client.join(roomId);
               other.client.join(roomId);
-              console.log("roomReady 이벤트 호출");
               io.to(roomId).emit("roomReady", {
                 roomId: roomId,
                 users: users,
@@ -73,7 +67,6 @@ export default (server) => {
               io.to(roomId).emit("sysMsg", {
                 message: "대화방에 입장하셨습니다!!",
               });
-              console.log("유저매칭 성공");
               return;
             }
           }
@@ -82,14 +75,11 @@ export default (server) => {
     });
 
     socket.on("infoSetting", async (data) => {
-      console.log("infoSetting 이벤트 호출");
       const Info = await Chat.getInfo(data.nick);
-      console.log("infoReady 이벤트 호출");
       socket.to(data.roomId).emit("infoReady", {
         introduce: Info.introduce,
         image: Info.image,
       });
-      console.log("introduce 보내기 성공");
     });
 
     socket.on("message", (data) => {
@@ -109,7 +99,6 @@ export default (server) => {
         message: `${data.nick}님이 퇴장하셨습니다.`,
       });
       socket.leave(data.roomId);
-      console.log("room 접속 해제");
     });
   });
 };
