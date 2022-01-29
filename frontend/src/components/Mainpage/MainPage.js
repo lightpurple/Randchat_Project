@@ -1,11 +1,28 @@
 import React from 'react';
 import Loader from "./Loader";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./CSS/Mainpage.css";
 
 const ChatList = ( props ) => {
-    const {  user, disconnect, userSetting, loading, introduce, roomIdList, onRemove, onToggle, stopFinding} = props
+    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro} = props
+    
+    const history = useHistory();
 
+    const chatpush = ({roomId, other}) =>{
+        // window.location.href=`/chat/:${roomId}`
+        history.push({
+            pathname: `/chat/:${roomId}`,
+            props: {
+                socket,
+                user,
+                otherIntro,
+                roomId,
+                other,
+                onRemove
+            }
+        })
+        // window.location.reload()
+    }
     var matchgender = ''
 
     const onLogout = () => {
@@ -17,13 +34,11 @@ const ChatList = ( props ) => {
     }
 
     
-    // console.log(roomIdList)
-    // console.log(roomList)
+    console.log(roomIdList)
+
     return(
     <div className="MainpageBox">
         <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>
-        <p>{user}</p>
-        <p>{introduce}</p>
         <h3>현재 채팅방 수 : {roomIdList ? roomIdList.length:0}</h3>
         <div className='Match'>
             {loading ? <Loader></Loader> : <p>상대방을 선택하여 대화를 시작해보세요</p>}
@@ -58,7 +73,7 @@ const ChatList = ( props ) => {
         {roomIdList?(
             <div>
                 {roomIdList.map(room => (
-                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect}/>
+                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} chatpush={chatpush}/>
                 ))}
             </div>
         ):(null)}
@@ -67,7 +82,7 @@ const ChatList = ( props ) => {
     )
 }
 
-function Room({ room, onRemove, onToggle, disconnect}){
+function Room({ room, onRemove, onToggle, disconnect, chatpush}){
     return(
         <div className="ProfileImg">
             <div 
@@ -76,13 +91,20 @@ function Room({ room, onRemove, onToggle, disconnect}){
                     cursor: 'pointer',
                     color: room.active ? 'green' : 'black'
                 }}
-                onClick={() => onToggle(room.id)}
+                onClick={() => {
+                    onToggle(room.id)
+                    let roomId = room.roomId
+                    let other = room.other
+                    chatpush({roomId, other})
+                    console.log(roomId)
+                }}
+                href={`/chat/:${room.roomId}`}
             >{room.other}</div> 
 
             <button className="close" 
                 onClick={() => {
                     onRemove(room.id) 
-                    disconnect()
+                    // disconnect()
                 }}>&times;</button>
         </div>
     )

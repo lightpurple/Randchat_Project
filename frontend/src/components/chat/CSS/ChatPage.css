@@ -6,7 +6,7 @@
     background-color: rgb(255, 255, 255);
 }
 .ChatRoom{
-    height: 570px;
+    height: 560px;
     width: 800px;
     border-radius: 25px 0 0 0;
     background-color: rgb(231, 231, 231);
@@ -67,35 +67,35 @@
     background-color: rgb(238, 238, 238);
     padding: 10px 0 0 10px;
 }
-.Field{
-    display: inline-block;
-    width: 660px;
-    height: 60px;
-    border-radius: 25px;
-    font-size: 30px;
-    background-color: rgb(255, 255, 255);
-}
+
 .FieldButton{
     display: inline-block;
     margin-left: 20px;
     width: 60px;
     height: 60px;
+    font-size:25px;
     border: none;
     border-radius: 25px;
     background-color: rgb(124, 154, 204);
+    color: white;
 }
 .message{
-    float: left;
+    display: inline-block;
     width: 630px;
-    height: 50px;
-    margin: 5px 0 0 10px;
-    background-color: rgb(255, 255, 255, 0);
+    height: 60px;
+    padding: 0px 20px 0 20px;
+    border-radius: 20px;
+    font-size: 20px;
     border: none;
+    /* outline-style: hidden; */
 }
-input:focus {
+.FieldButton:hover {
     outline: none;
-    background-color: rgb(255, 255, 255, 0);
+    background-color: hsl(218, 44%, 58%);
+    /* background-color: rgb(124, 154, 200); */
+    /* background-color: rgb(255, 255, 255, 0); */
 }
+
 .UserList{
     position: inherit;
     margin: -646px 0 0 790px;
@@ -126,32 +126,30 @@ input:focus {
     background-color: rgba(23, 197, 197, 0);
 }
 .modal__container{
-    position: relative;
-    z-index: 1;
-    left: 105px;
-    top: 30px;
-    width: 270px;
-    margin-bottom: 30px;
-    height: 60px;
+
     background-color: rgb(0, 255, 255);
+    float: right;
+    margin: 30px 25px 0 0;
+    width: 270px;
+    height: 60px;
 }
 .blk{
     position: relative;
-    top: -85px;
     height: 50px;
     width: 100px;
-    margin: 0 5px 0 5px;
+    margin : 5px;
     font-size: 18px;
     color:rgb(255, 255, 255);
     background-color: rgb(59, 59, 59);
+    border-radius: 20px;
 }
 .exit{
     position: relative;
-    top: -85px;
     height: 50px;
     width: 100px;
-    margin: 0 5px 0 5px;
+    margin: 5px;
     font-size: 18px;
     color:rgb(255, 255, 255);
     background-color: rgb(243, 40, 40);
+    border-radius: 20px;
 }

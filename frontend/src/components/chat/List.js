@@ -1,5 +1,5 @@
 import React from 'react';
-import "./CSS/ChatBox.css";
+import "./CSS/ChatPage.css";
 
 const List = ({modalClose}) => {
     return (

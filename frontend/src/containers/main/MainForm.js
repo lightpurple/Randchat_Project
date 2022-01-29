@@ -1,19 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import io from "socket.io-client";
 import client from '../../lib/api/client';
-import ChatList from '../../components/Mainpage/ChatList';
+import MainPage from '../../components/Mainpage/MainPage';
+import { useHistory } from 'react-router-dom';
 
 const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
 
-const socket = io.connect(ENDPOINT)
+const socket = io.connect(ENDPOINT,{transport:['websocket']})
 
-const MainPage = () =>{
-
+const MainForm = () =>{
+    console.log(socket)
+    const history = useHistory();
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
     const [introduce, setIntro] = useState("")  // introduce
+    const [otherIntro, setOtherIntro] = useState("")
     const [loading, setLoading] = useState(false)   // Loading
+
+    let match = ''  // match_gender
+    
+    useEffect(()=>{
+        client.get("/api/chat")
+            .then((res)=>{
+            setUser(res.data.nickname)
+            setGender(res.data.gender)
+            setIntro(res.data.introduce)
+            localStorage.setItem("user",res.data.nickname)
+            console.log(res.data)
+            console.log(user)
+            console.log(localStorage.getItem("user"))
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    },[])
+
     const roomId = ''
     const other = ''
 
@@ -27,20 +49,25 @@ const MainPage = () =>{
             roomId,
             other
         }
-        let filterOther = roomIdList.map((room) => room.other)
+
+        let filterOther = []
+        if(roomIdList){
+            filterOther = roomIdList.map((room)=> room.other)
+            
+        }
         console.log(filterOther)
-        console.log(room)
-        console.log(roomIdList)
-        if(!filterOther.includes(room.other)){
+        if(!filterOther.includes(room.other))
+        {    
+            console.log(room)
             setRoomIdList(roomIdList.concat(room))
-            localStorage.setItem("roomIdList",JSON.stringify(roomIdList))
+            localStorage.setItem("roomIdList",JSON.stringify(roomIdList.concat(room)))
+
             nextId.current += 1
             console.log("등록완료")
-            console.log(roomIdList)
-            console.log("등록 : " + localStorage.getItem("roomIdList") )
-        } else{
-            setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
+            console.log(roomIdList) //[]
+            console.log("등록 : " + localStorage.getItem("roomIdList") ) // 등록:[]
         }
+
     },[roomIdList, roomId, other, user])
 
     const onRemove = useCallback(
@@ -48,6 +75,7 @@ const MainPage = () =>{
             setRoomIdList(roomIdList.filter(room => room.id !== id))
             console.log(roomIdList)
             localStorage.setItem("roomIdList",JSON.stringify(roomIdList.filter(room => room.id !== id)))
+            socket.disconnect()
         },
         [roomIdList]
     )
@@ -65,20 +93,7 @@ const MainPage = () =>{
         [roomIdList]
     )
     
-    let match = ''  // match_gender
     
-    useEffect(()=>{
-        client.get("/api/chat")
-            .then((res)=>{
-            setUser(res.data.nickname)
-            setGender(res.data.gender)
-            setIntro(res.data.introduce)
-            console.log(res.data)
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    },[user])
 
     useEffect(()=>{
         setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
@@ -105,28 +120,38 @@ const MainPage = () =>{
     })
 
 
-    const ChattingList = {
-        socket:socket,
-        roomId : roomId,
-        user: user,
-        other : other
-    }
-    
+    // const ChattingList = {
+    //     socket: socket,
+    //     roomId : roomId,
+    //     user: user,
+    //     other : other        
+    // }
+
     useEffect(()=>{
         socket.on("roomReady", function(data){
             stopFinding()
+            console.log(data)
             var roomId = data.roomId
-            var other = data.users.filter((nick)=> nick !== user)[0]
+
+            var other = data.users.filter((nick) => nick !== localStorage.getItem("user"))[0]
             console.log("user : " + user)
             console.log("other : " + other)
             roomplus({roomId, other})
+            socket.emit("infoSetting",{nick:other,roomId:roomId})
             
-            // console.log(data)
-            // window.location.href="/chat"
+            const hisprops = {
+                socket: socket,
+                user: user,
+                otherIntro : otherIntro,
+            }
             // history.push({
             //     pathname: `/chat/:${roomId}`,
             //     props : {
-            //         ChattingList
+            //         socket,
+                        // user,
+                        // otherIntro,
+                        // roomId,
+                        // other
             //     }
             // })
             // if(data.roomId){
@@ -136,20 +161,20 @@ const MainPage = () =>{
             //     )
             // }
         })
-    },[socket, user, roomplus, roomId, other])
-    
-    // socket.on("roomReady",function(){
-    //     stopFinding()
-    // })
+    },[])
+       
+    useEffect(()=>{
+        socket.on("infoReady",function(data){
+            console.log("infoReady")
+            console.log(data)
+            setOtherIntro(data.introduce)
+        })
+    },[])
 
-    
-    
-    // socket.on("infoSetting",{ nick: other, roomId:roomId})
-    // socket.emit("infoReady",{introduce:introduce})
-
-    const disconnect = () =>{
-        socket.disconnect()
-    }
+    // const disconnect = () =>{
+    //     socket.disconnect()
+    //     onRemove(roomId)
+    // }
     
     const MatchGender = (matchgender) =>{
         match = matchgender
@@ -162,46 +187,46 @@ const MainPage = () =>{
         setDelay(1000)
     }
 
-    const stopFinding = () =>{
-        socket.emit("userRelease", {nick:user});
+    const stopFinding = () =>{ 
         setDelay(null)
         setLoading(false)
+        socket.emit("userRelease", {nick:user});
     }
 
     useEffect(()=>{
+        let count =0
         if(delay !== null){
             let id = setInterval(function(){
                 socket.emit("roomSetting", {nick:user})
+                console.log(count+1)
+                console.log("startFinding")
             }, delay)
             return() => clearInterval(id)
         }
-    },[delay, user, socket])
+    },[delay])
 
     return(
-        <ChatList 
+        <MainPage 
             user={user}
             socket={socket}
             gender={gender}
             
-            disconnect={disconnect}
+            // disconnect={disconnect}
+
             stopFinding={stopFinding}
             
             introduce={introduce}
+            otherIntro={otherIntro}
 
             other={other}
             roomId={roomId}
-
-
             roomIdList = {roomIdList}
             
             userSetting={userSetting}
             loading={loading}
-            
-
+        
             MatchGender={MatchGender}
 
-            // onChange={onChange}
-            // onCreate={onCreate}
             onRemove={onRemove}
             onToggle={onToggle}
         />    
@@ -209,4 +234,4 @@ const MainPage = () =>{
 }
 
 
-export default React.memo(MainPage);
+export default React.memo(MainForm);
