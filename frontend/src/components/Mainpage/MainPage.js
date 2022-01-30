@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Loader from "./Loader";
 import { Link, useHistory } from "react-router-dom";
 import "./CSS/Mainpage.css";
@@ -6,23 +6,6 @@ import "./CSS/Mainpage.css";
 const ChatList = ( props ) => {
     const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro} = props
     
-    const history = useHistory();
-
-    const chatpush = ({roomId, other}) =>{
-        // window.location.href=`/chat/:${roomId}`
-        history.push({
-            pathname: `/chat/:${roomId}`,
-            props: {
-                socket,
-                user,
-                otherIntro,
-                roomId,
-                other,
-                onRemove
-            }
-        })
-        // window.location.reload()
-    }
     var matchgender = ''
 
     const onLogout = () => {
@@ -32,9 +15,6 @@ const ChatList = ( props ) => {
     const match_gender = ()=>{ 
         props.MatchGender(matchgender)
     }
-
-    
-    console.log(roomIdList)
 
     return(
     <div className="MainpageBox">
@@ -73,7 +53,7 @@ const ChatList = ( props ) => {
         {roomIdList?(
             <div>
                 {roomIdList.map(room => (
-                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} chatpush={chatpush}/>
+                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro}/>
                 ))}
             </div>
         ):(null)}
@@ -82,7 +62,9 @@ const ChatList = ( props ) => {
     )
 }
 
-function Room({ room, onRemove, onToggle, disconnect, chatpush}){
+function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
+    const history = useHistory()
+
     return(
         <div className="ProfileImg">
             <div 
@@ -95,10 +77,21 @@ function Room({ room, onRemove, onToggle, disconnect, chatpush}){
                     onToggle(room.id)
                     let roomId = room.roomId
                     let other = room.other
-                    chatpush({roomId, other})
+                    history.push({
+                        pathname: `/chat/:${roomId}`,
+                        state: {
+                            user,
+                            otherIntro,
+                            roomId,
+                            other,
+                        },
+                        socket
+                        
+                    }
+                    )
                     console.log(roomId)
+        
                 }}
-                href={`/chat/:${room.roomId}`}
             >{room.other}</div> 
 
             <button className="close" 

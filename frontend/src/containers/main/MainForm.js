@@ -10,7 +10,7 @@ const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:
 const socket = io.connect(ENDPOINT,{transport:['websocket']})
 
 const MainForm = () =>{
-    console.log(socket)
+    
     const history = useHistory();
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
@@ -21,6 +21,7 @@ const MainForm = () =>{
     let match = ''  // match_gender
     
     useEffect(()=>{
+        
         client.get("/api/chat")
             .then((res)=>{
             setUser(res.data.nickname)
@@ -28,8 +29,6 @@ const MainForm = () =>{
             setIntro(res.data.introduce)
             localStorage.setItem("user",res.data.nickname)
             console.log(res.data)
-            console.log(user)
-            console.log(localStorage.getItem("user"))
         })
         .catch(error => {
             console.error(error);

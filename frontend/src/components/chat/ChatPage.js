@@ -2,24 +2,33 @@ import React, { useEffect, useRef, useState } from 'react';
 import './CSS/ChatPage.css';
 
 const ChatForm = (props) =>{
-    const {userList}=props
+    const {userList, user, other, otherIntro, roomId, onListRemove, sysMsg, ChatChange, ChatSubmit, message}=props
+
     return(
         <div className="ChatBox">
             <div className="ChatRoom">
+                <p>{sysMsg}</p>
+                <p>{other}이 입장했습니다</p>
                 {/* <OtherChat/>
                 <MyChat/> */}
             </div>
 
             <div className="FieldBox">
-                <input className="message" placeholder="메세지를 입력하세요"/>    
-                <button className="FieldButton">전송</button>
+                <input 
+                    className="message" 
+                    name="message" 
+                    placeholder="메세지를 입력하세요"
+                    onChange={ChatChange}
+                    defaultValue={message}
+                />    
+                <button className="FieldButton" onClick={ChatSubmit}>전송</button>
             </div>
             
             <div className='UserList'>
                 {userList?(
                     <div>
                         {userList.map(user => (
-                            <UserList user={user} key={user.id}/>
+                            <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove}/>
                         ))}
                     </div>
                 ):(null)}
@@ -29,7 +38,7 @@ const ChatForm = (props) =>{
     );
 }
 
-const UserList = ({ user })=>{
+const UserList = ({ user,otherIntro,onListRemove })=>{
     const [visible, setVisible] = useState(false);
     return(
         <div className="User">
@@ -45,12 +54,13 @@ const UserList = ({ user })=>{
                         }}>차단</button>
                         <button className="exit"  onClick={()=>{
                             console.log("나가기")
+                            onListRemove()
                         }}>나가기</button>
                     </div>
                 ):(
                     <div id="user1" className="YourName" style={{backgroundcolor: "rgb(80, 80, 80)"}}>
                         <h4>{user.other}</h4>
-                        <p></p>
+                        {otherIntro? <p>{otherIntro}</p> :<p>안녕하세요. {user.other}입니다.</p>}
 
                     </div>
                 )
