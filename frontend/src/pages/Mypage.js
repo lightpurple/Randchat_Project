@@ -13,7 +13,7 @@ function Mypage() {
   return (
     <div className="Mypage">
       <Title title="Funny Chatter"></Title>
-      <Link to="/chatting" className="c_button">채팅하기</Link>
+      <Link to="/main" className="c_button">채팅하기</Link>
       <Profile/>
       <EmailPassword/>
       <Nickname/>

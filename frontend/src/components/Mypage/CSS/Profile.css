@@ -59,15 +59,17 @@ form{
     color:#000000;
     font-size: 16px;
 }
-input[type="file"]{
-    height: 50px;
-    display: inline;
+.FileSelect{
+    padding: 6px;
     width: 80px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 5px;
+    height: 20px;
     text-align: center;
-    text-decoration: none;
-    color:#e61d1d;
-    font-size: 16px;
+    background-color:#ffffff;
+    cursor: pointer;border: 1px solid #cccccc;
+    border-radius: 5px;
+    color:#000000;
+    font-size: 15px;
+}
+.Filebutton{
+    display: none;
 }

@@ -7,12 +7,8 @@ const Footer = () => {
         <div className="footerback">
             <ul className="footermenu">
 
-                <Link to="/about" className="footermenu">About</Link>
-                <Link to="#" className="footermenu">개인정보 보호</Link>
-                <Link to="#" className="footermenu">도움말</Link>
-                <Link to="#" className="footermenu">공지사항</Link>
-                <Link to="#" className="footermenu">문의하기</Link>
-
+                <Link to="/about" className="footermenu">Developer</Link>
+                <Link to="#" className="footermenu">About</Link>
             </ul>
         </div>
     );
