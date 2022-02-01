@@ -7,17 +7,6 @@
     background-color: #ffffff;
     border-radius: 10px;
 }
-input[type="file"] {
-    display: inline;
-    width: 80px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    color:#000000;
-    font-size: 16px;
-}
 .inputFileButton{
     padding: 6px;
     width: 80px;
@@ -68,5 +57,17 @@ form{
     text-align: center;
     text-decoration: none;
     color:#000000;
+    font-size: 16px;
+}
+input[type="file"]{
+    height: 50px;
+    display: inline;
+    width: 80px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color:#e61d1d;
     font-size: 16px;
 }
