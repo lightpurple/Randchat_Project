@@ -8,7 +8,15 @@
     border-radius: 10px;
 }
 input[type="file"] {
-    display: none;
+    display: inline;
+    width: 80px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color:#000000;
+    font-size: 16px;
 }
 .inputFileButton{
     padding: 6px;
@@ -45,4 +53,20 @@ label{
 }
 input[type="text"]:focus{
     outline:none;
+}
+.itemFile{
+    width: 50px;
+    height: 50px;
+    background-color: #69727D;
+}
+form{
+    display: inline;
+    width: 80px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color:#000000;
+    font-size: 16px;
 }
