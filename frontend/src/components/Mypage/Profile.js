@@ -5,25 +5,32 @@ import client from "../../lib/api/client";
 import "./CSS/Mypagebox.css";
 import "./CSS/Profile.css";
 
-const Profile = () => {
+function Profile() {
 
-    // const [imageUrl, setFileUrl] = useState("");
+    const onChangeImg = async (e) => {
+        e.preventDefault();
+        
+        if(e.target.files){
+          const uploadFile = e.target.files[0]
+          const formData = new FormData()
+          formData.append('image',uploadFile)
 
-    // const onClick = (e) => {
-    //     const ImageFile = e.target.files[0];
-    //     const image = new FormData();
-    //     const imageUrl = URL.createObjectURL(ImageFile);
-    //     setFileUrl(imageUrl)
-    //     image.append('image', ImageFile);
-
-    //     client.post('/api/mypage/upload', image)
-    //        .then(res => {
-    //             console.log(res);
-    //           })
-    //           .catch(err => {
-    //             console.error(err);
-    //           })
-    // }
+          await client({
+            method: 'post',
+            url: '/api/mypage/upload',
+            data: formData,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+        })
+        .then(res => {
+                alert("사진이 변경되었습니다");     
+              })
+        .catch(err => {
+                alert("파일 크기가 4MB를 초과합니다");
+              })
+        };
+    };      
 
     const [url, seturl] = useState("");
 
@@ -38,17 +45,6 @@ const Profile = () => {
       })
     },[url])
 
-    // const onClick = (e) => {
-    //     client
-    //     .post('api/mypage/upload', formData)
-    //         .then(res => {
-    //             console.log(res.data);
-    //           })
-    //           .catch(err => {
-    //             console.error(err);
-    //           })
-    //     }
-
     return (
 
         <div className="MyPageProfile">
@@ -56,8 +52,6 @@ const Profile = () => {
             <div className="imageBox">
                 <img className="image" src={url} alt=""/>
             </div>
-
-
 
             <div className="Item">
                 <p>소개 한마디</p>
@@ -74,26 +68,15 @@ const Profile = () => {
                     {margin: "20px 0 20px 30px",
                     width: "60%",
                     border: "solid 1px",
-                    color: "#cccccc"}}
+                    color: "f7f7f7"}}
                 />
             </div>
 
             <div className="itemSelect">
-                {/* <form method="post" action="/api/mypage/upload" enctype="multipart/form-data"> */}
-                {/* <label className="inputFileButton" htmlFor="file">
-                    사진 선택
-                </label> */}
-                {/* <input className="itemFile" type="file" id="file" accept="image/png, image/jpeg"/>
-                <input type="submit"/> */}
-
-                {/* </form> */}
-                {/* <button onClick={onClick}>저장하기</button> */}
-
-                <form action='/api/mypage/upload'>
-                <input className="itemFile" type="file" id="file" accept="image/png, image/jpeg"/>
-                <input type='submit' value='저장'/>
+                <form>
+                    <label htmlFor="profile"/>
+                    <input type="file" id="profile" className="FileSelect" accept="image/png, image/jpeg" name="image" onChange={onChangeImg}/>
                 </form>
-
             </div>
         </div>
     );
