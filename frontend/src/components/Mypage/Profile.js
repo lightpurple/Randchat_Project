@@ -74,8 +74,8 @@ function Profile() {
 
             <div className="itemSelect">
                 <form>
-                    <label htmlFor="profile"/>
-                    <input type="file" id="profile" className="FileSelect" accept="image/png, image/jpeg" name="image" onChange={onChangeImg}/>
+                    <label htmlFor="profile"  className="FileSelect">사진 변경</label>
+                    <input type="file" id="profile" accept="image/png, image/jpeg" className="Filebutton" name="image" onChange={onChangeImg}/>
                 </form>
             </div>
         </div>
