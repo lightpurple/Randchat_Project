@@ -1,4 +1,4 @@
-import Title from '../components/Login/Title';
+import MainTitle from '../components/Login/MainTitle';
 import { Link } from 'react-router-dom';
 import MainForm from '../containers/main/MainForm';
 
@@ -6,13 +6,12 @@ function Mainpage() {
 
     return (
     <div className="Mainpage">
-        <Title title="가볍게 상대방과 하는 채팅"></Title>
-        <Link to="/chat" className='cbutton'>채팅</Link>
-        <Link to="/mypage"  className='mbutton'>마이페이지</Link>
+        <MainTitle title="가볍게 상대방과 하는 채팅"></MainTitle>
         <MainForm/>
     </div>
     );
   }
+//   채팅은 매칭 후 들어갈 수 있으니 빼고 마이페이지/로그아웃만 두기
   
   export default Mainpage;
   

@@ -13,7 +13,7 @@ const Header = () => {
                 가볍게 상대방과 하는 채팅
             </div>
                 <div className="TopBtn">
-                    <Link to="/chatting" className="headermenu">chatting</Link>
+                    <Link to="/chat" className="headermenu">chatting</Link>
                     <Link to="/main" className="headermenu">mainpage</Link>
                     <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>
                     <Link to="/mypage" className="headermenu">mypage</Link>

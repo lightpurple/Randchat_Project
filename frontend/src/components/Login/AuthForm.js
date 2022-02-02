@@ -17,11 +17,11 @@ const AuthForm = ({type, form, onChange, onSubmit }) =>{
             <div className="form">
                 <form onSubmit={onSubmit} method="POST">
                     
-                    { type === 'login' && <div className="logintitle">이메일</div>}
+                    { type === 'login' && <div className="logintitle">Email</div>}
                     <input autoComplete="email" name="email" className={type === "login"? "box" : "registerbox"} placeholder={type === "login"? "" : "이메일"}  type="email" onChange={onChange} value={form.email}
                     />
                                     
-                    { type === 'login' && <div className="logintitle">비밀번호</div>}
+                    { type === 'login' && <div className="logintitle">Password</div>}
                     <input autoComplete="new-password" name="password"  className={type === "login"? "box" : "registerbox"} placeholder={type === "login"? "" : "비밀번호"} type ="password" onChange={onChange} value={form.password} minLength="8"/>
                     {form.password.length > 0 && form.password.length < 8  && <div style={{color : 'red'}}>영어, 숫자를 포함한 8자 이상 입력해주세요.</div>}                  
 

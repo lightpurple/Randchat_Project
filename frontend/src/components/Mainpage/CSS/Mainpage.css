@@ -4,7 +4,7 @@
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(187, 187, 187, 0.7);
     border-radius: 25px;
 }
 .ProfileImg{
@@ -77,24 +77,6 @@
 
 .Match button:focus{
     background-color: hsl(218, 44%, 58%);
-}
-.cbutton{
-    margin: 15px;
-    color: black;
-    text-decoration: none;
-    font-size: 25px;
-}
-.ctbutton{
-    margin: 15px;
-    color: black;
-    text-decoration: none;
-    font-size: 25px;
-}
-.mbutton{
-    margin: 15px;
-    color: black;
-    text-decoration: none;
-    font-size: 25px;
 }
 .mnbutton{
     margin: 15px;

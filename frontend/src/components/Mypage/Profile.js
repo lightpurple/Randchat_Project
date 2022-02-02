@@ -1,25 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Intro from "../../containers/Mypage/Intro";
 import InUseIntro from "../../containers/Mypage/InUseIntro";
+import client from "../../lib/api/client";
 import "./CSS/Mypagebox.css";
 import "./CSS/Profile.css";
 
-const Profile = () => {
+function Profile() {
 
-    const [fileUrl, setFileUrl] = useState(null);
+    const onChangeImg = async (e) => {
+        e.preventDefault();
+        
+        if(e.target.files){
+          const uploadFile = e.target.files[0]
+          const formData = new FormData()
+          formData.append('image',uploadFile)
 
-    function handleFileChange(event){
-        const imageFile = event.target.files[0];
-        const imageUrl = URL.createObjectURL(imageFile);
-        setFileUrl(imageUrl)
-     }
+          await client({
+            method: 'post',
+            url: '/api/mypage/upload',
+            data: formData,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+        })
+        .then(res => {
+                alert("사진이 변경되었습니다");     
+              })
+        .catch(err => {
+                alert("파일 크기가 4MB를 초과합니다");
+              })
+        };
+    };      
+
+    const [url, seturl] = useState("");
+
+    useEffect(()=>{
+      client.get("/api/mypage")
+        .then(response => {
+        console.log(response.data.image);
+        seturl(response.data.image);
+      })
+        .catch(error => {
+        console.error(error);
+      })
+    },[])
 
     return (
 
         <div className="MyPageProfile">
         
             <div className="imageBox">
-                <img className="image" src={fileUrl} alt=""/>
+                <img className="image" src={url} alt=""/>
             </div>
 
             <div className="Item">
@@ -37,15 +68,15 @@ const Profile = () => {
                     {margin: "20px 0 20px 30px",
                     width: "60%",
                     border: "solid 1px",
-                    color: "#cccccc"}}
+                    color: "f7f7f7"}}
                 />
             </div>
 
             <div className="itemSelect">
-                <label className="inputFileButton" htmlFor="file">
-                    사진 선택
-                </label>
-                <input className="itemFile" type="file" id="file" onChange={handleFileChange} />
+                <form>
+                <label htmlFor="profile"  className="FileSelect">사진 변경</label>
+                    <input type="file" id="profile" accept="image/png, image/jpeg" className="Filebutton" name="image" onChange={onChangeImg}/>
+                </form>
             </div>
         </div>
     );

@@ -8,17 +8,12 @@ const ChatList = ( props ) => {
     
     var matchgender = ''
 
-    const onLogout = () => {
-        localStorage.clear();
-    };
-
     const match_gender = ()=>{ 
         props.MatchGender(matchgender)
     }
 
     return(
     <div className="MainpageBox">
-        <Link to="/" className="headermenu" onClick={onLogout}>Logout</Link>
         <h3>현재 채팅방 수 : {roomIdList ? roomIdList.length:0}</h3>
         <div className='Match'>
             {loading ? <Loader></Loader> : <p>상대방을 선택하여 대화를 시작해보세요</p>}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Title from '../components/Login/Title';
+import MyTitle from '../components/Login/MyTitle';
 import Profile from '../components/Mypage/Profile';
 import EmailPassword from '../components/Mypage/EmailPassword'
 //import Gender from '../components/Mypage/Gender';
@@ -12,8 +12,7 @@ function Mypage() {
 
   return (
     <div className="Mypage">
-      <Title title="Funny Chatter"></Title>
-      <Link to="/chatting" className="c_button">채팅하기</Link>
+      <MyTitle title="가볍게 상대방과 하는 채팅"></MyTitle>
       <Profile/>
       <EmailPassword/>
       <Nickname/>

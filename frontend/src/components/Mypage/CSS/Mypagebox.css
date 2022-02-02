@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+.Mypage{
+    background-color: #383c77;
+}
 body{
     width: 100%;
     padding: 0;
     margin: 0;
     text-align: center;
-    background-color: #7C9ACC;
+    background-color: #ffffff;
 }
 h2{
     font-family: 'Rajdhani', sans-serif;
@@ -18,7 +21,7 @@ h2{
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
-    background-color: #ffffff;
+    background-color: #eeeeee;
     border-radius: 10px;
 }
 p{
@@ -26,9 +29,12 @@ p{
     width:fit-content;
 }
 hr{
-    margin: 20px 0 30px 30px;
-    width: 90%;
-    border: solid 1px;
+    margin: 50px 0 0 0;
+    width: 100%;
+    border-bottom: solid 1px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
     color: #cccccc;
 }
 .Title{
@@ -43,11 +49,14 @@ hr{
 }
 .Contents{
     margin: 20px 30px 20px 30px;
-    width: 100%;
+    width: 300px;
     font-weight: bold;
     font-size: 21px;
     color:#000000;
     text-align: left;
+}
+div{
+    display: block;
 }
 .Change{
     float: right;
@@ -73,7 +82,7 @@ hr{
     color:#ffffff;
     font-size: 15px;
     height: 35px;
-    width: 20px;
+    width: 70px;
 }
 .changepage{
     position: relative;
