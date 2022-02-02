@@ -63,7 +63,7 @@ function Password() {
     }
   
     return (
-      <div >
+      <div className='IntroCSS'>
   
         <>
   

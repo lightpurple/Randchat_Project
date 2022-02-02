@@ -129,8 +129,8 @@ h5{
     font-size: 15px;
 }
 div{
-    display: inline-block;
+    display: block;
 }
 .IntroCSS{
-    display: inline;
+    display: inline-block;
 }

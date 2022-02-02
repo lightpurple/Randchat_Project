@@ -12,7 +12,7 @@ const Title = props =>{
             <h1>{props.title}</h1>
             <Link to="/mypage" className='mbutton'>
                 <BsFillPersonLinesFill className='MyIcon'/></Link>
-            <Link to="/chatting" className='cbutton'>
+            <Link to="/chat" className='cbutton'>
                 <AiFillWechat className='CIcon'/></Link>
             <Link to="/main" className='mbutton'>
             <AiFillPlusCircle className='MIcon'/></Link>

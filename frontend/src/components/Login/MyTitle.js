@@ -17,7 +17,7 @@ const Title = props =>{
             <h1>{props.title}</h1>
             <Link to="/" className="headermenu" onClick={onLogout}>
                 <RiLogoutBoxRLine className="OIcon"/></Link>
-            <Link to="/chatting" className='cbutton'>
+            <Link to="/chat" className='cbutton'>
                 <AiFillWechat className='CIcon'/></Link>
             <Link to="/main" className='mbutton'>
             <AiFillPlusCircle className='MIcon'/></Link>

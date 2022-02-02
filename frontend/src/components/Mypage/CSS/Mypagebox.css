@@ -56,7 +56,7 @@ hr{
     text-align: left;
 }
 div{
-    display: inline-block;
+    display: block;
 }
 .Change{
     float: right;

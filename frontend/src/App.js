@@ -24,7 +24,7 @@ function App() {
       } */}
       <Switch>
         <Route component={LoginPage} path={["/"]} exact/>
-        <Route component={ChatPage} path={["/chat/:roomId"]}/>
+        <Route component={ChatPage} path={["/chat/:roomId","/chat"]}/>
         <Route component={RegisterPage} path="/signup"/>
         <Route component={Mainpage} path="/main"/>
         <Route component={Mypage} path="/Mypage" exact/>
