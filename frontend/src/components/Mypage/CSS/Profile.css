@@ -4,7 +4,7 @@
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
-    background-color: #ffffff;
+    background-color: #eeeeee;
     border-radius: 10px;
 }
 .inputFileButton{
@@ -72,4 +72,21 @@ form{
 }
 .Filebutton{
     display: none;
+}
+button{
+    float: right;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color:#69727D;
+    font-size: 16px;
+    text-decoration: none;
+    text-underline-position: under;
+    width: 105px;
+    height: 33px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #cccccc;
 }

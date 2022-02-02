@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+.Mypage{
+    background-color: #383c77;
+}
 body{
     width: 100%;
     padding: 0;
     margin: 0;
     text-align: center;
-    background-color: #63a74e;
+    background-color: #ffffff;
 }
 h2{
     font-family: 'Rajdhani', sans-serif;
@@ -18,7 +21,7 @@ h2{
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
-    background-color: #ffffff;
+    background-color: #eeeeee;
     border-radius: 10px;
 }
 p{
@@ -51,6 +54,9 @@ hr{
     font-size: 21px;
     color:#000000;
     text-align: left;
+}
+div{
+    display: inline-block;
 }
 .Change{
     float: right;

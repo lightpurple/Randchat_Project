@@ -43,7 +43,6 @@ input[type="email"] {
     /* border-bottom: solid 3px #b3b3b3; */
     border-radius: 0;
     outline-style: none;
-    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
@@ -56,7 +55,6 @@ input[type="password"] {
     /* border-bottom: solid 3px #b3b3b3; */
     border-radius: 0;
     outline-style: none;
-    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
