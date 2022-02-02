@@ -17,7 +17,7 @@ const MainForm = () =>{
     const [introduce, setIntro] = useState("")  // introduce
     const [otherIntro, setOtherIntro] = useState("")
     const [loading, setLoading] = useState(false)   // Loading
-
+    const [sysMsg, setSysMsg] = useState("")
     let match = ''  // match_gender
     
     useEffect(()=>{
@@ -167,6 +167,12 @@ const MainForm = () =>{
             console.log("infoReady")
             console.log(data)
             setOtherIntro(data.introduce)
+        })
+
+        socket.on("sysMsg",(data)=>{
+            setSysMsg(data.message)
+            alert(data)
+            console.log(data)
         })
     },[])
 

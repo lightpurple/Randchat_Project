@@ -2,15 +2,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import ChatPage from "../../components/chat/ChatPage"
 import { useHistory, withRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import io from "socket.io-client";
 const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
 
 const socket = io.connect(ENDPOINT,{transport:['websocket']})
 const ChatForm = ({ location, history}) =>{
-
-    // console.log("location : ", location);
-    // console.log("history : ", history);
 
     const [userList, setUserList] = useState([])
     const [user, setUser] = useState("")
@@ -81,7 +77,7 @@ const ChatForm = ({ location, history}) =>{
             socket.emit("message", {roomId: roomID, message:message, nick: user})
             setChatMsg({
                 roomId : `${roomID}`,
-                message : '',
+                message : ' ',
                 nick : `${user}`
             })
             console.log("끝"+ chatMsg)
