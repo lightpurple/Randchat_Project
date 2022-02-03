@@ -4,8 +4,11 @@
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
-    background-color: rgba(187, 187, 187, 0.7);
+    background-color: rgb(182, 182, 182, 0.3);
     border-radius: 25px;
+}
+.MainpageBox > h3{
+    padding: 40px 0 70px 0;
 }
 .ProfileImg{
     margin: auto;
@@ -58,16 +61,18 @@
     font-size: 23px;
     color: rgb(36, 36, 36);
     line-height: 40px;
-    margin: 5px 92px 35px 92px;
+    margin: 15px 92px 35px 92px;
 }
 .Match > button{
+    width: 120px;
+    height: 46px;
     display: inline-block;
-    padding: 10px 20px;
     margin: 0 25px 0 30px;
     color: #fff;
     background-color: rgb(124, 154, 204, 0.8);
     border-radius: 5px;
-    font-size: 28px;
+    font-size: 24px;
+    text-align: center;
     border: none;
 }
 

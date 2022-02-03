@@ -8,12 +8,6 @@ const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:
 const socket = io.connect(ENDPOINT,{transport:['websocket']})
 const ChatForm = ({ location, history}) =>{
 
-<<<<<<< HEAD
-=======
-    // // console.log("location : ", location);
-    // // console.log("history : ", history);
-
->>>>>>> 4c6327534d1cee4ed4b000566613145bf9094b34
     const [userList, setUserList] = useState([])
     const [user, setUser] = useState("")
     const [other, setOther] = useState("")
@@ -71,47 +65,6 @@ const ChatForm = ({ location, history}) =>{
     //         }
             
             
-<<<<<<< HEAD
-            console.log({roomId: roomID, message:message, nick: user})
-
-            const msg = {
-                roomId,
-                message,
-                nick
-            }
-            console.log(msg)
-            console.log(message)
-            socket.emit("message", {roomId: roomID, message:message, nick: user})
-            setChatMsg({
-                roomId : `${roomID}`,
-                message : ' ',
-                nick : `${user}`
-            })
-            console.log("끝"+ chatMsg)
-            console.log(chatMsg)
-            e.preventDefault()
-        }
-    )
-    useEffect(()=>{
-            socket.on("message", (data) =>{
-                setChatMsgList(chatMsgList.concat(data))
-                console.log(chatMsgList)
-                console.log("송신" + data)
-                console.log(2);
-            })
-
-            socket.on("sysMsg", (data)=>{
-                setSysMsg(data.message)
-                alert(data)
-                console.log(data)
-            })
-
-            socket.on("test",function(data){
-                alert(data)
-                console.log(data)
-            })
-    },[socket])
-=======
     //         console.log({roomId: roomID, message:message, nick: user})
 
     //         const msg = {
@@ -151,7 +104,6 @@ const ChatForm = ({ location, history}) =>{
     //             console.log(data)
     //         })
     // },[socket])
->>>>>>> 4c6327534d1cee4ed4b000566613145bf9094b34
     
 
     // const ban = () =>{

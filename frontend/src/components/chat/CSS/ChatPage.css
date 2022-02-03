@@ -73,7 +73,7 @@
     margin-left: 20px;
     width: 60px;
     height: 60px;
-    font-size:25px;
+    font-size:21px;
     border: none;
     border-radius: 25px;
     background-color: rgb(124, 154, 204);
@@ -82,8 +82,8 @@
 .message{
     display: inline-block;
     width: 630px;
-    height: 60px;
-    padding: 0px 20px 0 20px;
+    height: 56px;
+    padding: 6px 20px 0 20px;
     border-radius: 20px;
     font-size: 20px;
     border: none;
@@ -114,6 +114,9 @@
     border-radius: 100px;
     object-fit: cover;
     background-color: rgb(255, 255, 255);
+}
+.YourProfile:hover{
+    cursor:pointer;
 }
 .YourName{
     float: right;

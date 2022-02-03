@@ -1,14 +1,11 @@
 import React from 'react';
-
 import ChatForm from '../containers/chat/ChatForm';
-import Title from '../components/Login/Title';
-import { Link } from 'react-router-dom';
+import ChatTitle from '../components/Login/ChatTitle';
 
 const ChatPage = ({location}) => {
     return(
         <div>
-            <Title title="가볍게 상대방과 하는 채팅"></Title>
-            <Link to="/main" className='mnbutton'>메인페이지</Link>
+            <ChatTitle title="가볍게 상대방과 하는 채팅"></ChatTitle>
             <ChatForm props={location}/>
         </div>
     );
