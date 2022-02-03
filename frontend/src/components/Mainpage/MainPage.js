@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import "./CSS/Mainpage.css";
 
 const ChatList = ( props ) => {
-    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro} = props
+    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro, sysMsg} = props
     
     var matchgender = ''
 
@@ -45,7 +45,7 @@ const ChatList = ( props ) => {
         {roomIdList?(
             <div>
                 {roomIdList.map(room => (
-                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro}/>
+                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro} sysMsg={sysMsg}/>
                 ))}
             </div>
         ):(null)}
@@ -54,12 +54,14 @@ const ChatList = ( props ) => {
     )
 }
 
-function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
+function Room({ room, onRemove, onToggle, otherIntro, user, socket,sysMsg}){
     const history = useHistory()
 
     return(
         <div className="ProfileImg">
-            <div 
+            <img 
+                src="https://image.flaticon.com/icons/png/512/1946/1946429.png"
+                alt="profile"
                 className="Img1"
                 style={{
                     cursor: 'pointer',
@@ -76,6 +78,7 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
                             otherIntro,
                             roomId,
                             other,
+                            sysMsg,
                         },
                         socket
                         
@@ -84,8 +87,8 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
                     console.log(roomId)
         
                 }}
-            >{room.other}</div> 
-
+            ></img> 
+            {room.other}
             <button className="close" 
                 onClick={() => {
                     onRemove(room.id) 
