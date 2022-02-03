@@ -1,72 +1,104 @@
+import { Server } from "socket.io";
+import Chat from "../controllers/chat.controllers.js";
+
 //const redis = require("socket.io-redis");
-const router = require("../routes/auth");
-
 var clients = [];
+const waiting = 0;
+const finding = 1;
 
-module.exports = (io) => {
-    //io.adapter(redis({ host: "localhost", port: 6379 }));
-    process.setMaxListeners(15);
-    io.on("connection", (socket) => {
-        socket.on("findChat", (data) => {
-            if (!data.nick) {
-                socket.emit("Error", "닉네임이 없습니다.");
-                return;
-            }
-            for (var i = 0; i < clients.length; i++) {
-                if (clients[i].nick == data.name) {
-                    socket.emit("Error", "이미 대화상대를 찾는 중입니다.");
-                    return;
-                }
-            }
-            clients.push({
-                nick: data.nick, // 사용자 닉네임
-                client: socket, // 사용자의 소켓
-                gender: data.gender,
-            });
-            socket.emit("userFinding"); // 로딩화면용
-        });
-
-        socket.on("stopUserFinding", (data) => {
-            for (var i = 0; i < clients.length; i++) {
-                if (clients[i].nick == data.nick) {
-                    clients.splice(i, 1);
-                    return;
-                }
-            }
-        });
-
-        socket.on("randomChatFinding", (data) => {
-            for (var i = 0; i < clients.length; i++) {
-                if (clients[i].nick == data.nick) {
-                    continue;
-                } else if (clients[i].gender == data.match_gender) {
-                    var roomId = new Date().getTime() + "";
-                    clients[i].client.join(roomId);
-                    io.sockets.to(roomId).emit("userMatchingComplete", {
-                        roomId: roomId,
-                        other: clients[i].nick,
-                    });
-                    io.socket.to(roomId).emit("sysMsg", {
-                        message: `${clients[i].nick}님이 입장하셨습니다.`,
-                    });
-                    clients.splice(i, 1);
-                    return;
-                }
-            }
-        });
-
-        socket.on("message", (data) => {
-            io.sockets.to(data.roomId).emit("message", {
-                message: data.message,
-            });
-        });
-
-        socket.on("disconnect", (data) => {
-            io.sockets.to(data.roomId).emit("sysMsg", {
-                message: `${data.nick}님이 퇴장하셨습니다.`,
-            });
-            socket.leave(data.roomId);
-            console.log("room 접속 해제ㅠㅠ");
-        });
+export default (server) => {
+  const io = new Server(server, {
+    cors: { origin: "http://localhost:3000" },
+  });
+  //io.adapter(redis({ host: "localhost", port: 6379 }));
+  process.setMaxListeners(0);
+  io.on("connection", (socket) => {
+    // let clientSocket = io.sockets.connected[user.socketId];
+    socket.on("userSetting", async (data) => {
+      if (!data.nick) {
+        socket.emit("Error", "닉네임이 없습니다.");
+        return;
+      }
+      for (let i in clients) {
+        if (clients[i].nick === data.nick) {
+          socket.emit("Error", "이미 대화상대를 찾는 중입니다.");
+          return;
+        }
+      }
+      const banList = await Chat.getBanUser(data.nick); // 유저 밴 목록 가져오기
+      const newClient = new Chat.newUser(
+        data.nick,
+        socket,
+        data.gender,
+        data.matchGender,
+        finding,
+        banList
+      );
+      clients.push(newClient);
+      socket.emit("userReady"); // 로딩화면용
     });
+
+    socket.on("userRelease", (data) => {
+      for (let i in clients) {
+        if (clients[i].nick === data.nick) {
+          clients.splice(i, 1);
+          return;
+        }
+      }
+    });
+
+    socket.on("roomSetting", (data) => {
+      // data.match_gender
+      for (let user of clients) {
+        // clients에서 user찾기
+        if (user.nick === data.nick) {
+          for (let other of clients) {
+            if (Chat.matchCondition(user, other)) {
+              const roomId = Date.now();
+              const users = [user.nick, other.nick];
+              user.status = waiting;
+              other.status = waiting;
+              user.client.join(roomId);
+              other.client.join(roomId);
+              io.to(roomId).emit("roomReady", {
+                roomId: roomId,
+                users: users,
+              });
+              io.to(roomId).emit("sysMsg", {
+                message: "대화방에 입장하셨습니다!!",
+              });
+              return;
+            }
+          }
+        }
+      }
+    });
+
+    socket.on("infoSetting", async (data) => {
+      const Info = await Chat.getInfo(data.nick);
+      socket.to(data.roomId).emit("infoReady", {
+        introduce: Info.introduce,
+        image: Info.image,
+      });
+    });
+
+    socket.on("message", (data) => {
+      socket.to(data.roomId).emit("message", {
+        message: data.message,
+        nick: data.nick,
+      });
+    });
+
+    socket.on("ban", async (data) => {
+      await Chat.putBanUser(data.user, data.other);
+      socket.to(data.roomId).emit("banComplete");
+    });
+
+    socket.on("disconnect", (data) => {
+      io.to(data.roomId).emit("sysMsg", {
+        message: `${data.nick}님이 퇴장하셨습니다.`,
+      });
+      socket.leave(data.roomId);
+    });
+  });
 };

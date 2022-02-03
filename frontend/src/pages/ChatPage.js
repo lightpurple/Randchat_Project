@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatBlock from '../components/chat/ChatBlock';
-import ChatForm from '../components/chat/ChatForm';
+import ChatPageForm from '../containers/chat/ChatPageForm';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
@@ -8,7 +8,7 @@ const ChatPage = () => {
     return(
         <ChatBlock>
             <Header/>
-            <ChatForm/>
+            <ChatPageForm/>
             <Footer/>
         </ChatBlock>
     );
