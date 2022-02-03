@@ -11,7 +11,7 @@ export default (server) => {
     cors: { origin: "http://localhost:3000" },
   });
   //io.adapter(redis({ host: "localhost", port: 6379 }));
-  process.setMaxListeners(0);
+  io.sockets.setMaxListeners(0);
   io.on("connection", (socket) => {
     // let clientSocket = io.sockets.connected[user.socketId];
     socket.on("userSetting", async (data) => {
