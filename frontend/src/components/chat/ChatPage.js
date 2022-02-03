@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './CSS/ChatPage.css';
 
 const ChatForm = (props) =>{
-    const {userList, user, other, otherIntro, roomId, onListRemove, sysMsg, ChatChange, ChatSubmit, message}=props
+    const {userList, user, other, otherIntro, roomId, onListRemove, sysMsg, onChatChange, onChatSubmit, message}=props
 
     return(
         <div className="ChatBox">
@@ -18,10 +18,10 @@ const ChatForm = (props) =>{
                     className="message" 
                     name="message" 
                     placeholder="메세지를 입력하세요"
-                    onChange={ChatChange}
-                    defaultValue={message}
+                    onChange={onChatChange}
+                    value={message}
                 />    
-                <button className="FieldButton" onClick={ChatSubmit}>전송</button>
+                <button className="FieldButton" onClick={onChatSubmit}>전송</button>
             </div>
             
             <div className='UserList'>

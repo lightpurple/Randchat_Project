@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
 
-const socket = io.connect(ENDPOINT,{transport:['websocket']})
+const socket = io.connect(ENDPOINT)
 
 const MainForm = () =>{
     
@@ -59,7 +59,7 @@ const MainForm = () =>{
         {    
             console.log(room)
             setRoomIdList(roomIdList.concat(room))
-            localStorage.setItem("roomIdList",JSON.stringify(roomIdList.concat(room)))
+            localStorage.setItem("roomIdList",JSON.stringify(roomIdList))
 
             nextId.current += 1
             console.log("등록완료")
@@ -171,8 +171,7 @@ const MainForm = () =>{
 
         socket.on("sysMsg",(data)=>{
             setSysMsg(data.message)
-            alert(data)
-            console.log(data)
+            console.log(data.message)
         })
     },[])
 
@@ -226,6 +225,7 @@ const MainForm = () =>{
             other={other}
             roomId={roomId}
             roomIdList = {roomIdList}
+            sysMsg={sysMsg}
             
             userSetting={userSetting}
             loading={loading}
