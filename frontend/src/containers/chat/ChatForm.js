@@ -16,7 +16,6 @@ const ChatForm = ({ history}) =>{
     const info = history.location.state
     // // const socket = history.location.socket
 
-
     // //{user: '1234', otherIntro: '', roomId: 1643360291499, other: '1234e'}
     useEffect(()=>
     {   
@@ -24,6 +23,7 @@ const ChatForm = ({ history}) =>{
         setOther(info.other)
         setOtherIntro(info.otherIntro)
         setRoomID(info.roomId)
+        setSysMsg(info.sysMsg)
 
         // info && localStorage.setItem("infomation",JSON.stringify(info))
         // socket && localStorage.setItem("socket", socket)
@@ -54,15 +54,14 @@ const ChatForm = ({ history}) =>{
         socket.emit("message", {roomId: roomId, message:message, nick: user})
         setChatMsg({message : ""})
 
-        console.log("끝"+ chatMsg)
         console.log(chatMsg)   
     }
 
     useEffect(()=>{
-        socket.on("message", (data) =>{
+        socket.on("msg", (data) =>{
             setChatMsgList(chatMsgList.concat(data))
             console.log(chatMsgList)
-            console.log("송신" + data)
+            console.log(data)
             console.log(2);
         })
 
@@ -75,7 +74,7 @@ const ChatForm = ({ history}) =>{
         socket.on("test", (data)=>{
             alert(data)
         })
-    })
+    },[])
     
 
     const ban = () =>{

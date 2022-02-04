@@ -11,7 +11,7 @@ const socket = io.connect(ENDPOINT)
 
 const MainForm = () =>{
     
-    const history = useHistory();
+    // const history = useHistory();
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
     const [introduce, setIntro] = useState("")  // introduce
@@ -39,10 +39,13 @@ const MainForm = () =>{
     const other = ''
 
     const [roomIdList, setRoomIdList] = useState([])
-  
+    
     const nextId = useRef(0)
+    console.log("첫번째 : " + nextId.current)
 
     const roomplus = useCallback(({roomId, other}) => {
+        nextId.current += 1
+        console.log("두번째 : " + nextId.current)
         const room = {
             id: nextId.current,
             roomId,
@@ -59,9 +62,10 @@ const MainForm = () =>{
         {    
             console.log(room)
             setRoomIdList(roomIdList.concat(room))
-            localStorage.setItem("roomIdList",JSON.stringify(roomIdList))
+            localStorage.setItem("roomIdList",JSON.stringify(roomIdList.concat(room)))
 
             nextId.current += 1
+            console.log("첫번째 : " + nextId.current)
             console.log("등록완료")
             console.log(roomIdList) //[]
             console.log("등록 : " + localStorage.getItem("roomIdList") ) // 등록:[]
@@ -118,14 +122,6 @@ const MainForm = () =>{
         startFinding();
     })
 
-
-    // const ChattingList = {
-    //     socket: socket,
-    //     roomId : roomId,
-    //     user: user,
-    //     other : other        
-    // }
-
     useEffect(()=>{
         socket.on("roomReady", function(data){
             stopFinding()
@@ -137,28 +133,6 @@ const MainForm = () =>{
             console.log("other : " + other)
             roomplus({roomId, other})
             socket.emit("infoSetting",{nick:other,roomId:roomId})
-            
-            const hisprops = {
-                socket: socket,
-                user: user,
-                otherIntro : otherIntro,
-            }
-            // history.push({
-            //     pathname: `/chat/:${roomId}`,
-            //     props : {
-            //         socket,
-                        // user,
-                        // otherIntro,
-                        // roomId,
-                        // other
-            //     }
-            // })
-            // if(data.roomId){
-            //     window.history.pushState(
-            //         ChattingList,
-            //         `/chat/:roomId`
-            //     )
-            // }
         })
     },[])
        
@@ -195,6 +169,7 @@ const MainForm = () =>{
         setDelay(null)
         setLoading(false)
         socket.emit("userRelease", {nick:user});
+        console.log("취소")
     }
 
     useEffect(()=>{

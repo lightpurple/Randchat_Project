@@ -7,7 +7,7 @@ const ChatForm = (props) =>{
     return(
         <div className="ChatBox">
             <div className="ChatRoom">
-                <p>{sysMsg}</p>
+                {sysMsg?<p>{sysMsg}</p>:null}
                 <p>{other}이 입장했습니다</p>
                 {/* <OtherChat/>
                 <MyChat/> */}
