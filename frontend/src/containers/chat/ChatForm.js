@@ -42,7 +42,7 @@ const ChatForm = ({ history}) =>{
 
     const onChatSubmit = (e) =>{
         e.preventDefault()
-            
+   
         console.log({roomId: roomId, message: message, nick: user})
 
         if(!message){
@@ -75,7 +75,7 @@ const ChatForm = ({ history}) =>{
             alert(data)
         })
     },[])
-    
+
 
     const ban = () =>{
         socket.emit("ban", {roomId : roomId, user:user, other:other})

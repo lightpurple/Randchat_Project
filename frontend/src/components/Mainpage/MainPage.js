@@ -39,9 +39,6 @@ const ChatList = ( props ) => {
                             userSetting()
                         }}
                     >Female</button>
-                    <button onClick={()=>{   
-                        stopFinding()
-                    }}>취소</button>
                 </>
             )}
         </div>

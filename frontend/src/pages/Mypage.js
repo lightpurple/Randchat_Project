@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import MyTitle from '../components/Login/MyTitle';
 import Profile from '../components/Mypage/Profile';
 import EmailPassword from '../components/Mypage/EmailPassword'
