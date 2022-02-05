@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './CSS/Title.css';
+import '../Title.css';
 import {AiFillWechat} from 'react-icons/ai';
 import {AiFillPlusCircle} from 'react-icons/ai';
 import {RiLogoutBoxRLine} from 'react-icons/ri';

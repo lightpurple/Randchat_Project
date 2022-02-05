@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './CSS/Title.css';
+import '../Title.css';
 import {BsFillPersonLinesFill} from 'react-icons/bs';
 import {RiLogoutBoxRLine} from 'react-icons/ri';
 import {AiFillPlusCircle} from 'react-icons/ai';

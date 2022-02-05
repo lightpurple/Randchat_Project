@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import client from "../../lib/api/client";
+import client from "../../client";
 // import Nick from './Nick';
 
 function InUseNick() {

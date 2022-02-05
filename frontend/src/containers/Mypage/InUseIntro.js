@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import client from "../../lib/api/client";
+import client from "../../client";
 
 function InUseIntro() {
   // const [users, setUsers] = useState(null);

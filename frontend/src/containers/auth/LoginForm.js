@@ -1,42 +1,51 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import AuthForm from '../../components/Login/AuthForm';
-import { changeField, initializeForm, login } from "../../modules/auth";
+import AuthForm from '../../components/Auth/AuthForm';
+import client from "../../client";
+const queryString = require('query-string');
 
 
 const LoginForm = () => {
-    const dispatch = useDispatch();
-    const { form } = useSelector(({ auth,user }) => ({
-        form: auth.login,
-        auth: auth.auth,
-        authError: auth.authError,
-        user: user.user
-    }));
+    const [form, setForm] = useState({
+        email: '',
+        password: ''
+    })
 
     //인풋 변경 이벤트 핸들러
     const onChange = e => {
         const { value, name } = e.target;
-        dispatch(
-            changeField({       // modules/auth
-                form: 'login',
-                key: name,
-                value
-            })
-        );
+        setForm({
+            ...form,
+            [name]:value
+        })
     };
 
     //폼 등록 이벤트 핸들러
     const onSubmit =e =>{
         e.preventDefault();
         const { email, password } = form;   
-        dispatch(login({email, password}));
+        const data = {
+            email, password
+        };
+        client.post('/api/auth/login',queryString.stringify(data)).then(res => {
+            localStorage.setItem("token", res.data.token );
+            console.log(localStorage.getItem("token"))
+            
+            if(res.status === 200){
+                window.location.href = '/chat'
+                localStorage.setItem("isAuthorized", "true")
+                client.defaults.headers.common['x-access-token'] = res.data.token
+            }
+        })
     };
 
     // 컴포넌트가 처음 렌더링될때 form을 초기화함
     useEffect(() => {
-        dispatch(initializeForm('login'));
-    }, [dispatch]);
+        setForm({
+            email: '',
+            password: ''
+        })
+    }, []);
 
     return(
         <AuthForm

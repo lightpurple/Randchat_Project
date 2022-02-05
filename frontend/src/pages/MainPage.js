@@ -1,6 +1,5 @@
-import MainTitle from '../components/Login/MainTitle';
-import { Link } from 'react-router-dom';
-import MainForm from '../containers/main/MainForm';
+import MainTitle from '../components/Main/MainTitle';
+import MainForm from '../containers/Main/MainForm';
 
 function Mainpage() {
 

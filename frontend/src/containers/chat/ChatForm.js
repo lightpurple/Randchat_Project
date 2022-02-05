@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback } from 'react';
-import ChatPage from "../../components/chat/ChatPage"
+import ChatPage from "../../components/Chat/ChatPage"
 import { withRouter } from 'react-router-dom';
 import io from "socket.io-client";
 const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
@@ -13,17 +13,17 @@ const ChatForm = ({ history}) =>{
     const [other, setOther] = useState("")
     const [otherIntro, setOtherIntro] = useState("")
     const [roomId, setRoomID] = useState("")
-    const info = history.location.state
+    // const info = history.location.state
     // // const socket = history.location.socket
 
     // //{user: '1234', otherIntro: '', roomId: 1643360291499, other: '1234e'}
     useEffect(()=>
     {   
-        setUser(info.user)
-        setOther(info.other)
-        setOtherIntro(info.otherIntro)
-        setRoomID(info.roomId)
-        setSysMsg(info.sysMsg)
+        // setUser(info.user)
+        // setOther(info.other)
+        // setOtherIntro(info.otherIntro)
+        // setRoomID(info.roomId)
+        // setSysMsg(info.sysMsg)
 
         // info && localStorage.setItem("infomation",JSON.stringify(info))
         // socket && localStorage.setItem("socket", socket)

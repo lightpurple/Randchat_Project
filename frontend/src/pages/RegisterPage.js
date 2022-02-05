@@ -1,7 +1,7 @@
 import React from 'react';
-import AuthBlock from '../components/Login/AuthBlock';
-import Title from '../components/Login/Title';
-import RegisterForm from '../containers/auth/RegisterForm';
+import AuthBlock from '../components/Auth/AuthBlock';
+import Title from '../components/Auth/Title';
+import RegisterForm from '../containers/Auth/RegisterForm';
 
 const RegisterPage = () => {
     return(

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import io from "socket.io-client";
-import client from '../../lib/api/client';
-import MainPage from '../../components/Mainpage/MainPage';
+import client from '../../client';
+import MainPage from '../../components/Main/MainPage';
 import { useHistory } from 'react-router-dom';
 
 const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
@@ -119,6 +119,7 @@ const MainForm = () =>{
     // userReady
     socket.on("userReady", function(){
         setLoading(true);
+        console.log("userReady")
         startFinding();
     })
 
@@ -163,6 +164,7 @@ const MainForm = () =>{
 
     const startFinding = ()=>{
         setDelay(1000)
+        console.log("startFinding")
     }
 
     const stopFinding = () =>{ 

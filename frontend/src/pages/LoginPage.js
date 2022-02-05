@@ -1,8 +1,8 @@
 import React from 'react';
-import AuthBlock from '../components/Login/AuthBlock';
-import AuthTitle from '../components/Login/AuthTitle';
-import LoginForm from '../containers/auth/LoginForm';
-import Footer from '../components/Footer';
+import AuthBlock from '../components/Auth/AuthBlock';
+import AuthTitle from '../components/Auth/AuthTitle';
+import LoginForm from '../containers/Auth/LoginForm';
+import Footer from '../components/Auth/Footer';
 
 const LoginPage = () =>{
     return (
