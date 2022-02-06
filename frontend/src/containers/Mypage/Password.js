@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PasswordModal from './PasswordModal';
-import client from "../../lib/api/client";
+import client from "../../client";
 
 function Password() {
 

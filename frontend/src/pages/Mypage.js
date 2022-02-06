@@ -1,5 +1,4 @@
-import React from 'react';
-import MyTitle from '../components/Login/MyTitle';
+import MyTitle from '../components/Mypage/MyTitle';
 import Profile from '../components/Mypage/Profile';
 import EmailPassword from '../components/Mypage/EmailPassword'
 //import Gender from '../components/Mypage/Gender';

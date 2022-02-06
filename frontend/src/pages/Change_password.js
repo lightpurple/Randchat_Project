@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from '../components/Login/Title';
+import Title from '../components/Auth/Title';
 import ChangePW from '../components/Mypage/ChangePW';
 
 function Change_password() {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Intro from "../../containers/Mypage/Intro";
 import InUseIntro from "../../containers/Mypage/InUseIntro";
-import client from "../../lib/api/client";
+import client from "../../client";
 import "./CSS/Mypagebox.css";
 import "./CSS/Profile.css";
 

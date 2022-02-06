@@ -17,7 +17,7 @@ const ChatList = ( props ) => {
         <h3>현재 채팅방 수 : {roomIdList ? roomIdList.length:0}</h3>
         <div className='Match'>
             {loading ? <Loader></Loader> : <p>상대방을 선택하여 대화를 시작해보세요</p>}
-            { loading? (
+            {loading? (
                 <button onClick={()=>{   
                     stopFinding()
                 }}>취소</button>

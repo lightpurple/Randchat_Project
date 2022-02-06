@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import IntroMordal from './IntroModal';
-import client from "../../lib/api/client";
+import client from "../../client";
 const queryString = require('query-string');
 
 
