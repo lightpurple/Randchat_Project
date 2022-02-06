@@ -13,21 +13,21 @@ const ChatForm = ({ history}) =>{
     const [other, setOther] = useState("")
     const [otherIntro, setOtherIntro] = useState("")
     const [roomId, setRoomID] = useState("")
-    const info = history.location.state
+    // const info = history.location.state
     // // const socket = history.location.socket
 
 
     // //{user: '1234', otherIntro: '', roomId: 1643360291499, other: '1234e'}
-    useEffect(()=>
-    {   
-        setUser(info.user)
-        setOther(info.other)
-        setOtherIntro(info.otherIntro)
-        setRoomID(info.roomId)
+    // useEffect(()=>
+    // {   
+    //     setUser(info.user)
+    //     setOther(info.other)
+    //     setOtherIntro(info.otherIntro)
+    //     setRoomID(info.roomId)
 
         // info && localStorage.setItem("infomation",JSON.stringify(info))
         // socket && localStorage.setItem("socket", socket)
-    },[history])
+    // },[history])
 
     const [sysMsg, setSysMsg] = useState("");
     const [chatMsg, setChatMsg] = useState({message : ""})
