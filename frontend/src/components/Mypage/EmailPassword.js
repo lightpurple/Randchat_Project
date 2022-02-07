@@ -1,4 +1,3 @@
-// import Password from '../../containers/Mypage/Password';
 import InUseEmail from "../../containers/Mypage/InUseEmail";
 
 const EmailPassword = () => {
@@ -11,10 +10,12 @@ return (
             </div>
             <div className="Contents">
                 <InUseEmail/>
-                {/* <div className="Change"><Password/>
-                </div> */}
             </div>
-            <hr/>
+            <hr style={
+                    {margin: "5px 20px 15px 30px",
+                    padding: "0 10px 0 0",
+                    width: "530px",
+                    border: "solid thin #d0d0d0"}}/>
         </div>
     </>
 );

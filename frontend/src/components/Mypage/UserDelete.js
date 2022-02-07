@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import '../Mypage/CSS/Modal.css';
 import {Modal, Button} from 'react-bootstrap';
-import client from "../../lib/api/client";
+import client from "../../../src/client";
 const queryString = require('query-string');
 
 export default function UserDelete() {

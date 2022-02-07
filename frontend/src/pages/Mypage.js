@@ -15,8 +15,8 @@ function Mypage() {
       <Profile/>
       <EmailPassword/>
       <Nickname/>
-      <UserDelete/>
       <Changepage/>
+      <UserDelete/>
     </div>
   );
 }

@@ -6,8 +6,10 @@
     padding: 10px 0 10px 0;
     background-color: #eeeeee;
     border-radius: 25px;
+    font-family: 'Gowun Dodum', sans-serif;
 }
 .MainpageBox > h3{
+    font-family: 'Gowun Dodum', sans-serif;
     padding: 40px 0 70px 0;
 }
 .ProfileImg{
@@ -51,7 +53,7 @@
 }
 .Match{
     margin: auto;
-    width: 400px;
+    width: 380px;
     height: 200px;
     background-color: rgb(255, 255, 255, 0.0);
     text-align: center;
@@ -68,7 +70,7 @@
     height: 46px;
     display: inline-block;
     margin: 0 25px 0 30px;
-    color: #fff;
+    color: #797979;
     background-color: rgb(124, 154, 204, 0.8);
     border-radius: 5px;
     font-size: 24px;
@@ -101,4 +103,9 @@
     text-align: center;
     /* color: #999; */
     background-color: transparent;
+}
+#matchgender{
+    font-family: 'Gowun Dodum', sans-serif;
+    font-weight: bold;
+    font-size: 26px;
 }

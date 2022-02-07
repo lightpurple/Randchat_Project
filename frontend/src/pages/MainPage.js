@@ -1,5 +1,5 @@
 import MainTitle from '../components/Main/MainTitle';
-import MainForm from '../containers/Main/MainForm';
+import MainForm from '../containers/main/MainForm';
 
 function Mainpage() {
 

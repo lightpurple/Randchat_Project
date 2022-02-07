@@ -6,44 +6,61 @@ h4{
 }
 h5{
     color: #e06262;
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 16px !important;
 }
-/* .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: ;
-    background-color: #2b2b2b99;
-} */
 .btn.btn-outline-secondary{
     display: block;
     margin: 0 auto;
-    margin-top: 10px;
-    border: 1px solid rgb(133, 140, 146, 0.5);
-    background-color: #fff;
-    color:#000000;
-    font-size: 15px;
-    height: 35px;
-    width: 100px;
+    margin-top: 6px;
+    border: 1px solid #ff5050;
+    background-color: rgb(255, 255, 255);
+    color:#ff5050;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    height: 40px;
+    width: 110px;
 }
-.btn.btn-outline-secondary:focus{
+.btn.btn-outline-secondary:hover{ 
     display: block;
     margin: 0 auto;
-    margin-top: 10px;
-    border: 0px solid rgb(133, 140, 146, 0.5);
-    background-color: #fff;
-    color:#000000;
-    font-size: 15px;
-    height: 35px;
-    width: 100px;
+    margin-top: 6px;
+    border: 0px;
+    background-color: #ff5050;
+    color:#ffffff;
+    font-size: 16px;
+    height: 40px;
+    width: 110px;
 }
-.modal button {
-    outline: none;
-    cursor: pointer;
+.btn.btn-outline-dark{
+    display: block;
+    margin: 0 auto;
+    padding: 0;
     border: 0;
+    border-bottom: 2px solid #c4c4c4;
+    border-radius: 0;
+    background-color: rgb(255, 255, 255, 0);
+    color:#919191;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    height: 30px;
+    width: 85px;
+}
+.btn.btn-outline-dark:hover{
+    display: block;
+    margin: 0 auto;
+    border: 0;
+    border-bottom: 2px solid #aaaaaa;
+    border-radius: 0;
+    background-color: rgb(255, 255, 255, 0);
+    color:#747474;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    height: 30px;
+    width: 85px;
 }
 .modal > section {
     width: 90%;
@@ -89,6 +106,19 @@ h5{
     border-radius: 5px;
     font-size: 13px;
 }
+.change{
+    display: inline-block;
+    padding: 6px 14px;
+    margin: 25px 10px 20px 0;
+    color: #fff;
+    background-color: #507fff;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.change:hover{
+    background-color: #406be2;
+}
 .a_delete{
     display: inline-block;
     padding: 6px 14px;
@@ -97,8 +127,10 @@ h5{
     background-color: #e06262;
     border-radius: 5px;
     font-size: 15px;
-
     font-weight: bold;
+}
+.a_delete:hover{
+    background-color: #ce5050;
 }
 .a_close{
     display: inline-block;
@@ -109,6 +141,9 @@ h5{
     border-radius: 5px;
     font-size: 15px;
     font-weight: bold;
+}
+.a_close:hover{
+    background-color: #70767a;
 }
 @keyframes modal-bg-show {
     from {
@@ -132,7 +167,8 @@ h5{
 }
 .valuename {
     display: block;
-    margin: 12px 10px 20px 10px;
+    margin: 26px 10px 20px 10px;
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 18px;
     text-align: center;
     font-weight: 600;
@@ -146,43 +182,14 @@ h5{
 .inputvalue{
     display: inline-block;
     text-align: center;
-    height: 20px;
+    height: 10px !important;
     width: 50%;
     border-bottom: 2px solid #bbbbbb !important;
     font-size: 15px;
 }
-
 .IntroCSS{
     display: inline-block;
 }
-
-/* .Modal {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    right: 40px;
-    bottom: 40px;
-    background-color: rgb(243, 162, 33);
-  }
-
-  .Overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rebeccapurple;
-  } */
-
-/* .ReactModal__Content--after-open{
-position: absolute;
-top: 40px;
-left: 40px;
-right: 40px;
-bottom: 40px;
-background-color: rgb(33, 243, 103, 0.5);
-} */
-
 .modal {
     display: none;
     position: fixed;
@@ -194,18 +201,24 @@ background-color: rgb(33, 243, 103, 0.5);
     background-color: #2b2b2b99;
 }
 .modal-header{
-    text-align: center;
+    width: 400px;
+    height: 50px;
+    margin: 0 auto;
     font-size: 20px;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
 }
 .close{
     display: none;
     font-size: 20px;
 }
 .modal-title{
-    text-align: center;
+    text-align: left;
     font-size: 20px;
+    padding: 10px 0 0 13px;
 }
 .modal-title.h4{
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 20px;
     font-weight: bold;
 }
@@ -213,27 +226,41 @@ background-color: rgb(33, 243, 103, 0.5);
     display: none;
 }
 .modal-body {
-    height: 160px;
+    width: 400px;
+    height: 145px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 0;
+    border-top: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
     text-align: center;
 }
 .modal-footer{
     display: block !important;
     text-align: center;
-    height: 130px;
+    height: 117px;
+    width: 400px;
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 15px 0 0 0;
+    border-radius: 0 0 10px 10px;
 }
 .modal button {
-outline: none;
-cursor: pointer;
-border: 0;
-margin: 15px 15px 20px 15px;
+    outline: none;
+    cursor: pointer;
+    border: 0;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 16px;
+    margin: 15px 15px 20px 15px;
+    padding: 0 0 2px 0;
 }
-.modal > section {
-width: 90%;
-max-width: 450px;
-margin: 0 auto;
-border-radius: 0.3rem;
-background-color: #fff;
-/* 팝업이 열릴때 스르륵 열리는 효과 */
-animation: modal-show 0.3s;
-overflow: hidden;
+.input{
+    display: inline-block;
+    text-align: center;
+    height: 10px !important;
+    width: 50%;
+    padding: 12px 7.5px;
+    border: 0;
+    border-bottom: 2px solid #bbbbbb !important;
+    font-size: 15px;
 }
