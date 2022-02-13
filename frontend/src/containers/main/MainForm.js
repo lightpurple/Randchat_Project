@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import io from "socket.io-client";
 import client from '../../client';
 import MainPage from '../../components/Main/MainPage';
-import { useHistory } from 'react-router-dom';
 
 const ENDPOINT = "http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000"
 
@@ -11,7 +10,6 @@ const socket = io.connect(ENDPOINT)
 
 const MainForm = () =>{
     
-    // const history = useHistory();
     const [user, setUser] = useState("")        // nick
     const [gender, setGender] = useState("")    // gender
     const [introduce, setIntro] = useState("")  // introduce
@@ -39,10 +37,11 @@ const MainForm = () =>{
     const other = ''
 
     const [roomIdList, setRoomIdList] = useState([])
-
-    if(localStorage.getItem("roomIdList")) setRoomIdList(localStorage.getItem("roomIdList"))
     
-    const nextId = useRef(0)
+    var num = roomIdList.length
+    console.log(num)
+    console.log(roomIdList)
+    const nextId = useRef(num)
     console.log("첫번째 : " + nextId.current)
 
     const roomplus = useCallback(({roomId, other}) => {
@@ -74,6 +73,8 @@ const MainForm = () =>{
         }
 
     },[roomIdList, roomId, other, user])
+    console.log(roomIdList.length)
+    console.log(localStorage.getItem("roomIdList").length)
 
     const onRemove = useCallback(
         id => {
@@ -150,7 +151,7 @@ const MainForm = () =>{
             setSysMsg(data.message)
             console.log(data.message)
         })
-    },[])
+    },[socket])
 
     // const disconnect = () =>{
     //     socket.disconnect()

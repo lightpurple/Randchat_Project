@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import './CSS/Footer.css';
-import { Link } from 'react-router-dom';
 
 export default function Tab() {
     const [currentTab, setTab]=useState(0);

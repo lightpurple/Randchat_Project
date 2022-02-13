@@ -1,10 +1,10 @@
-import React,{useState} from 'react';
+import React from 'react';
 import Loader from "./Loader";
-import { Link, useHistory } from "react-router-dom";
+import {  useHistory } from "react-router-dom";
 import "./CSS/Mainpage.css";
 
 const ChatList = ( props ) => {
-    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro, sysMsg} = props
+    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro} = props
     
     var matchgender = ''
 
@@ -45,7 +45,7 @@ const ChatList = ( props ) => {
         {roomIdList?(
             <div>
                 {roomIdList.map(room => (
-                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro} sysMsg={sysMsg}/>
+                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro}/>
                 ))}
             </div>
         ):(null)}
@@ -54,7 +54,7 @@ const ChatList = ( props ) => {
     )
 }
 
-function Room({ room, onRemove, onToggle, otherIntro, user, socket,sysMsg}){
+function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
     const history = useHistory()
 
     return(
@@ -78,12 +78,9 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket,sysMsg}){
                             otherIntro,
                             roomId,
                             other,
-                            sysMsg,
                         },
                         socket
-                        
-                    }
-                    )
+                    })
                     console.log(roomId)
                 }}
             ></img> 
@@ -91,7 +88,7 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket,sysMsg}){
             <button className="close" 
                 onClick={() => {
                     onRemove(room.id) 
-                    // disconnect()
+                    socket.disconnect()
                 }}>&times;</button>
         </div>
     )

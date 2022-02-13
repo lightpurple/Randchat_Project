@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './CSS/ChatPage.css';
 import { RiSendPlaneFill } from 'react-icons/ri';
 
 const ChatForm = (props) =>{
-    const {userList, user, other, otherIntro, roomId, onListRemove, sysMsg, onChatChange, onChatSubmit, message}=props
+    const {socket, userList, other, otherIntro, onListRemove, sysMsg, onChatChange, onChatSubmit, message}=props
 
     return(
         <div className="ChatBox">
@@ -12,8 +12,8 @@ const ChatForm = (props) =>{
                 <p>{sysMsg}</p>
                 <p>{other}이 입장했습니다</p>
                 </div>
-                {/* <OtherChat/>
-                <MyChat/> */}
+                <OtherChat/>
+                <MyChat/>
             </div>
 
             <div className="FieldBox">
@@ -31,7 +31,7 @@ const ChatForm = (props) =>{
                 {userList?(
                     <div>
                         {userList.map(user => (
-                            <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove}/>
+                            <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove} socket={socket}/>
                         ))}
                     </div>
                 ):(null)}
@@ -42,7 +42,7 @@ const ChatForm = (props) =>{
     );
 }
 
-const UserList = ({ user,otherIntro,onListRemove })=>{
+const UserList = ({ user,otherIntro,onListRemove,socket })=>{
     const [visible, setVisible] = useState(false);
     return(
         <div className="User">
@@ -58,7 +58,8 @@ const UserList = ({ user,otherIntro,onListRemove })=>{
                         }}>Block</button>
                         <button className="exit"  onClick={()=>{
                             console.log("나가기")
-                            onListRemove()
+                            onListRemove(user.id)
+                            socket.disconnect()
                         }}>Exit</button>
                     </div>
                 ):(
@@ -69,9 +70,7 @@ const UserList = ({ user,otherIntro,onListRemove })=>{
                     </div>
                 )
             }
-                    {/* div → p요소로 이름 나타내기 */}
         </div>
-
     )
 }
 
