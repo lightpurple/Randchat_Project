@@ -74,7 +74,6 @@ const MainForm = () =>{
 
     },[roomIdList, roomId, other, user])
     console.log(roomIdList.length)
-    console.log(localStorage.getItem("roomIdList").length)
 
     const onRemove = useCallback(
         id => {
