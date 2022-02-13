@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback } from 'react';
-import ChatPage from "../../components/chat/ChatPage"
+import ChatPage from "../../components/Chat/ChatPage"
 import { withRouter } from 'react-router-dom';
 import io from "socket.io-client";
 const ENDPOINT = "http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000"

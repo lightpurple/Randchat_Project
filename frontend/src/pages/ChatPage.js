@@ -1,6 +1,6 @@
 import React from 'react';
-import ChatForm from '../containers/chat/ChatForm';
-import ChatTitle from '../components/chat/ChatTitle';
+import ChatForm from '../containers/Chat/ChatForm';
+import ChatTitle from '../components/Chat/ChatTitle';
 
 const ChatPage = ({location}) => {
     return(
