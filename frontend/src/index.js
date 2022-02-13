@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactModal from "react-modal";
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 
-ReactModal.setAppElement("#root");
+// ReactModal.setAppElement("#root");
 
 ReactDOM.render(
 

@@ -5,7 +5,7 @@ import EmailPassword from '../components/Mypage/EmailPassword'
 import Nickname from '../components/Mypage/Nickname';
 import UserDelete from '../components/Mypage/UserDelete';
 import Changepage from '../components/Mypage/Changepage';
-import React from 'react';
+
 
 function Mypage() {
 
@@ -15,8 +15,8 @@ function Mypage() {
       <Profile/>
       <EmailPassword/>
       <Nickname/>
-      <UserDelete/>
       <Changepage/>
+      <UserDelete/>
     </div>
   );
 }

@@ -2,6 +2,7 @@
     border-radius: 10px;
     margin: 0 auto;
     width: 700px;
+    height: fit-content;
     background-color: white;
     text-align: center;
 }
@@ -60,14 +61,15 @@ input[type="password"] {
 }
 
 .registerbox {
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 19px;
-    padding: 20px;
+    padding: 0 0 0 10px;
     display: block;
     width: 100%;
-    height: 50px;
+    height: 55px;
     margin: 10px 0 20px 0;
-    border: none;
-    border-bottom: 2px solid #b6b6b6;
+    border: 0;
+    background-color: #e8f0fe;
     box-sizing: border-box;
     position: relative;
     font-weight: bold; 
@@ -131,26 +133,30 @@ input[type="password"] {
     float: left;
     text-align: left;
     font-weight: bold; 
-    border-bottom: 2px solid #b6b6b6;
+    border: 0;
     box-sizing: border-box;
 }
 
 .gendertitle{
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 19px;
+    font-weight: bold;
     display: inline-block;
-    margin: 10px 50px 0 20px;
+    margin: 10px 50px 0 10px;
     color: rgb(0, 0, 0, 0.6);
 }
 
 .labeltxt{
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 19px;
     font-weight: bold;
     color: rgb(0, 0, 0, 0.6);
     margin-right: 10px;
 }
-
 .label{
-    margin: 0 15px 5px 0;
     width: 15px;
-    height: 15px;
+    height: 25px;
+}
+input[type="radio"]{
+    margin: 0 30px 10px 0;
 }

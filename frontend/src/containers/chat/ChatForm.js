@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback } from 'react';
-import ChatPage from "../../components/Chat/ChatPage"
+import ChatPage from "../../components/chat/ChatPage"
 import { withRouter } from 'react-router-dom';
 import io from "socket.io-client";
 const ENDPOINT = "http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000"
@@ -17,17 +17,16 @@ const ChatForm = ({ history}) =>{
     // // const socket = history.location.socket
 
     // //{user: '1234', otherIntro: '', roomId: 1643360291499, other: '1234e'}
-    useEffect(()=>
-    {   
-        // setUser(info.user)
-        // setOther(info.other)
-        // setOtherIntro(info.otherIntro)
-        // setRoomID(info.roomId)
-        // setSysMsg(info.sysMsg)
+    // useEffect(()=>
+    // {   
+    //     setUser(info.user)
+    //     setOther(info.other)
+    //     setOtherIntro(info.otherIntro)
+    //     setRoomID(info.roomId)
 
         // info && localStorage.setItem("infomation",JSON.stringify(info))
         // socket && localStorage.setItem("socket", socket)
-    },[history])
+    // },[history])
 
     const [sysMsg, setSysMsg] = useState("");
     const [chatMsg, setChatMsg] = useState({message : ""})

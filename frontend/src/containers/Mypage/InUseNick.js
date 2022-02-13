@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import client from "../../client";
-// import Nick from './Nick';
 
 function InUseNick() {
-  // const [users, setUsers] = useState(null);
-
-  //   const getNick = async () => {
-  //       const response = await client.get(
-  //         '/api/mypage'
-  //       );
-  //       setUsers(response); // 데이터는 response.data 안에 들어있음
-  //       console.log(response);
-  //   };
-  //   useEffect(() => {
-  //   getNick();
-  // }, []);
 
   const [nickname, setNickname] = useState("");
 
@@ -29,13 +16,11 @@ function InUseNick() {
     })
   },[nickname])
 
-  
-
-
-//  if (!users) return null;
   return (
     <>
-      <p>{nickname}</p>
+    <div className='Use'>
+      <p>{nickname}qwer</p>
+    </div>
     </>
   );
 }

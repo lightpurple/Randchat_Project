@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './CSS/ChatPage.css';
+import { RiSendPlaneFill } from 'react-icons/ri';
 
 const ChatForm = (props) =>{
     const {userList, user, other, otherIntro, roomId, onListRemove, sysMsg, onChatChange, onChatSubmit, message}=props
@@ -7,8 +8,10 @@ const ChatForm = (props) =>{
     return(
         <div className="ChatBox">
             <div className="ChatRoom">
-                {sysMsg?<p>{sysMsg}</p>:null}
+                <div className='ChatM'>
+                <p>{sysMsg}</p>
                 <p>{other}이 입장했습니다</p>
+                </div>
                 {/* <OtherChat/>
                 <MyChat/> */}
             </div>
@@ -21,7 +24,7 @@ const ChatForm = (props) =>{
                     onChange={onChatChange}
                     value={message}
                 />    
-                <button className="FieldButton" onClick={onChatSubmit}>전송</button>
+                <button className="FieldButton" onClick={onChatSubmit}><RiSendPlaneFill size='28' className='Send'/></button>
             </div>
             
             <div className='UserList'>
@@ -48,18 +51,18 @@ const UserList = ({ user,otherIntro,onListRemove })=>{
 
             {visible ?
                 (
-                    <div className="YourName" style={{backgroundcolor: "rgb(0, 255, 255)"}}>
+                    <div className="YourName">
                         <button className="blk" 
                             onClick={()=>{
                             console.log("차단")
-                        }}>차단</button>
+                        }}>Block</button>
                         <button className="exit"  onClick={()=>{
                             console.log("나가기")
                             onListRemove()
-                        }}>나가기</button>
+                        }}>Exit</button>
                     </div>
                 ):(
-                    <div id="user1" className="YourName" style={{backgroundcolor: "rgb(80, 80, 80)"}}>
+                    <div id="user1" className="YourNameBG" style={{backgroundcolor: "#D4D4D4"}}>
                         <h4>{user.other}</h4>
                         {otherIntro? <p>{otherIntro}</p> :<p>안녕하세요. {user.other}입니다.</p>}
 

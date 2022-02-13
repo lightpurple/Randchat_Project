@@ -55,20 +55,18 @@ function Profile() {
 
             <div className="Item">
                 <p>소개 한마디</p>
-            </div>
-            
-            <div className="Contents">
-
-                <InUseIntro/>
-
                 <div className="Change">
                     <Intro/>
                 </div>
+            </div>
+            
+            <div className="Contents">
+                <InUseIntro/>
                 <hr style={
-                    {margin: "20px 0 20px 30px",
-                    width: "60%",
-                    border: "solid 1px",
-                    color: "f7f7f7"}}
+                    {margin: "35px 20px 20px 0",
+                    padding: "0 10px 0 0",
+                    width: "348px",
+                    border: "solid thin #d0d0d0"}}
                 />
             </div>
 

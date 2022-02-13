@@ -10,18 +10,19 @@ body{
     background-color: #ffffff;
 }
 h2{
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Gowun Dodum', sans-serif;
     font-size: 100px;
     color:#ffffff;
     margin: 60px;
 }
 .MyPagebox{
     width: 600px;
-    height: 130px;
+    height: fit-content;
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
-    background-color: #eeeeee;
+    background-color: #ffffff;
+    border: solid 2px #e9e9e9;
     border-radius: 10px;
 }
 p{
@@ -43,24 +44,29 @@ hr{
     align-items: "center";
 }
 .Item{
-    margin: 20px 30px 20px 30px;
+    margin: 13px 30px 30px 30px;
     color:#000000;
     text-align: left;
 }
+.Item > h3 {
+    margin: 0;
+}
+.Item > p {
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 23px;
+}
 .Contents{
-    margin: 20px 30px 20px 30px;
-    width: 300px;
+    margin: 0 !important;
+    padding: 0;
+    width: 390px;
     font-weight: bold;
     font-size: 21px;
     color:#000000;
-    text-align: left;
-}
-div{
-    display: block;
+    text-align: center;
 }
 .Change{
     float: right;
-    margin-right: 60px;
+    margin: 0;
 }
 .delete{
     display: inline;
@@ -79,18 +85,18 @@ div{
     margin-right: 130px;
     border: rgb(0, 0, 0, 0);
     background-color: rgb(0, 0, 0, 0);
-    color:#ffffff;
+    color:#000000;
     font-size: 15px;
     height: 35px;
     width: 70px;
 }
 .changepage{
-    position: relative;
-    margin: 12px auto;
+    display: block;
+    margin: 0 auto;
     width: 600px;
-    height: fit-content;
     text-align: center;
     background-color: rgb(0, 0, 0, 0);
+    height: 60px;
 }
 .c_button{
     display: inline;
@@ -109,40 +115,68 @@ div{
     visibility: hidden;
 }
 .p_button{
-    float: right;
-    margin : 4px 0 0 5px;
-    border: rgb(0, 0, 0, 0);
-    background-color: rgb(0, 0, 0, 0);
-    color:#000000;
-    font-size: 15px;
-    height: 35px;
-    width: 100px;
-    text-decoration: underline;
+    display: block;
+    margin: 0 auto;
+    padding: 8px 0 2px 0;
+    margin-top: 10px;
+    border: 1px solid #507fff;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    color:#507fff;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    height: 29px;
+    width: 110px;
+    text-decoration-line: none;
+}
+.p_button:hover{
+    display: block;
+    margin: 0 auto;
+    padding: 8px 0 2px 0;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #507fff;
+    color:#fff;
+    font-size: 16px;
+    font-weight: bold;
+    height: 29px;
+    width: 110px;
+    text-decoration-line: none;
 }
 .Changebox{
     width: 600px;
     height: fit-content;
     margin: auto;
     margin-bottom: 4px;
-    padding: 10px 0 10px 0;
+    padding: 20px 0 10px 0;
     background-color: #ffffff;
     border-radius: 10px;
+    font-family: 'Gowun Dodum', sans-serif;
     text-align: center;
 }
 h3{
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 30px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 32px;
     color:#000000;
     text-align: center;
     margin: 30px;
 }
+h6{
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 20px;
+    color: #858c92;
+    margin: 20px 0 10px 0;
+}
 .Cvaluename {
-    display: inline-block;
+    display: inline;
     width: 200px;
     margin: 15px 0 25px 0;
     padding: 0 auto;
+    padding-right: 40px;
     vertical-align: 6%;
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 600;
 }
 .Cvalue {
@@ -152,19 +186,52 @@ h3{
     padding: 0;
     vertical-align: 10%;
 }
+.PWDiv{
+    padding: 5px 0 50px 0;
+}
 .b_change{
-    padding: 8px 14px;
-    margin: 20px 0 20px 10px;
+    width: 85px;
+    height: 50px;
+    padding: 0;
+    margin: 20px 10px 10px 10px;
     color: #fff;
-    background-color: #6f9ec7;
+    background-color: #507fff;
     border-radius: 5px;
-    font-size: 17px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.b_change:hover{
+    background-color: #406be2;
 }
 .b_cancel{
-    padding: 8px 14px;
-    margin: 20px 0 20px 10px;
+    width: 85px;
+    height: 50px;
+    padding: 0;
+    margin: 20px 10px 10px 10px;
     color: #fff;
     background-color: #858c92;
     border-radius: 5px;
-    font-size: 17px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.b_cancel:hover{
+    width: 85px;
+    height: 50px;
+    padding: 0;
+    margin: 20px 10px 10px 10px;
+    color: #fff;
+    background-color: #67727c;
+    border-radius: 5px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.Use{
+    margin: 0 0 5px 33px;
+    text-align: left;
 }
