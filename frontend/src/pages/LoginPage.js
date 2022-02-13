@@ -1,15 +1,18 @@
-import React from 'react';
-import AuthBlock from '../components/Login/AuthBlock';
-import Title from '../components/Login/Title';
-import LoginForm from '../containers/auth/LoginForm';
+import React from "react";
+import AuthBlock from "../components/Auth/AuthBlock";
+import AuthTitle from "../components/Auth/AuthTitle";
+import LoginForm from "../containers/auth/LoginForm";
+import Footer from "../components/Auth/Footer";
 
-const LoginPage = () =>{
-    return (
-        <AuthBlock>
-            <Title title="가볍게 상대방과 하는 채팅"></Title>
-            <LoginForm/>
-        </AuthBlock>
-    );
+const LoginPage = () => {
+  return (
+    <AuthBlock>
+      <AuthTitle title="가볍게 상대방과 하는 채팅"></AuthTitle>
+      <LoginForm />
+      <hr />
+      <Footer />
+    </AuthBlock>
+  );
 };
 
 export default LoginPage;

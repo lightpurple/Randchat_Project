@@ -1,33 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import client from "../../lib/api/client";
+import React, { useEffect, useState } from 'react';
+import client from "../../client";
 
 function InUseNick() {
-  // const [users, setUsers] = useState(null);
 
-  //   const getNick = async () => {
-  //       const response = await client.get(
-  //         '/auth/mypage'
-  //       );
-  //       setUsers(response); // 데이터는 response.data 안에 들어있음
-  //       console.log(response);
-  //   };
-  //   useEffect(() => {
-  //   getNick();
-  // }, []);
+  const [nickname, setNickname] = useState("");
 
-  client.get("/auth/mypage")
-    .then(response => {
-      console.log(response);
+  useEffect(()=>{
+    client.get("/api/mypage")
+      .then(response => {
+      console.log(response.data.nickname);
+      setNickname(response.data.nickname);
     })
-    .catch(error => {
+      .catch(error => {
       console.error(error);
     })
+  },[nickname])
 
-
-//  if (!users) return null;
   return (
     <>
-    <input type='text' name='title' className="inputTitle" />
+    <div className='Use'>
+      <p>{nickname}qwer</p>
+    </div>
     </>
   );
 }

@@ -1,0 +1,99 @@
+.tabTitle{
+    background-color: #ffffff;
+    color: #949494;
+    margin: 20px 0 20px 0;
+    padding: 0 0 20px 0;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    list-style: none;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    height: 60px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+.active{
+    width: 110px;
+    margin: 0 auto;
+    display: inline-block;
+    cursor: pointer;
+    color: #8a8a8a;
+    font-size: 24px;
+}
+.active:hover{
+    width: 110px;
+    margin: 0 auto;
+    display: inline-block;
+    cursor: pointer;
+    color: #4d4d4d;
+    font-size: 26px;
+}
+.unactive{
+    width: 110px;
+    margin: 0 auto;
+    display: inline-block;
+    cursor: pointer;
+    color: #8a8a8a;
+    font-size: 24px;
+}
+.unactive:hover{
+    width: 110px;
+    margin: 0 auto;
+    display: inline-block;
+    cursor: pointer;
+    color: #4d4d4d;
+    font-size: 26px;
+}
+.content{
+    display: inline-block;
+    text-align: center;
+    margin: 15px 0 0 0;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+}
+.none{
+    display: none;
+}
+.dev{
+    display: inline;
+    margin: 0 40px;
+}
+.web{
+    display: inline;
+    margin: 3px 0 0 0;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 23px;
+    letter-spacing: -1px;
+}
+.name{
+    display: inline;
+    margin: 0 0 2px 30px;
+    text-decoration: none;
+    color: #3d3d3d;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+};
+.name:visited{
+    color:#4d4d4d;
+}
+.abt{
+    display: inline-block;
+    width: 550px;
+    margin: 0;
+}
+.about{
+    display: inline-block;
+    margin: 0 0 15px 30px;
+    width: fit-content;
+    text-align: center;
+    text-decoration: none;
+    color: #3d3d3d;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+}

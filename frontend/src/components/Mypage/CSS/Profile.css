@@ -1,16 +1,13 @@
 .MyPageProfile{
     width: 600px;
-    height: 200px;
+    height: fit-content;
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
     background-color: #ffffff;
+    border: solid 2px #e9e9e9;
     border-radius: 10px;
 }
-input[type="file"] {
-    display: none;
-}
-
 .inputFileButton{
     padding: 6px;
     width: 80px;
@@ -37,7 +34,7 @@ input[type="file"] {
     object-fit: cover;
 }
 .itemSelect{
-    width: 100%;
+    width: 350px;
     text-align: left;
 }
 label{
@@ -46,4 +43,52 @@ label{
 }
 input[type="text"]:focus{
     outline:none;
+}
+.itemFile{
+    width: 50px;
+    height: 50px;
+    background-color: #69727D;
+}
+form{
+    display: inline;
+    width: 80px;
+    background-color: #ffffff00;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color:#000000;
+    font-size: 16px;
+}
+.FileSelect{
+    padding: 3px 0 10px 0;
+    width: 90px;
+    height: 20px;
+    text-align: center;
+    background-color:#ffffff;
+    cursor: pointer;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    color:#000000;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+}
+.Filebutton{
+    display: none;
+}
+button{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color:#69727D;
+    font-size: 16px;
+    text-decoration: none;
+    text-underline-position: under;
+    width: 105px;
+    height: 33px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #cccccc;
 }

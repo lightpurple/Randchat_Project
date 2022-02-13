@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+.title{
+    padding: 45px 0 0 0;
+    margin: 0 0 50px 0;
+    text-align: left;
+    color: #8a8a8a;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 21px;
+}
+h1{
+    display:inline-block;
+    margin: 0 0 0 50px;
+}
+.cbutton{
+    float: right;
+    margin: 20px 50px 0 0;
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+}
+.mbutton{
+    float: right;
+    margin: 20px 50px 0 0;
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+}
+.CIcon{
+    font-size: 42px;
+    color: rgb(128, 128, 128, 0.8);
+    margin: 0 0 0 0;
+}
+.MyIcon{
+    font-size: 41px;
+    color: rgb(128, 128, 128, 0.8);
+    margin: 0 0 0 0;
+}
+.MIcon{
+    font-size: 35px;
+    color: rgb(128, 128, 128, 0.8);
+    margin: 2px 0 0 0;
+}
+.OIcon{
+    float: right;
+    font-size: 37px;
+    color: rgb(128, 128, 128, 0.8);
+    margin: 23px 50px 0 0;
+}

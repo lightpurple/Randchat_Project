@@ -1,43 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import client from "../../lib/api/client";
+import React, { useState } from 'react';
+import client from "../../client";
 
 function InUseEmail() {
-  // const [users, setUsers] = useState(null);
+  const [email, setEmail] = useState("");
 
-  // useEffect(() => {
-  //   const getNick = async () => {
-  //       setUsers(null);
-  //       const response = await client.get(
-  //         '/auth/mypage'
-  //       );
-  //       setUsers(response.data);
-  //   };
-
-  //   getNick();
-  // }, []);
-
-  const [email, setUsers] = useState(null);
-
-  client.get("/auth/mypage")
+  client.get("/api/mypage")
     .then(response => {
       console.log(response.data.email);
-      setUsers(response.data.email);
+      setEmail(response.data.email);
     })
     .catch(error => {
       console.error(error);
     })
 
-
-  // if (!users) return null;
   return (
     <>
-      {/* {users.map(user => (
-        <p key={user.id}>
-          {user.email}
-        </p>
-      ))} */}
-      <p>{email}</p>
-      <input type='text' name='title' className="inputTitle" />
+      <div className='Use'>
+        <p>{email}qwr@qwer.com</p>
+      </div>
     </>
   );
 }
