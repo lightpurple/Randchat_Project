@@ -5,7 +5,7 @@ import client from '../../client';
 import MainPage from '../../components/Main/MainPage';
 import { useHistory } from 'react-router-dom';
 
-const ENDPOINT = "http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000"
+const ENDPOINT = "http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000"
 
 const socket = io.connect(ENDPOINT)
 
@@ -21,7 +21,6 @@ const MainForm = () =>{
     let match = ''  // match_gender
     
     useEffect(()=>{
-        
         client.get("/api/chat")
             .then((res)=>{
             setUser(res.data.nickname)
@@ -33,12 +32,15 @@ const MainForm = () =>{
         .catch(error => {
             console.error(error);
         })
+        stopFinding()
     },[])
 
     const roomId = ''
     const other = ''
 
     const [roomIdList, setRoomIdList] = useState([])
+
+    if(localStorage.getItem("roomIdList")) setRoomIdList(localStorage.getItem("roomIdList"))
     
     const nextId = useRef(0)
     console.log("첫번째 : " + nextId.current)

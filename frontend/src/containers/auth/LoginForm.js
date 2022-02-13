@@ -19,7 +19,7 @@ const LoginForm = () => {
             [name]:value
         })
     };
-
+    
     //폼 등록 이벤트 핸들러
     const onSubmit =e =>{
         e.preventDefault();
@@ -32,7 +32,7 @@ const LoginForm = () => {
             console.log(localStorage.getItem("token"))
             
             if(res.status === 200){
-                window.location.href = '/chat'
+                window.location.href = '/main'
                 localStorage.setItem("isAuthorized", "true")
                 client.defaults.headers.common['x-access-token'] = res.data.token
             }

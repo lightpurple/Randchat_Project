@@ -26,6 +26,7 @@ const RegisterForm = () => {
 
     //폼 등록 이벤트 핸들러
     const onSubmit =e =>{
+        console.log("회원가입")
         e.preventDefault();
         const { email, password, password2, nickname, gender} = form;
         // 하나라도 비어있다면
@@ -37,15 +38,9 @@ const RegisterForm = () => {
             alert('비밀번호가 일치하지 않습니다.');
             setForm({
                 ...form,
-                // email: '',
                 password: '',
                 password2: '',
-                // nickname: '',
-                // gender:'',
             })
-            
-            // dispatch(changeField({from: 'register', key: 'password', value: ''}));
-            // dispatch(changeField({from: 'register', key: 'password2', value: ''}));
             return;
         }
         const data = {

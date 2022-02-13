@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: 'http://ec2-13-124-41-101.ap-northeast-2.compute.amazonaws.com:5000',
+  baseURL: 'http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000',
   headers:{
     "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
     "Accept": "*/*",

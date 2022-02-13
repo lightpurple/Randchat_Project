@@ -85,7 +85,6 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket,sysMsg}){
                     }
                     )
                     console.log(roomId)
-        
                 }}
             ></img> 
             {room.other}
