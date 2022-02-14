@@ -38,14 +38,31 @@ const ChatForm = ({ history }) => {
 
   const [chatMsgList, setChatMsgList] = useState([]);
 
-  const onChatSubmit = (e) => {
-    e.preventDefault();
 
-    console.log({ roomId: roomId, message: message, nick: user });
+    useEffect(()=>{
+        socket.on("msg", (data) =>{
+            setChatMsgList(chatMsgList.concat(data))
+            console.log(chatMsgList)
+            console.log(data)
+            console.log(2);
+        })
 
-    if (!message) {
-      alert("대화내용을 입력해주세요");
-      return;
+        socket.on("sysMsg", (data)=>{
+            setSysMsg(data.message)
+            alert(data)
+            console.log(data)
+        })
+
+    },[socket])
+
+
+    const ban = () =>{
+        socket.emit("ban", {roomId : roomId, user:user, other:other})
+        socket.on("banComplete",(result)=>{
+            alert(result)
+            console.log(result)
+            socket.disconnect()
+        })
     }
 
     console.log(message);

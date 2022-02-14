@@ -42,13 +42,14 @@ const ChatList = ( props ) => {
                 </>
             )}
         </div>
-        {roomIdList?(
+        {(roomIdList)?(
             <div>
-                {roomIdList.map(room => (
+                {roomIdList && roomIdList.map(room => (
                     <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro}/>
                 ))}
             </div>
         ):(null)}
+        <Room  room={{roomId:"1202", other:"1234"}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={"user1"} socket={socket} otherIntro={otherIntro}/>
         
     </div>
     )
@@ -89,7 +90,7 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
                 onClick={() => {
                     onRemove(room.id) 
                     socket.disconnect()
-                }}>&times;</button>
+            }}>&times;X</button>
         </div>
     )
 }
