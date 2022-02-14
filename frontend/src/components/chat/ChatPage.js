@@ -28,13 +28,13 @@ const ChatForm = (props) =>{
             </div>
             
             <div className='UserList'>
-                {userList?(
+                {/* {userList?(
                     <div>
                         {userList.map(user => (
                             <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove} socket={socket} ban={ban}/>
                         ))}
                     </div>
-                ):(null)}
+                ):(null)} */}
                 <UserList user={{other:"user2"}} key={12} otherIntro={"안녕하세요"} onListRemove={onListRemove}/>
             </div>
             
@@ -52,6 +52,7 @@ const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
             {visible ?
                 (
                     <div className="YourName">
+                        <h4>{user.other}</h4>
                         <button className="blk" 
                             onClick={()=>{
                             console.log("차단")

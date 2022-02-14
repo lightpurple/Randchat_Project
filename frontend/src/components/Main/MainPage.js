@@ -85,12 +85,13 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
                     console.log(roomId)
                 }}
             ></img> 
-            {room.other}
-            <button className="close" 
+            <div>{room.other}
+            <button className="ChatClose" 
                 onClick={() => {
                     onRemove(room.id) 
                     socket.disconnect()
-            }}>&times;X</button>
+            }}>끝내기</button>
+            </div>
         </div>
     )
 }
