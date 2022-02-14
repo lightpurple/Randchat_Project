@@ -3,7 +3,7 @@ import './CSS/ChatPage.css';
 import { RiSendPlaneFill } from 'react-icons/ri';
 
 const ChatForm = (props) =>{
-    const {socket, userList, other, otherIntro, onListRemove, sysMsg, onChatChange, onChatSubmit, message}=props
+    const {socket, userList, other, otherIntro, onListRemove, sysMsg, onChatChange, onChatSubmit, message,ban}=props
 
     return(
         <div className="ChatBox">
@@ -31,18 +31,18 @@ const ChatForm = (props) =>{
                 {userList?(
                     <div>
                         {userList.map(user => (
-                            <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove} socket={socket}/>
+                            <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove} socket={socket} ban={ban}/>
                         ))}
                     </div>
                 ):(null)}
-                <UserList user={"user1"} key={12} otherIntro={"안녕하세요"} onListRemove={onListRemove}/>
+                <UserList user={{other:"user2"}} key={12} otherIntro={"안녕하세요"} onListRemove={onListRemove}/>
             </div>
             
         </div>
     );
 }
 
-const UserList = ({ user,otherIntro,onListRemove,socket })=>{
+const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
     const [visible, setVisible] = useState(false);
     return(
         <div className="User">
@@ -55,11 +55,13 @@ const UserList = ({ user,otherIntro,onListRemove,socket })=>{
                         <button className="blk" 
                             onClick={()=>{
                             console.log("차단")
+                            ban()
                         }}>Block</button>
                         <button className="exit"  onClick={()=>{
                             console.log("나가기")
                             onListRemove(user.id)
                             socket.disconnect()
+                            window.location.href='/main'
                         }}>Exit</button>
                     </div>
                 ):(

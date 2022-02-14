@@ -70,9 +70,6 @@ const ChatForm = ({ history}) =>{
             console.log(data)
         })
 
-        socket.on("test", (data)=>{
-            alert(data)
-        })
     },[socket])
 
 

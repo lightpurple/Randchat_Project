@@ -31,6 +31,7 @@ const MainForm = () =>{
             console.error(error);
         })
         stopFinding()
+        socket.emit("userRelease", {nick:localStorage.getItem("user")});
     },[])
 
     const roomId = ''
@@ -38,11 +39,10 @@ const MainForm = () =>{
 
     const [roomIdList, setRoomIdList] = useState([])
     
-    var num = roomIdList.length
-    console.log(num)
-    console.log(roomIdList)
+    var num = (roomIdList)? roomIdList.length : 0
+
     const nextId = useRef(num)
-    console.log("첫번째 : " + nextId.current)
+
 
     const roomplus = useCallback(({roomId, other}) => {
         nextId.current += 1
@@ -63,18 +63,17 @@ const MainForm = () =>{
         {    
             console.log(room)
             setRoomIdList(roomIdList.concat(room))
+            console.log(roomIdList)
             localStorage.setItem("roomIdList",JSON.stringify(roomIdList.concat(room)))
 
             nextId.current += 1
-            console.log("첫번째 : " + nextId.current)
-            console.log("등록완료")
+            
             console.log(roomIdList) //[]
             console.log("등록 : " + localStorage.getItem("roomIdList") ) // 등록:[]
         }
 
     },[roomIdList, roomId, other, user])
-    console.log(roomIdList.length)
-
+    console.log(roomIdList)
     const onRemove = useCallback(
         id => {
             setRoomIdList(roomIdList.filter(room => room.id !== id))
@@ -125,7 +124,7 @@ const MainForm = () =>{
         startFinding();
     })
 
-    useEffect(()=>{
+    
         socket.on("roomReady", function(data){
             stopFinding()
             console.log(data)
@@ -137,20 +136,20 @@ const MainForm = () =>{
             roomplus({roomId, other})
             socket.emit("infoSetting",{nick:other,roomId:roomId})
         })
-    },[])
+    
        
-    useEffect(()=>{
-        socket.on("infoReady",function(data){
-            console.log("infoReady")
-            console.log(data)
-            setOtherIntro(data.introduce)
-        })
+
+    socket.on("infoReady",function(data){
+        console.log("infoReady")
+        console.log(data)
+        setOtherIntro(data.introduce)
+    })
 
         socket.on("sysMsg",(data)=>{
             setSysMsg(data.message)
             console.log(data.message)
         })
-    },[socket])
+
 
     // const disconnect = () =>{
     //     socket.disconnect()
