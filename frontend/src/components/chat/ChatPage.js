@@ -35,7 +35,6 @@ const ChatForm = (props) =>{
                         ))}
                     </div>
                 ):(null)}
-                <UserList user={{other:"user2"}} key={12} otherIntro={"안녕하세요"} onListRemove={onListRemove}/>
             </div>
             
         </div>

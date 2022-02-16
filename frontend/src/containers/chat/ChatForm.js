@@ -79,6 +79,7 @@ const ChatForm = ({ history}) =>{
             alert(result)
             console.log(result)
             socket.disconnect()
+            
         })
     }
     useEffect(()=>{

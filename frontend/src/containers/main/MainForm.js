@@ -108,7 +108,6 @@ const MainForm = () =>{
         socket.emit("userSetting",{nick: user, gender: gender, matchGender: match})
         console.log("userSetting")
     }
-
     // Error시 알람 띄우기
     useEffect(()=>{
         socket.on("Error", (result)=>{

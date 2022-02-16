@@ -49,7 +49,6 @@ const ChatList = ( props ) => {
                 ))}
             </div>
         ):(null)}
-        <Room  room={{roomId:"1202", other:"1234"}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={"user1"} socket={socket} otherIntro={otherIntro}/>
         
     </div>
     )
