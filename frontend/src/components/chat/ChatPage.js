@@ -51,6 +51,7 @@ const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
             {visible ?
                 (
                     <div className="YourName">
+                        <h4>{user.other}</h4>
                         <button className="blk" 
                             onClick={()=>{
                             console.log("차단")

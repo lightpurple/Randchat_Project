@@ -17,16 +17,16 @@ const ChatForm = ({ history}) =>{
     // // const socket = history.location.socket
 
     // //{user: '1234', otherIntro: '', roomId: 1643360291499, other: '1234e'}
-    useEffect(()=>
-    {   
-        setUser(info.user)
-        setOther(info.other)
-        setOtherIntro(info.otherIntro)
-        setRoomID(info.roomId)
+    // useEffect(()=>
+    // {   
+    //     setUser(info.user)
+    //     setOther(info.other)
+    //     setOtherIntro(info.otherIntro)
+    //     setRoomID(info.roomId)
 
-        info && localStorage.setItem("infomation",JSON.stringify(info))
-        socket && localStorage.setItem("socket", socket)
-    },[history])
+    //     info && localStorage.setItem("infomation",JSON.stringify(info))
+    //     socket && localStorage.setItem("socket", socket)
+    // },[history])
 
     const [sysMsg, setSysMsg] = useState("");
     const [chatMsg, setChatMsg] = useState({message : ""})
