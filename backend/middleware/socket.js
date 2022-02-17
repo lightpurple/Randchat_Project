@@ -83,7 +83,7 @@ export default (server) => {
     });
 
     socket.on("message", (data) => {
-      socket.to(data.roomId).emit("message", {
+      io.in(data.roomId).emit("message", {
         message: data.message,
         nick: data.nick,
       });
@@ -91,7 +91,7 @@ export default (server) => {
 
     socket.on("ban", async (data) => {
       await Chat.putBanUser(data.user, data.other);
-      socket.to(data.roomId).emit("banComplete");
+      socket.emit("banComplete");
     });
 
     socket.on("disconnect", (data) => {
