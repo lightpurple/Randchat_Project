@@ -1,10 +1,13 @@
 import React from 'react';
 import Loader from "./Loader";
 import {  useHistory } from "react-router-dom";
+// import { RiSendPlaneFill } from 'react-icons/ri';
 import "./CSS/Mainpage.css";
 
 const ChatList = ( props ) => {
-    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro} = props
+    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro, 
+        // onChatChange, message, onChatSubmit
+    } = props
     
     var matchgender = ''
 
@@ -49,6 +52,17 @@ const ChatList = ( props ) => {
                 ))}
             </div>
         ):(null)}
+
+            {/* <div className="FieldBox">
+                <input 
+                    className="message" 
+                    name="message" 
+                    placeholder="메세지를 입력하세요"
+                    onChange={onChatChange}
+                    value={message}
+                />    
+                <button className="FieldButton" onClick={onChatSubmit}><RiSendPlaneFill size='28' className='Send'/></button>
+            </div> */}
         
     </div>
     )

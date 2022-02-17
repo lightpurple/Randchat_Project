@@ -3,7 +3,7 @@ import './CSS/ChatPage.css';
 import { RiSendPlaneFill } from 'react-icons/ri';
 
 const ChatForm = (props) =>{
-    const {socket, userList, other, otherIntro, onListRemove, sysMsg, onChatChange, onChatSubmit, message,ban}=props
+    const {socket, userList, other, otherIntro, onListRemove, sysMsg, onChatChange, onChatSubmit, message, ban}=props
 
     return(
         <div className="ChatBox">

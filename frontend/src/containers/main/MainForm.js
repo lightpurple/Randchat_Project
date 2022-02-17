@@ -17,6 +17,7 @@ const MainForm = () =>{
     const [loading, setLoading] = useState(false)   // Loading
     const [sysMsg, setSysMsg] = useState("")
     let match = ''  // match_gender
+    var num
     
     useEffect(()=>{
         client.get("/api/chat")
@@ -32,6 +33,13 @@ const MainForm = () =>{
         })
         stopFinding()
         socket.emit("userRelease", {nick:localStorage.getItem("user")});
+
+        if(JSON.parse(localStorage.getItem("roomIdList"))) {
+            setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
+            
+        } else {
+            setRoomIdList([])
+        }
     },[])
 
     const roomId = ''
@@ -39,9 +47,10 @@ const MainForm = () =>{
 
     const [roomIdList, setRoomIdList] = useState([])
     
-    var num = (roomIdList)? roomIdList.length : 0
-
+    
+    num = (roomIdList.length === 0) ? 0 : roomIdList[roomIdList.length-1].id
     const nextId = useRef(num)
+
 
 
     const roomplus = useCallback(({roomId, other}) => {
@@ -73,7 +82,7 @@ const MainForm = () =>{
         }
 
     },[roomIdList, roomId, other, user])
-    console.log(roomIdList)
+
     const onRemove = useCallback(
         id => {
             setRoomIdList(roomIdList.filter(room => room.id !== id))
@@ -83,8 +92,6 @@ const MainForm = () =>{
         },
         [roomIdList]
     )
-
-
 
     const onToggle = useCallback(
         id => {
@@ -96,12 +103,6 @@ const MainForm = () =>{
         },
         [roomIdList]
     )
-    
-    
-
-    useEffect(()=>{
-        setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
-    },[])
     
     // 남, 녀 버튼 클릭 시
     const userSetting = () =>{
@@ -186,6 +187,39 @@ const MainForm = () =>{
         }
     },[delay])
 
+    // const [chatMsg, setChatMsg] = useState({message : ""})
+
+    // const {message} = chatMsg
+
+    // const onChatChange = e =>{
+    //     setChatMsg({...chatMsg, [e.target.name]: e.target.value})
+    // }
+
+    // const [chatMsgList, setChatMsgList] = useState([])
+
+    // const onChatSubmit = (e) =>{
+    //     e.preventDefault()
+   
+    //     console.log({roomId: roomId, message: message, nick: user})
+
+    //     if(!message){
+    //         alert("대화내용을 입력해주세요")
+    //         return
+    //     }
+
+    //     console.log(message)
+    //     socket.emit("message", {roomId: 1645097870218, message:message, nick: "1234"})
+    //     setChatMsg({message : ""})  
+    // }
+    // useEffect(()=>{
+    //     socket.on("msg", (data) =>{
+    //         setChatMsgList(chatMsgList.concat(data))
+    //         console.log(chatMsgList)
+    //         console.log(data)
+    //         console.log(2);
+    //     })
+    // })
+    // console.log(socket)
     return(
         <MainPage 
             user={user}
@@ -211,6 +245,10 @@ const MainForm = () =>{
 
             onRemove={onRemove}
             onToggle={onToggle}
+
+            // message={message}
+            // onChatChange={onChatChange}
+            // onChatSubmit={onChatSubmit}
         />    
     );
 }
