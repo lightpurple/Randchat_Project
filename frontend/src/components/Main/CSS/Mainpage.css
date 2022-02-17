@@ -13,13 +13,25 @@
     padding: 40px 0 70px 0;
 }
 .ProfileImg{
-    margin: 27px auto;
+    margin: 27px 15px auto;
     padding: 0 0 20px 0;
     text-align: center;
     width: 130px;
     height: 170px;
     border-radius: 30px;
     background-color: rgba(255, 255, 255, 1);
+}
+.ProfileImg > button{
+    
+    position: absolute;
+    top: 15px;
+    right: 1500px;
+    width: 3000px;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(255, 255, 255); 
+    background-color: transparent;
 }
 .Img1{
     display:inline-block;
@@ -94,18 +106,6 @@
     font-size: 25px;
 }
 
-.ProfileImg > button{
-    
-    position: absolute;
-    top: 15px;
-    right: 1500px;
-    width: 3000px;
-    font-size: 21px;
-    font-weight: 700;
-    text-align: center;
-    color: rgb(255, 255, 255); 
-    background-color: transparent;
-}
 #matchgender{
     font-family: 'Gowun Dodum', sans-serif;
     font-weight: bold;
@@ -116,7 +116,7 @@
     margin: 0 auto;
     margin-top: 12px;
     padding: 0px;
-    height: 34px;
+    height: 32px;
     width: 80px;
     font-family: 'Gowun Dodum', sans-serif;
     font-size: 18px;
@@ -128,7 +128,7 @@
     display: block;
     margin: 0 auto;
     margin-top: 12px;
-    height: 33px;
+    height: 32px;
     width: 80px;
     font-family: 'Gowun Dodum', sans-serif;
     font-size: 18px;
@@ -136,4 +136,10 @@
     text-align: center;
     color:#ffffff;
     background-color: #ff4646;
+}
+.ProfileBox{
+    display: inline-block;
+    height: fit-content;
+    width: fit-content;
+    background-color: rgb(255, 0, 0, 0);
 }

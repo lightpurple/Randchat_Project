@@ -49,7 +49,24 @@ const ChatList = ( props ) => {
                 ))}
             </div>
         ):(null)}
-        
+        <div className="ProfileBox">
+            <Room  room={{roomId:1, other:'1234'}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={1234} socket={socket} otherIntro={"안녕하세요"}/>
+            </div>
+        <div className="ProfileBox">
+            <Room  room={{roomId:1, other:'1234'}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={1234} socket={socket} otherIntro={"안녕하세요"}/>
+            </div>
+            <div className="ProfileBox">
+            <Room  room={{roomId:1, other:'1234'}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={1234} socket={socket} otherIntro={"안녕하세요"}/>
+            </div>
+        <div className="ProfileBox">
+            <Room  room={{roomId:1, other:'1234'}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={1234} socket={socket} otherIntro={"안녕하세요"}/>
+            </div>
+            <div className="ProfileBox">
+            <Room  room={{roomId:1, other:'1234'}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={1234} socket={socket} otherIntro={"안녕하세요"}/>
+            </div>
+        <div className="ProfileBox">
+            <Room  room={{roomId:1, other:'1234'}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={1234} socket={socket} otherIntro={"안녕하세요"}/>
+            </div>
     </div>
     )
 }
