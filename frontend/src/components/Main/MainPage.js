@@ -46,24 +46,12 @@ const ChatList = ( props ) => {
             )}
         </div>
         {(roomIdList)?(
-            <div>
+            <div className="ProfileBox">
                 {roomIdList && roomIdList.map(room => (
                     <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro}/>
                 ))}
             </div>
         ):(null)}
-
-            {/* <div className="FieldBox">
-                <input 
-                    className="message" 
-                    name="message" 
-                    placeholder="메세지를 입력하세요"
-                    onChange={onChatChange}
-                    value={message}
-                />    
-                <button className="FieldButton" onClick={onChatSubmit}><RiSendPlaneFill size='28' className='Send'/></button>
-            </div> */}
-        
     </div>
     )
 }
