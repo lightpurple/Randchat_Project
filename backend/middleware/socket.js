@@ -64,9 +64,6 @@ export default (server) => {
                 roomId: roomId,
                 users: users,
               });
-              io.to(roomId).emit("sysMsg", {
-                message: "대화방에 입장하셨습니다!!",
-              });
               return;
             }
           }
@@ -76,14 +73,14 @@ export default (server) => {
 
     socket.on("infoSetting", async (data) => {
       const Info = await Chat.getInfo(data.nick);
-      socket.to(data.roomId).emit("infoReady", {
+      socket.emit("infoReady", {
         introduce: Info.introduce,
         image: Info.image,
       });
     });
 
     socket.on("message", (data) => {
-      io.in(data.roomId).emit("message", {
+      io.to(data.roomId).emit("msg", {
         message: data.message,
         nick: data.nick,
       });
