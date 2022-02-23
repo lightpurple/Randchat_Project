@@ -1,6 +1,6 @@
 .MainpageBox{
     width: 1000px;
-    height: 600px;
+    height: 665px;
     margin: auto;
     margin-bottom: 4px;
     padding: 10px 0 10px 0;
@@ -13,21 +13,36 @@
     padding: 40px 0 70px 0;
 }
 .ProfileImg{
-    margin: auto;
+    margin: 27px 15px auto;
+    padding: 0 0 20px 0;
     text-align: center;
-    width: 600px;
-    height: 200px;
-    background-color: rgba(0, 0, 0, 0.0);
-    display: inline;
+    width: 130px;
+    height: 170px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 1);
+    display: inline-block;
+}
+.ProfileImg > button{
+    
+    position: absolute;
+    top: 15px;
+    right: 1500px;
+    width: 3000px;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(255, 255, 255); 
+    background-color: transparent;
 }
 .Img1{
     display:inline-block;
-    margin: 35px;
-    width: 110px;
-    height: 110px;
-    border-radius: 100px;
+    padding: 0;
+    margin: 20px 15px 10px 15px;
+    width: 70px;
+    height: 70px;
+    border-radius: 60px;
     object-fit: cover;
-    /* background-color: rgb(255, 255, 255); */
+
 }
 .Img1 > p{
     color:black
@@ -92,24 +107,34 @@
     font-size: 25px;
 }
 
-.ProfileImg > button{
-    
-    /* position: absolute; */
-    /* top: 15px;
-    right: 15px;
-    width: 30px; */
-    font-size: 21px;
-    font-weight: 700;
-    text-align: center;
-    /* color: #999; */
-    background-color: transparent;
-}
 #matchgender{
     font-family: 'Gowun Dodum', sans-serif;
     font-weight: bold;
     font-size: 26px;
 }
-
-.close{
-    color:#ffffff
+.ChatClose{
+    display: block;
+    margin: 0 auto;
+    margin-top: 12px;
+    padding: 0px;
+    height: 32px;
+    width: 80px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color:#ff0000;
+}
+.ChatClose:hover{
+    display: block;
+    margin: 0 auto;
+    margin-top: 12px;
+    height: 32px;
+    width: 80px;
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color:#ffffff;
+    background-color: #ff4646;
 }

@@ -15,7 +15,7 @@ function App() {
       <Switch>
         <Route component={LoginPage} path={["/"]} exact/>
         <Route component={RegisterPage} path="/signup"/>
-        <PrivateRoute component={ChatPage} path={["/chat/:roomId","/chat"]}/>
+        <PrivateRoute component={ChatPage} path={["/chat/:roomId"]}/>
         <PrivateRoute component={Mainpage} path="/main"/>
         <PrivateRoute component={Mypage} path="/Mypage" exact/>
         <PrivateRoute component={ChangePasswordpage} path="/Mypage/Change_password" exact/>

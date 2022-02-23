@@ -38,6 +38,7 @@ function Profile() {
       client.get("/api/mypage")
         .then(response => {
         console.log(response.data.image);
+        console.log(response)
         seturl(response.data.image);
       })
         .catch(error => {
@@ -72,8 +73,8 @@ function Profile() {
 
             <div className="itemSelect">
                 <form>
-                <label htmlFor="profile"  className="FileSelect">사진 변경</label>
-                    <input type="file" id="profile" accept="image/png, image/jpeg" className="Filebutton" name="image" onChange={onChangeImg}/>
+                  <label htmlFor="profile"  className="FileSelect">사진 변경</label>
+                  <input type="file" id="profile" accept="image/png, image/jpeg" className="Filebutton" name="image" onChange={onChangeImg}/>
                 </form>
             </div>
         </div>

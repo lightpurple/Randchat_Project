@@ -14,9 +14,13 @@ const MainForm = () =>{
     const [gender, setGender] = useState("")    // gender
     const [introduce, setIntro] = useState("")  // introduce
     const [otherIntro, setOtherIntro] = useState("")
+    const [other, setOther] = useState("")
+    const [roomId, setRoomId] = useState("")
     const [loading, setLoading] = useState(false)   // Loading
     const [sysMsg, setSysMsg] = useState("")
+    const [image, setImage] = useState("")
     let match = ''  // match_gender
+    var num
     
     useEffect(()=>{
         client.get("/api/chat")
@@ -25,32 +29,36 @@ const MainForm = () =>{
             setGender(res.data.gender)
             setIntro(res.data.introduce)
             localStorage.setItem("user",res.data.nickname)
-            console.log(res.data)
         })
         .catch(error => {
             console.error(error);
         })
         stopFinding()
         socket.emit("userRelease", {nick:localStorage.getItem("user")});
-    },[])
 
-    const roomId = ''
-    const other = ''
+        if(JSON.parse(localStorage.getItem("roomIdList"))) {
+            setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
+            
+        } else {
+            setRoomIdList([])
+        }
+    },[])
 
     const [roomIdList, setRoomIdList] = useState([])
     
-    var num = (roomIdList)? roomIdList.length : 0
-
+    num = (roomIdList.length === 0) ? 0 : roomIdList[roomIdList.length-1].id
     const nextId = useRef(num)
 
 
-    const roomplus = useCallback(({roomId, other}) => {
+
+    const roomplus = useCallback(({roomId, other,otherIntro, image}) => {
         nextId.current += 1
-        console.log("두번째 : " + nextId.current)
         const room = {
             id: nextId.current,
             roomId,
-            other
+            other,
+            otherIntro,
+            image,
         }
 
         let filterOther = []
@@ -58,33 +66,23 @@ const MainForm = () =>{
             filterOther = roomIdList.map((room)=> room.other)
             
         }
-        console.log(filterOther)
         if(!filterOther.includes(room.other))
         {    
-            console.log(room)
             setRoomIdList(roomIdList.concat(room))
-            console.log(roomIdList)
             localStorage.setItem("roomIdList",JSON.stringify(roomIdList.concat(room)))
-
             nextId.current += 1
-            
-            console.log(roomIdList) //[]
-            console.log("등록 : " + localStorage.getItem("roomIdList") ) // 등록:[]
         }
 
     },[roomIdList, roomId, other, user])
-    console.log(roomIdList)
+
     const onRemove = useCallback(
         id => {
             setRoomIdList(roomIdList.filter(room => room.id !== id))
-            console.log(roomIdList)
             localStorage.setItem("roomIdList",JSON.stringify(roomIdList.filter(room => room.id !== id)))
             socket.disconnect()
         },
         [roomIdList]
     )
-
-
 
     const onToggle = useCallback(
         id => {
@@ -97,91 +95,63 @@ const MainForm = () =>{
         [roomIdList]
     )
     
-    
-
-    useEffect(()=>{
-        setRoomIdList(JSON.parse(localStorage.getItem("roomIdList")))
-    },[])
-    
     // 남, 녀 버튼 클릭 시
     const userSetting = () =>{
         socket.emit("userSetting",{nick: user, gender: gender, matchGender: match})
-        console.log("userSetting")
     }
-
     // Error시 알람 띄우기
     useEffect(()=>{
         socket.on("Error", (result)=>{
             alert(result)
-            console.log(result)
         })
     },[socket])
     
     // userReady
     socket.on("userReady", function(){
         setLoading(true);
-        console.log("userReady")
         startFinding();
     })
 
     
-        socket.on("roomReady", function(data){
-            stopFinding()
-            console.log(data)
-            var roomId = data.roomId
-
-            var other = data.users.filter((nick) => nick !== localStorage.getItem("user"))[0]
-            console.log("user : " + user)
-            console.log("other : " + other)
-            roomplus({roomId, other})
-            socket.emit("infoSetting",{nick:other,roomId:roomId})
-        })
+    socket.on("roomReady", function(data){
+        stopFinding()
+        setRoomId(data.roomId)
+        setOther(data.users.filter((nick) => nick !== localStorage.getItem("user"))[0])
+        socket.emit("infoSetting",{nick:data.users.filter((nick) => nick !== localStorage.getItem("user"))[0],roomId:data.roomId})
+    })
     
        
 
     socket.on("infoReady",function(data){
-        console.log("infoReady")
-        console.log(data)
         setOtherIntro(data.introduce)
+        setImage(data.image)
+        if(other) roomplus({roomId, other, otherIntro, image})
     })
 
-        socket.on("sysMsg",(data)=>{
-            setSysMsg(data.message)
-            console.log(data.message)
-        })
-
-
-    // const disconnect = () =>{
-    //     socket.disconnect()
-    //     onRemove(roomId)
-    // }
+    socket.on("sysMsg",(data)=>{
+        setSysMsg(data.message)
+    })
     
     const MatchGender = (matchgender) =>{
         match = matchgender
-        console.log(match)
     }
 
     const [delay, setDelay]= useState(null)
 
     const startFinding = ()=>{
         setDelay(1000)
-        console.log("startFinding")
     }
 
     const stopFinding = () =>{ 
-        setDelay(null)
         setLoading(false)
+        setDelay(null)
         socket.emit("userRelease", {nick:user});
-        console.log("취소")
     }
 
     useEffect(()=>{
-        let count =0
         if(delay !== null){
             let id = setInterval(function(){
                 socket.emit("roomSetting", {nick:user})
-                console.log(count+1)
-                console.log("startFinding")
             }, delay)
             return() => clearInterval(id)
         }
@@ -204,6 +174,7 @@ const MainForm = () =>{
             roomId={roomId}
             roomIdList = {roomIdList}
             sysMsg={sysMsg}
+            image={image}
             
             userSetting={userSetting}
             loading={loading}
@@ -212,6 +183,7 @@ const MainForm = () =>{
 
             onRemove={onRemove}
             onToggle={onToggle}
+
         />    
     );
 }

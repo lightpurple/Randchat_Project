@@ -10,6 +10,7 @@
     width: 790px;
     border-radius: 25px 0 0 0;
     background-color: #eeeeee;
+    overflow-y: auto;
 }
 .ChatM{
     height: 40px;
@@ -18,10 +19,10 @@
     font-family: 'Gowun Dodum', sans-serif;
 }
 .YourChatbox{
-    padding: 15px 15px 30px 30px;
+    padding: 15px 15px 15px 30px;
     text-align: left;
     width: 755px;
-    height: 45px;
+    height: fit-content;
     border-radius: 25px;
     background-color: rgba(158, 36, 36, 0);
 }
@@ -36,16 +37,20 @@
 .YourChat{
     display: inline-block;
     margin-left: 15px;
-    width: 670px;
+    min-width: 50px;
+    width: fit-content;
     height: 60px;
     border-radius: 100px;
     background-color: rgb(124, 154, 204);
+    text-align: center;
+    line-height: 60px;
+    padding: 0 20px 0 20px;
 }
 .MyChatbox{
-    padding: 15px 30px 30px 15px;
+    padding: 15px 30px 15px 15px;
     text-align: right;
     width: 755px;
-    height: 45px;
+    height: fit-content;
     border-radius: 25px;
     background-color: rgba(158, 36, 36, 0);
 }
@@ -60,10 +65,14 @@
 .MyChat{
     display: inline-block;
     margin-right: 15px;
-    width: 670px;
+    min-width: 50px;
+    width: fit-content;
     height: 60px;
     border-radius: 100px;
     background-color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 60px;
+    padding: 0 20px 0 20px;
 }
 .FieldBox{
     display: block;
@@ -111,16 +120,17 @@
 }
 .UserList{
     position: inherit;
-    margin: -710px 0 0 790px;
-    height: 710px;
+    margin: -690px 0 0 790px;
+    height: 690px;
     width: 400px;
     border-radius: 0 25px 25px 0;
     background-color: #D4D4D4;
+    font-family: 'Gowun Dodum', sans-serif;
 }
 .YourProfile{
     float: left;
-    margin-top: 31px;
-    margin-left: 30px;
+    margin-top: 20px;
+    margin-left: 20px;
     width: 60px;
     height: 60px;
     border: none;
@@ -133,23 +143,37 @@
 }
 .YourName{
     float: right;
-    margin: 30px 30px 0 0;
-    width: 250px;
+    margin: 20px 0 0 0;
+    width: 320px;
     height: 60px;
+    line-height: 60px;
     border-radius: 20px;
-    background-color: #eeeeee;
+    background-color: rgb(238, 238, 238, 0);
+}
+.YourName > h4{
+    float: left;
+    margin: 0 0 0 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 .YourNameBG{
-    float: right;
-    margin: 30px 43px 0 0;
-    width: 225px;
-    height: 61px;
+    margin: 30px 0 0 0;
+    width: 310px;
+    height: 40px;
+    line-height: 40px;
     border-radius: 20px;
 }
+.YourNameBG > h4{
+    float: left;
+    margin: 0 0 0 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
 .YourNameBG > p{
-    font-size: 25px;
+    font-size: 20px;
 }
 .User{
+    height: fit-content;
     background-color: rgba(23, 197, 197, 0);
 }
 .modal__container{
@@ -162,7 +186,7 @@
 .blk{
     position: relative;
     height: 50px;
-    width: 114px;
+    width: 100px;
     margin : 5px;
     font-size: 19px;
     font-weight: bold;
@@ -170,13 +194,13 @@
     background-color: #6E6E6E;
     border-radius: 20px;
     font-family: 'Gowun Dodum', sans-serif;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 .exit{
     position: relative;
     text-align: center;
     height: 50px;
-    width: 114px;
+    width: 100px;
     margin: 5px 5px 5px 1px;
     font-size: 19px;
     font-weight: bold;
@@ -184,5 +208,5 @@
     background-color: #F26161;
     border-radius: 20px;
     font-family: 'Gowun Dodum', sans-serif;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }

@@ -1,10 +1,10 @@
 import React from 'react';
-import Loader from "./Loader";
 import {  useHistory } from "react-router-dom";
 import "./CSS/Mainpage.css";
 
 const ChatList = ( props ) => {
-    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro} = props
+    const {  socket, user, disconnect, userSetting, loading, roomIdList, onRemove, onToggle, stopFinding, otherIntro, image
+    } = props
     
     var matchgender = ''
 
@@ -16,7 +16,7 @@ const ChatList = ( props ) => {
     <div className="MainpageBox">
         <h3>현재 채팅방 수 : {roomIdList ? roomIdList.length:0}</h3>
         <div className='Match'>
-            {loading ? <Loader></Loader> : <p>상대방을 선택하여 대화를 시작해보세요</p>}
+            {loading ? <p>대화상대 찾는 중....</p> : <p>상대방을 선택하여 대화를 시작해보세요</p>}
             {loading? (
                 <button onClick={()=>{   
                     stopFinding()
@@ -45,28 +45,26 @@ const ChatList = ( props ) => {
         {(roomIdList)?(
             <div>
                 {roomIdList && roomIdList.map(room => (
-                    <Room  room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro}/>
+                    <Room room={room} key={room.id} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={user} socket={socket} otherIntro={otherIntro} image={image}/>
                 ))}
             </div>
         ):(null)}
-        <Room  room={{roomId:"1202", other:"1234"}} key={12} onRemove={onRemove} onToggle={onToggle} disconnect={disconnect} user={"user1"} socket={socket} otherIntro={otherIntro}/>
-        
     </div>
     )
 }
 
 function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
     const history = useHistory()
-
+    var image = room.image
     return(
+        
         <div className="ProfileImg">
             <img 
-                src="https://image.flaticon.com/icons/png/512/1946/1946429.png"
+                src={(room.image)? image :process.env.PUBLIC_URL+'/1946429.png'}
                 alt="profile"
                 className="Img1"
                 style={{
-                    cursor: 'pointer',
-                    color: room.active ? 'green' : 'black'
+                    cursor: 'pointer'  
                 }}
                 onClick={() => {
                     onToggle(room.id)
@@ -79,18 +77,19 @@ function Room({ room, onRemove, onToggle, otherIntro, user, socket}){
                             otherIntro,
                             roomId,
                             other,
+                            image,
                         },
                         socket
                     })
-                    console.log(roomId)
                 }}
             ></img> 
-            {room.other}
-            <button className="close" 
+            <div>{room.other}
+            <button className="ChatClose" 
                 onClick={() => {
                     onRemove(room.id) 
                     socket.disconnect()
-            }}>&times;X</button>
+            }}>끝내기</button>
+            </div>
         </div>
     )
 }
