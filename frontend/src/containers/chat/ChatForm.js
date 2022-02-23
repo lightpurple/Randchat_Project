@@ -2,32 +2,27 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import ChatPage from "../../components/Chat/ChatPage"
 import { withRouter } from 'react-router-dom';
-import io from "socket.io-client";
-const ENDPOINT = "http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000"
 
-const socket = io.connect(ENDPOINT)
-const ChatForm = ({ history}) =>{
+const ChatForm = ({ info, socket }) =>{
     
     const [userList, setUserList] = useState([])
     const [user, setUser] = useState("")
     const [other, setOther] = useState("")
     const [otherIntro, setOtherIntro] = useState("")
     const [roomId, setRoomID] = useState("")
-    const info = history.location.state
-    // console.log(history)
-    // const socket = history.location.socket
+    const [image, setImage] = useState("")
 
-    //{user: '1234', otherIntro: '', roomId: 1643360291499, other: '1234e'}
     useEffect(()=>
     {   
         setUser(info.user)
         setOther(info.other)
         setOtherIntro(info.otherIntro)
         setRoomID(info.roomId)
+        setImage(info.image)
 
         info && localStorage.setItem("infomation",JSON.stringify(info))
         socket && localStorage.setItem("socket", socket)
-    },[history])
+    },[])
 
     const [sysMsg, setSysMsg] = useState("");
     const [chatMsg, setChatMsg] = useState({message : ""})
@@ -38,47 +33,37 @@ const ChatForm = ({ history}) =>{
         setChatMsg({...chatMsg, [e.target.name]: e.target.value})
     }
 
-    const [chatMsgList, setChatMsgList] = useState([])
-
     const onChatSubmit = (e) =>{
         e.preventDefault()
-   
-        console.log({roomId: roomId, message: message, nick: user})
-
         if(!message){
             alert("대화내용을 입력해주세요")
             return
         }
-
-        console.log(message)
         socket.emit("message", {roomId: roomId, message:message, nick: user})
-        setChatMsg({message : ""})
-
-        console.log(chatMsg)   
+        setChatMsg({message : ""})  
     }
+
+    const [chatMsgList, setChatMsgList] = useState([])
 
     useEffect(()=>{
         socket.on("msg", (data) =>{
-            setChatMsgList(chatMsgList.concat(data))
-            console.log(chatMsgList)
-            console.log(data)
-            console.log(2);
+            setChatMsgList((chatMsgList)=>[...chatMsgList, data])
         })
 
         socket.on("sysMsg", (data)=>{
             setSysMsg(data.message)
             alert(data)
-            console.log(data)
         })
 
+        return()=>{}
     },[socket])
 
+    
 
     const ban = () =>{
         socket.emit("ban", {roomId : roomId, user:user, other:other})
-        socket.on("banComplete",(result)=>{
-            alert(result)
-            console.log(result)
+        socket.on("banComplete",()=>{
+            alert(`${other}가 차단되었습니다.`)
             socket.disconnect()
             
         })
@@ -90,13 +75,12 @@ const ChatForm = ({ history}) =>{
     const onListRemove = useCallback(
         id => {
             setUserList(userList.filter(user => user.id !== id))
-            console.log(userList)
             localStorage.setItem("roomIdList", JSON.stringify(userList.filter(room => room.id !== id)))
             socket.disconnect()
         },
         [userList]
     )
-    // console.log(socket)
+
 
     return(
         <ChatPage
@@ -106,9 +90,11 @@ const ChatForm = ({ history}) =>{
             other={other}
             otherIntro={otherIntro}
             roomId={roomId}
+            image={image}
 
             sysMsg={sysMsg}
             message={message}
+            chatMsgList={chatMsgList}
 
             onListRemove={onListRemove}
             onChatChange={onChatChange}

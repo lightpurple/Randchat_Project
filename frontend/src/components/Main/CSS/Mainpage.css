@@ -20,6 +20,7 @@
     height: 170px;
     border-radius: 30px;
     background-color: rgba(255, 255, 255, 1);
+    display: inline-block;
 }
 .ProfileImg > button{
     
@@ -41,7 +42,7 @@
     height: 70px;
     border-radius: 60px;
     object-fit: cover;
-    /* background-color: rgb(255, 255, 255); */
+
 }
 .Img1 > p{
     color:black
@@ -136,10 +137,4 @@
     text-align: center;
     color:#ffffff;
     background-color: #ff4646;
-}
-.ProfileBox{
-    display: inline-block;
-    height: fit-content;
-    width: fit-content;
-    background-color: rgb(255, 0, 0, 0);
 }

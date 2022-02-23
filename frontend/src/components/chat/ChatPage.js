@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './CSS/ChatPage.css';
 import { RiSendPlaneFill } from 'react-icons/ri';
 
 const ChatForm = (props) =>{
-    const {socket, userList, other, otherIntro, onListRemove, sysMsg, onChatChange, onChatSubmit, message, ban}=props
+    const {socket, user, userList, other, onListRemove, sysMsg, onChatChange, onChatSubmit, message, ban,chatMsgList, image}=props
 
+    const messagesEndRef = useRef(null);
+    
+    const scrollToBottom = ()=>{
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: 'end', inline: 'nearest' })
+    }
+    useEffect(scrollToBottom, [chatMsgList]);
     return(
         <div className="ChatBox">
-            <div className="ChatRoom">
+            <div className="ChatRoom" >
                 <div className='ChatM'>
-                <p>{sysMsg}</p>
-                <p>{other}이 입장했습니다</p>
+                    <p>{other}이 입장했습니다</p>
                 </div>
-                <OtherChat/>
-                <MyChat/>
+                {chatMsgList?(
+                    <div ref={messagesEndRef}>
+                        {chatMsgList.map((msg, index)=>(
+                            <div key={index}>
+                                {msg.nick===user? 
+                                    <MyChat  msg={msg} />
+                                    :<OtherChat msg={msg} image={image} />
+                                }
+                            </div>
+                        ))}
+                    </div>
+                ):(null)}
+                <p>{sysMsg}</p>
             </div>
 
             <div className="FieldBox">
@@ -23,6 +39,7 @@ const ChatForm = (props) =>{
                     placeholder="메세지를 입력하세요"
                     onChange={onChatChange}
                     value={message}
+                    maxLength='30'
                 />    
                 <button className="FieldButton" onClick={onChatSubmit}><RiSendPlaneFill size='28' className='Send'/></button>
             </div>
@@ -31,7 +48,7 @@ const ChatForm = (props) =>{
                 {userList?(
                     <div>
                         {userList.map(user => (
-                            <UserList user={user} key={user.id} otherIntro={otherIntro} onListRemove={onListRemove} socket={socket} ban={ban}/>
+                            <UserList user={user} key={user.id} onListRemove={onListRemove} socket={socket} ban={ban}/>
                         ))}
                     </div>
                 ):(null)}
@@ -41,12 +58,12 @@ const ChatForm = (props) =>{
     );
 }
 
-const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
+const UserList = ({ user,onListRemove,socket,ban })=>{
     const [visible, setVisible] = useState(false);
     return(
         <div className="User">
 
-            <img  src="https://image.flaticon.com/icons/png/512/1946/1946429.png" className="YourProfile" alt="profile" onClick={()=>{setVisible(!visible)}}/>
+            <img  src={(user.image)? user.image :process.env.PUBLIC_URL+'/1946429.png'} className="YourProfile" alt="profile" onClick={()=>{setVisible(!visible)}}/>
 
             {visible ?
                 (
@@ -54,11 +71,10 @@ const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
                         <h4>{user.other}</h4>
                         <button className="blk" 
                             onClick={()=>{
-                            console.log("차단")
                             ban()
+                            onListRemove(user.id)
                         }}>Block</button>
                         <button className="exit"  onClick={()=>{
-                            console.log("나가기")
                             onListRemove(user.id)
                             socket.disconnect()
                             window.location.href='/main'
@@ -67,7 +83,7 @@ const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
                 ):(
                     <div id="user1" className="YourNameBG" style={{backgroundcolor: "#D4D4D4"}}>
                         <h4>{user.other}</h4>
-                        {otherIntro? <p>{otherIntro}</p> :<p>안녕하세요. {user.other}입니다.</p>}
+                        {user.otherIntro? <p>{user.otherIntro}</p> :<p>안녕하세요. {user.other}입니다.</p>}
 
                     </div>
                 )
@@ -76,20 +92,19 @@ const UserList = ({ user,otherIntro,onListRemove,socket,ban })=>{
     )
 }
 
-const OtherChat = () =>{
+const OtherChat = ({msg, image}) =>{
     return(
         <div className="YourChatbox">
-            <div className="YourImg"></div>
-            <div className="YourChat"></div>
+            <img  src={(image)? image :process.env.PUBLIC_URL+'/1946429.png'} className="YourImg" alt="profile"/>
+            <div className="YourChat">{msg.message}</div>
         </div>
     )
 }
 
-const MyChat = () =>{
+const MyChat = ({msg}) =>{
     return(
         <div className="MyChatbox">
-            <div className="MyChat"></div>
-            <div className="MyImg"></div>
+            <div className="MyChat">{msg.message}</div>
         </div>
     )
 }

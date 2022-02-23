@@ -10,6 +10,7 @@
     width: 790px;
     border-radius: 25px 0 0 0;
     background-color: #eeeeee;
+    overflow-y: auto;
 }
 .ChatM{
     height: 40px;
@@ -36,10 +37,14 @@
 .YourChat{
     display: inline-block;
     margin-left: 15px;
-    width: 670px;
+    min-width: 50px;
+    width: fit-content;
     height: 60px;
     border-radius: 100px;
     background-color: rgb(124, 154, 204);
+    text-align: center;
+    line-height: 60px;
+    padding: 0 20px 0 20px;
 }
 .MyChatbox{
     padding: 15px 30px 15px 15px;
@@ -60,10 +65,14 @@
 .MyChat{
     display: inline-block;
     margin-right: 15px;
-    width: 670px;
+    min-width: 50px;
+    width: fit-content;
     height: 60px;
     border-radius: 100px;
     background-color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 60px;
+    padding: 0 20px 0 20px;
 }
 .FieldBox{
     display: block;
