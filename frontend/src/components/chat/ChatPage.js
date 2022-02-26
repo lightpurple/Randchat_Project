@@ -62,9 +62,9 @@ const UserList = ({ user,onListRemove,socket,ban })=>{
     const [visible, setVisible] = useState(false);
     return(
         <div className="User">
-
+            
             <img  src={(user.image)? user.image :process.env.PUBLIC_URL+'/1946429.png'} className="YourProfile" alt="profile" onClick={()=>{setVisible(!visible)}}/>
-
+            
             {visible ?
                 (
                     <div className="YourName">

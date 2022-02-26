@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import client from '../../client';
 import MainPage from '../../components/Main/MainPage';
 
-const ENDPOINT = "http://ec2-3-38-105-249.ap-northeast-2.compute.amazonaws.com:5000"
+const ENDPOINT = "http://ec2-13-124-78-4.ap-northeast-2.compute.amazonaws.com:5000"
 
 const socket = io.connect(ENDPOINT)
 

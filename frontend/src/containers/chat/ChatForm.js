@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback } from "react";
 import ChatPage from "../../components/Chat/ChatPage";
 import { withRouter } from "react-router-dom";
@@ -18,7 +19,6 @@ const ChatForm = ({ info, socket }) => {
     setImage(info.image);
 
     info && localStorage.setItem("infomation", JSON.stringify(info));
-    socket && localStorage.setItem("socket", socket);
   }, []);
 
   const [sysMsg, setSysMsg] = useState("");
@@ -50,6 +50,7 @@ const ChatForm = ({ info, socket }) => {
     socket.on("sysMsg", (data) => {
       setSysMsg(data.message);
       alert(data);
+      console.log(data)
     });
 
     return () => {};
